@@ -8,7 +8,77 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Industrial HMI Theme - Dark Mode Primary */
+    /* Light Mode Theme */
+    --background: 0 0% 100%;
+    --foreground: 228 24% 14%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 228 24% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 228 24% 14%;
+
+    --primary: 192 100% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 300 100% 40%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 228 10% 90%;
+    --muted-foreground: 228 10% 40%;
+
+    --accent: 14 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --info: 192 100% 40%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 228 20% 85%;
+    --input: 228 20% 90%;
+    --ring: 192 100% 40%;
+
+    --radius: 0.75rem;
+
+    /* Glass effect variables */
+    --glass-bg: 0 0% 100% / 0.6;
+    --glass-border: 228 20% 80% / 0.5;
+    --glass-blur: 12px;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(192 100% 40%), hsl(192 100% 30%));
+    --gradient-secondary: linear-gradient(135deg, hsl(300 100% 40%), hsl(300 100% 30%));
+    --gradient-accent: linear-gradient(135deg, hsl(14 100% 50%), hsl(14 100% 40%));
+    --gradient-success: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 35%));
+    
+    /* Tank liquids */
+    --liquid-magenta: linear-gradient(180deg, hsl(300 100% 50%), hsl(300 100% 35%));
+    --liquid-cyan: linear-gradient(180deg, hsl(192 100% 50%), hsl(192 100% 35%));
+    --liquid-orange: linear-gradient(180deg, hsl(14 100% 60%), hsl(14 100% 45%));
+    --liquid-green: linear-gradient(180deg, hsl(142 71% 55%), hsl(142 71% 40%));
+
+    /* Shadows and glows */
+    --shadow-primary: 0 10px 40px hsl(192 100% 40% / 0.3);
+    --shadow-secondary: 0 10px 40px hsl(300 100% 40% / 0.3);
+    --shadow-glass: 0 8px 32px hsl(228 10% 20% / 0.2);
+    --glow-cyan: 0 0 20px hsl(192 100% 40% / 0.5);
+    --glow-magenta: 0 0 20px hsl(300 100% 40% / 0.5);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    /* Dark Mode Theme - Industrial HMI */
     --background: 228 24% 14%;
     --foreground: 210 40% 98%;
 
@@ -46,8 +116,6 @@ All colors MUST be HSL.
     --input: 228 20% 25%;
     --ring: 192 100% 50%;
 
-    --radius: 0.75rem;
-
     /* Glass effect variables */
     --glass-bg: 228 24% 18% / 0.4;
     --glass-border: 228 20% 40% / 0.3;
@@ -71,12 +139,9 @@ All colors MUST be HSL.
     --shadow-glass: 0 8px 32px hsl(228 24% 8% / 0.4);
     --glow-cyan: 0 0 20px hsl(192 100% 50% / 0.5);
     --glow-magenta: 0 0 20px hsl(300 100% 50% / 0.5);
-    
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 }
+
 
 @layer base {
   * {

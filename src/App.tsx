@@ -3,7 +3,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { HMISidebar } from "@/components/HMISidebar";
+import { Navbar } from "@/components/Navbar";
+import { useState } from "react";
 import HMI01Overview from "./pages/HMI01Overview";
 import HMI02Pickling from "./pages/HMI02Pickling";
 import HMI03PumpOperation from "./pages/HMI03PumpOperation";
@@ -15,30 +18,42 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="flex min-h-screen w-full bg-background">
-          <HMISidebar />
-          <main className="flex-1 ml-20">
-            <Routes>
-              <Route path="/" element={<HMI01Overview />} />
-              <Route path="/pickling" element={<HMI02Pickling />} />
-              <Route path="/pump-operation" element={<HMI03PumpOperation />} />
-              <Route path="/trends" element={<HMI04Trends />} />
-              <Route path="/alarms" element={<HMI05Alarms />} />
-              <Route path="/reports" element={<HMI06Reports />} />
-              <Route path="/historical" element={<HMI07Historical />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-        </div>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <div className="flex min-h-screen w-full bg-background">
+              <HMISidebar 
+                isCollapsed={sidebarCollapsed}
+                onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+              />
+              <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
+                <Navbar />
+                <main className="pt-16">
+                  <Routes>
+                    <Route path="/" element={<HMI01Overview />} />
+                    <Route path="/pickling" element={<HMI02Pickling />} />
+                    <Route path="/pump-operation" element={<HMI03PumpOperation />} />
+                    <Route path="/trends" element={<HMI04Trends />} />
+                    <Route path="/alarms" element={<HMI05Alarms />} />
+                    <Route path="/reports" element={<HMI06Reports />} />
+                    <Route path="/historical" element={<HMI07Historical />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+              </div>
+            </div>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
