@@ -32,7 +32,7 @@ export const HMISidebar = ({ isCollapsed, onToggle }: HMISidebarProps) => {
         }`}>
           <Droplets className="w-7 h-7 text-white" />
           {!isCollapsed && (
-            <span className="ml-3 text-white font-bold text-lg">HMI</span>
+            <span className="ml-3 text-white font-bold text-xs">PTMS : Pickling Tank Monitoring System</span>
           )}
         </div>
       </div>
