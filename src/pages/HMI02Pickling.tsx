@@ -1,13 +1,19 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { TankVisual } from '@/components/TankVisual';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Droplets } from 'lucide-react';
 
 const HMI02Pickling = () => {
   return (
     <div className="p-6 space-y-6 animate-fade-in">
-      <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-        HMI-02 Pickling Section
-      </h1>
+      <div className="flex items-center gap-3">
+        <Droplets className="w-8 h-8 text-primary" />
+        <div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            HMI-02 Pickling Section
+          </h1>
+          <p className="text-sm text-muted-foreground">Process Flow Visualization</p>
+        </div>
+      </div>
 
       <TopInfoPanel />
 
