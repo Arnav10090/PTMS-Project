@@ -131,6 +131,18 @@ const HMI02Pickling = () => {
           </div>
         </div>
       </div>
+
+      {/* Process Flow Diagram Image */}
+      <div className="hmi-card">
+        <h2 className="panel-title">Process Flow Diagram</h2>
+        <div className="w-full overflow-auto">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets%2F6495670efba34e5e9d1b6e43dcd63ffa%2F0845e386ddc44d748cfd542ee0913649?format=webp&width=800"
+            alt="Pickling Section Process Flow Diagram"
+            className="block mx-auto max-w-full h-auto"
+          />
+        </div>
+      </div>
     </div>
   );
 };

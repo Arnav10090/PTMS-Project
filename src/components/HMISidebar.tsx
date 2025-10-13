@@ -30,9 +30,10 @@ export const HMISidebar = ({ isCollapsed, onToggle }: HMISidebarProps) => {
         <div className={`rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center transition-all duration-300 ${
           isCollapsed ? 'w-12 h-12' : 'w-full h-12'
         }`}>
-          <Droplets className="w-7 h-7 text-white" />
-          {!isCollapsed && (
-            <span className="ml-3 text-white font-bold text-lg">HMI</span>
+          {isCollapsed ? (
+            <Droplets className="w-7 h-7 text-white" />
+          ) : (
+            <span className="text-white font-bold text-xs text-center w-full">PTMS : Pickling Tank Monitoring System</span>
           )}
         </div>
       </div>
