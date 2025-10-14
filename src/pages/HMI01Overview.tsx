@@ -20,7 +20,7 @@ const HMI01Overview = () => {
         <StatusBadge status="running" label="System Running" pulse />
       </div>
 
-      <TopInfo />
+      <TopInfoPanel />
 
       {/* Pickling Tanks Section */}
       <div className="hmi-card">
