@@ -203,10 +203,14 @@ const HMI04Trends = () => {
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
-                <XAxis 
-                  dataKey="time" 
+                <XAxis
+                  dataKey="time"
+                  type="number"
+                  allowDecimals={false}
+                  domain={xDomain}
+                  ticks={xTicks}
                   stroke="hsl(var(--muted-foreground))"
-                  label={{ value: 'Time (hours)', position: 'insideBottom', offset: -5 }}
+                  label={{ value: xLabel, position: 'insideBottom', offset: -5 }}
                 />
                 <YAxis
                   stroke="hsl(var(--muted-foreground))"
