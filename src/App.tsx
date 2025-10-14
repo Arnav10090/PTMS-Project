@@ -17,6 +17,7 @@ import HMI04Trends from "./pages/HMI04Trends";
 import HMI05Alarms from "./pages/HMI05Alarms";
 import HMI06Reports from "./pages/HMI06Reports";
 import HMI07Historical from "./pages/HMI07Historical";
+import AlarmsFooter from '@/components/AlarmsFooter';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,7 +37,7 @@ const App = () => {
                 isCollapsed={sidebarCollapsed}
                 onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
-              <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
+              <div className={`flex-1 relative transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`} style={{ ['--content-left']: sidebarCollapsed ? '5rem' : '16rem' as any }}>
                 <Navbar isCollapsed={sidebarCollapsed} />
                 <main className="pt-16">
                   <Routes>
@@ -54,6 +55,7 @@ const App = () => {
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
+                <AlarmsFooter />
               </div>
             </div>
           </BrowserRouter>

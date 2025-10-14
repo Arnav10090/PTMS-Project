@@ -1,8 +1,244 @@
-import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { FileText, Download, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from '@/components/ui/select';
+import { useEffect, useMemo, useState } from 'react';
+import { TopInfoPanel } from '@/components/TopInfoPanel';
+
+type CoilRow = {
+  sn: number;
+  coilId: string;
+  grade: string;
+  width: number;
+  weight: number;
+  thick: number;
+  lineSpeed: number;
+  startTime: string;
+  endTime: string;
+  totalTime: string;
+  output: number;
+  prodRate: number;
+  kwhTon: number;
+  yieldPct: number;
+};
+
+type DailyRow = {
+  sn: number;
+  date: string;
+  coils: number;
+  inWt: number;
+  outWt: number;
+  yieldPct: number;
+  tankTemp: string;
+  tankConc: string;
+  faCons: string;
+  raCons: string;
+  runHrs: number;
+  prodRate: string;
+  utilPct: number;
+};
+
+type ConsumptionRow = {
+  sn: number;
+  param: string;
+  uom: string;
+  day: string | number;
+  cumulative: number | string;
+};
+
+const makeCoilRows = (count = 30): CoilRow[] =>
+  Array.from({ length: count }).map((_, i) => ({
+    sn: i + 1,
+    coilId: `C-${2540 + i}-A`,
+    grade: i % 3 === 0 ? 'SS-304' : 'SS-316',
+    width: 1250 + (i % 5) * 10,
+    weight: Number((10 + (i % 8) * 0.5).toFixed(1)),
+    thick: Number((2.0 + (i % 4) * 0.1).toFixed(1)),
+    lineSpeed: Number((40 + (i % 10) * 0.7).toFixed(1)),
+    startTime: '08:00',
+    endTime: '10:30',
+    totalTime: '2:30',
+    output: Number((10 + (i % 5) * 0.7).toFixed(1)),
+    prodRate: Number((12 + (i % 6) * 0.3).toFixed(1)),
+    kwhTon: Number((280 + (i % 10) * 1).toFixed(0)),
+    yieldPct: Number((95 + (i % 5) * 0.6).toFixed(1)),
+  }));
+
+const makeDailyRows = (count = 30): DailyRow[] =>
+  Array.from({ length: count }).map((_, i) => ({
+    sn: i + 1,
+    date: `2025-10-${String(1 + (i % 30)).padStart(2, '0')}`,
+    coils: 10 + (i % 10),
+    inWt: Number((200 + (i % 20) * 2.5).toFixed(1)),
+    outWt: Number((190 + (i % 20) * 2.4).toFixed(1)),
+    yieldPct: Number((90 + (i % 10) * 0.7).toFixed(1)),
+    tankTemp: `${80 + (i % 5)}°C`,
+    tankConc: `${15 + (i % 10)}%`,
+    faCons: `${100 + (i % 20)} L`,
+    raCons: `${300 + (i % 30)} L`,
+    runHrs: Number((20 + (i % 5) * 0.5).toFixed(1)),
+    prodRate: `${10 + (i % 6)} T/Hr`,
+    utilPct: Number((80 + (i % 15) * 1).toFixed(1)),
+  }));
+
+const makeConsumptionRows = (count = 20): ConsumptionRow[] =>
+  [
+    'Fresh Acid (FA)',
+    'Regenerated Acid (RA)',
+    'Demineralized Water',
+    'Electricity',
+    'Gas',
+    'Cooling Water',
+  ]
+    .slice(0, count)
+    .map((p, i) => ({
+      sn: i + 1,
+      param: p,
+      uom: i % 3 === 0 ? 'M³' : 'kWh',
+      day: Number((Math.random() * 20).toFixed(1)),
+      cumulative: Number((Math.random() * 1000).toFixed(1)),
+    }));
+
+// CSV helper
+const exportCSV = (filename: string, headers: string[], rows: (string | number)[][]) => {
+  const escape = (v: any) => `"${String(v).replace(/"/g, '""')}"`;
+  const csv = [headers.join(',')].concat(rows.map((r) => r.map(escape).join(','))).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+const printSection = (html: string) => {
+  const w = window.open('', '_blank', 'noopener,noreferrer');
+  if (!w) return;
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Print</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;padding:20px;color:#e6eef8;background:#0b1220}table{width:100%;border-collapse:collapse}th,td{padding:6px;border:1px solid rgba(255,255,255,0.06);font-size:12px}th{background:rgba(255,255,255,0.03);text-align:left}</style>
+  </head><body>${html}</body></html>`);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 300);
+};
 
 const HMI06Reports = () => {
+  const [coilRows] = useState<CoilRow[] | any>(makeCoilRows(40));
+  const [dailyRows] = useState<DailyRow[]>(makeDailyRows(40));
+  const [consumptionRows] = useState<ConsumptionRow[]>(makeConsumptionRows(30));
+
+  // Controls per table
+  const [coilQuery, setCoilQuery] = useState('');
+  const [coilPage, setCoilPage] = useState(1);
+  const [coilPageSize, setCoilPageSize] = useState(10);
+
+  const [dailyQuery, setDailyQuery] = useState('');
+  const [dailyPage, setDailyPage] = useState(1);
+  const [dailyPageSize, setDailyPageSize] = useState(10);
+
+  const [consQuery, setConsQuery] = useState('');
+  const [consPage, setConsPage] = useState(1);
+  const [consPageSize, setConsPageSize] = useState(10);
+
+  const [timePeriod, setTimePeriod] = useState('Last 7 Days');
+
+  // Filtered datasets
+  const filteredCoils = useMemo(() => {
+    const q = coilQuery.trim().toLowerCase();
+    return coilRows.filter((r: CoilRow) => {
+      if (!q) return true;
+      return (`${r.coilId} ${r.grade} ${r.width} ${r.output}`).toLowerCase().includes(q);
+    });
+  }, [coilRows, coilQuery]);
+
+  const filteredDaily = useMemo(() => {
+    const q = dailyQuery.trim().toLowerCase();
+    return dailyRows.filter((r) => {
+      if (!q) return true;
+      return (`${r.date} ${r.coils} ${r.yieldPct}`).toLowerCase().includes(q);
+    });
+  }, [dailyRows, dailyQuery]);
+
+  const filteredCons = useMemo(() => {
+    const q = consQuery.trim().toLowerCase();
+    return consumptionRows.filter((r) => {
+      if (!q) return true;
+      return (`${r.param} ${r.uom} ${r.cumulative}`).toLowerCase().includes(q);
+    });
+  }, [consumptionRows, consQuery]);
+
+  // pagination helpers
+  const paginate = (arr: any[], page: number, size: number) => {
+    const pageCount = Math.max(1, Math.ceil(arr.length / size));
+    const current = Math.min(page, pageCount);
+    const start = (current - 1) * size;
+    return { pageCount, current, rows: arr.slice(start, start + size), start, end: Math.min(start + size, arr.length) };
+  };
+
+  const coilsPage = paginate(filteredCoils, coilPage, coilPageSize);
+  const dailyPageObj = paginate(filteredDaily, dailyPage, dailyPageSize);
+  const consPageObj = paginate(filteredCons, consPage, consPageSize);
+
+  // export handlers per table
+  const exportCoils = () => {
+    const headers = ['SN','Coil ID','Grade','Width','Weight','Thick','Line Speed','Start','End','Total Time','Output','Prod Rate','KWH/Ton','Yield %'];
+    const rows = filteredCoils.map((r: CoilRow) => [r.sn,r.coilId,r.grade,r.width,r.weight,r.thick,r.lineSpeed,r.startTime,r.endTime,r.totalTime,r.output,r.prodRate,r.kwhTon, r.yieldPct]);
+    exportCSV('coil_report.csv', headers, rows);
+  };
+
+  const printCoils = () => {
+    const el = document.getElementById('coil-report');
+    if (!el) return;
+    printSection(el.innerHTML);
+  };
+
+  const exportDaily = () => {
+    const headers = ['SN','Date','No Coils','I/P Wt (T)','O/P Wt (T)','Yield %','Tank-1 Temp','Tank-1 Conc','FA Cons.','RA Cons.','Run Hrs','Prod Rate','Utilzn %'];
+    const rows = filteredDaily.map((r: DailyRow) => [r.sn,r.date,r.coils,r.inWt,r.outWt,r.yieldPct,r.tankTemp,r.tankConc,r.faCons,r.raCons,r.runHrs,r.prodRate,r.utilPct]);
+    exportCSV('daily_report.csv', headers, rows);
+  };
+
+  const printDaily = () => {
+    const el = document.getElementById('daily-report');
+    if (!el) return;
+    printSection(el.innerHTML);
+  };
+
+  const exportCons = () => {
+    const headers = ['SN','Parameter','UOM','Day','Cumulative'];
+    const rows = filteredCons.map((r: ConsumptionRow) => [r.sn,r.param,r.uom,r.day,r.cumulative]);
+    exportCSV('consumption_report.csv', headers, rows);
+  };
+
+  const printCons = () => {
+    const el = document.getElementById('cons-report');
+    if (!el) return;
+    printSection(el.innerHTML);
+  };
+
+  useEffect(() => {
+    // reset page when queries change
+    setCoilPage(1);
+  }, [coilQuery, coilPageSize]);
+
+  useEffect(() => {
+    setDailyPage(1);
+  }, [dailyQuery, dailyPageSize]);
+
+  useEffect(() => {
+    setConsPage(1);
+  }, [consQuery, consPageSize]);
+
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
@@ -18,16 +254,34 @@ const HMI06Reports = () => {
       <TopInfoPanel />
 
       {/* Coil Report */}
-      <div className="hmi-card">
+      <div id="coil-report" className="hmi-card">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold">COIL REPORT</h2>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Download className="w-4 h-4" />
-            Export Excel
-          </Button>
+
+          <div className="flex items-center gap-2">
+            <Input placeholder="Search coils..." value={coilQuery} onChange={(e) => setCoilQuery(e.target.value)} className="w-64" />
+
+            <Select value={String(coilPageSize)} onValueChange={(v) => setCoilPageSize(Number(v))}>
+              <SelectTrigger className="w-36">
+                <SelectValue placeholder={`Rows: ${coilPageSize}`} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Button variant="outline" size="sm" onClick={exportCoils} className="gap-2">
+              <Download className="w-4 h-4" /> Export CSV
+            </Button>
+            <Button variant="outline" size="sm" onClick={printCoils} className="gap-2">
+              <Printer className="w-4 h-4" /> Print
+            </Button>
+          </div>
         </div>
-        <p className="text-xs text-muted-foreground mb-4">Refer Sheet 'Field Data' for legibility</p>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
@@ -39,9 +293,9 @@ const HMI06Reports = () => {
                 <th className="py-2 px-3 text-left font-semibold">Weight</th>
                 <th className="py-2 px-3 text-left font-semibold">Thick</th>
                 <th className="py-2 px-3 text-left font-semibold">Line Speed</th>
-                <th className="py-2 px-3 text-left font-semibold">Start Time</th>
-                <th className="py-2 px-3 text-left font-semibold">End Time</th>
-                <th className="py-2 px-3 text-left font-semibold">Total Time</th>
+                <th className="py-2 px-3 text-left font-semibold">Start</th>
+                <th className="py-2 px-3 text-left font-semibold">End</th>
+                <th className="py-2 px-3 text-left font-semibold">Total</th>
                 <th className="py-2 px-3 text-left font-semibold">Output</th>
                 <th className="py-2 px-3 text-left font-semibold">Prodn Rate</th>
                 <th className="py-2 px-3 text-left font-semibold">KWH/Ton</th>
@@ -49,40 +303,71 @@ const HMI06Reports = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((row) => (
-                <tr key={row} className="border-b border-border/30 hover:bg-muted/10">
-                  <td className="py-2 px-3 font-mono">{row}</td>
-                  <td className="py-2 px-3 font-mono">C-{2540 + row}-A</td>
-                  <td className="py-2 px-3">SS-304</td>
-                  <td className="py-2 px-3 font-mono">1250</td>
-                  <td className="py-2 px-3 font-mono">12.5</td>
-                  <td className="py-2 px-3 font-mono">2.5</td>
-                  <td className="py-2 px-3 font-mono">45.2</td>
-                  <td className="py-2 px-3 font-mono">08:15</td>
-                  <td className="py-2 px-3 font-mono">10:42</td>
-                  <td className="py-2 px-3 font-mono">2:27</td>
-                  <td className="py-2 px-3 font-mono">12.1</td>
-                  <td className="py-2 px-3 font-mono">12.8</td>
-                  <td className="py-2 px-3 font-mono">285</td>
-                  <td className="py-2 px-3 font-mono text-success">96.8%</td>
+              {coilsPage.rows.map((row: CoilRow) => (
+                <tr key={row.sn} className="border-b border-border/30 hover:bg-muted/10">
+                  <td className="py-2 px-3 font-mono">{row.sn}</td>
+                  <td className="py-2 px-3 font-mono">{row.coilId}</td>
+                  <td className="py-2 px-3">{row.grade}</td>
+                  <td className="py-2 px-3 font-mono">{row.width}</td>
+                  <td className="py-2 px-3 font-mono">{row.weight}</td>
+                  <td className="py-2 px-3 font-mono">{row.thick}</td>
+                  <td className="py-2 px-3 font-mono">{row.lineSpeed}</td>
+                  <td className="py-2 px-3 font-mono">{row.startTime}</td>
+                  <td className="py-2 px-3 font-mono">{row.endTime}</td>
+                  <td className="py-2 px-3 font-mono">{row.totalTime}</td>
+                  <td className="py-2 px-3 font-mono">{row.output}</td>
+                  <td className="py-2 px-3 font-mono">{row.prodRate}</td>
+                  <td className="py-2 px-3 font-mono">{row.kwhTon}</td>
+                  <td className="py-2 px-3 font-mono text-success">{row.yieldPct}%</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        <div className="flex items-center justify-between mt-4">
+          <div className="text-sm text-muted-foreground">Showing {coilsPage.start + 1}-{coilsPage.end} of {filteredCoils.length} rows</div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" disabled={coilsPage.current === 1} onClick={() => setCoilPage(1)}>First</Button>
+            <Button variant="outline" size="sm" disabled={coilsPage.current === 1} onClick={() => setCoilPage((p) => Math.max(1, p - 1))}>Prev</Button>
+            {Array.from({ length: coilsPage.pageCount }).slice(0, 7).map((_, i) => (
+              <Button key={i} variant={coilsPage.current === i + 1 ? 'primary' : 'outline'} size="sm" onClick={() => setCoilPage(i + 1)}>{i + 1}</Button>
+            ))}
+            <Button variant="outline" size="sm" disabled={coilsPage.current === coilsPage.pageCount} onClick={() => setCoilPage((p) => Math.min(coilsPage.pageCount, p + 1))}>Next</Button>
+            <Button variant="outline" size="sm" disabled={coilsPage.current === coilsPage.pageCount} onClick={() => setCoilPage(coilsPage.pageCount)}>Last</Button>
+          </div>
+        </div>
       </div>
 
       {/* Daily Report */}
-      <div className="hmi-card">
+      <div id="daily-report" className="hmi-card">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold">DAILY REPORT</h2>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Printer className="w-4 h-4" />
-            Print Report
-          </Button>
+
+          <div className="flex items-center gap-2">
+            <Input placeholder="Search daily..." value={dailyQuery} onChange={(e) => setDailyQuery(e.target.value)} className="w-64" />
+
+            <Select value={String(dailyPageSize)} onValueChange={(v) => setDailyPageSize(Number(v))}>
+              <SelectTrigger className="w-36">
+                <SelectValue placeholder={`Rows: ${dailyPageSize}`} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Button variant="outline" size="sm" onClick={exportDaily} className="gap-2">
+              <Download className="w-4 h-4" /> Export CSV
+            </Button>
+            <Button variant="outline" size="sm" onClick={printDaily} className="gap-2">
+              <Printer className="w-4 h-4" /> Print
+            </Button>
+          </div>
         </div>
-        <p className="text-xs text-muted-foreground mb-4">Refer Sheet 'Field Data' for legibility</p>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
@@ -103,47 +388,83 @@ const HMI06Reports = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((row) => (
-                <tr key={row} className="border-b border-border/30 hover:bg-muted/10">
-                  <td className="py-2 px-3 font-mono">{row}</td>
-                  <td className="py-2 px-3 font-mono">2025-10-{13 - row}</td>
-                  <td className="py-2 px-3 font-mono text-center">18</td>
-                  <td className="py-2 px-3 font-mono">245.5</td>
-                  <td className="py-2 px-3 font-mono">237.2</td>
-                  <td className="py-2 px-3 font-mono text-success">96.6%</td>
-                  <td className="py-2 px-3 font-mono">85°C</td>
-                  <td className="py-2 px-3 font-mono">18.2%</td>
-                  <td className="py-2 px-3 font-mono">125 L</td>
-                  <td className="py-2 px-3 font-mono">340 L</td>
-                  <td className="py-2 px-3 font-mono">22.5</td>
-                  <td className="py-2 px-3 font-mono">10.5 T/Hr</td>
-                  <td className="py-2 px-3 font-mono text-warning">87.5%</td>
+              {dailyPageObj.rows.map((row: DailyRow) => (
+                <tr key={row.sn} className="border-b border-border/30 hover:bg-muted/10">
+                  <td className="py-2 px-3 font-mono">{row.sn}</td>
+                  <td className="py-2 px-3 font-mono">{row.date}</td>
+                  <td className="py-2 px-3 font-mono text-center">{row.coils}</td>
+                  <td className="py-2 px-3 font-mono">{row.inWt}</td>
+                  <td className="py-2 px-3 font-mono">{row.outWt}</td>
+                  <td className="py-2 px-3 font-mono text-success">{row.yieldPct}%</td>
+                  <td className="py-2 px-3 font-mono">{row.tankTemp}</td>
+                  <td className="py-2 px-3 font-mono">{row.tankConc}</td>
+                  <td className="py-2 px-3 font-mono">{row.faCons}</td>
+                  <td className="py-2 px-3 font-mono">{row.raCons}</td>
+                  <td className="py-2 px-3 font-mono">{row.runHrs}</td>
+                  <td className="py-2 px-3 font-mono">{row.prodRate}</td>
+                  <td className="py-2 px-3 font-mono text-warning">{row.utilPct}%</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        <div className="flex items-center justify-between mt-4">
+          <div className="text-sm text-muted-foreground">Showing {dailyPageObj.start + 1}-{dailyPageObj.end} of {filteredDaily.length} rows</div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" disabled={dailyPageObj.current === 1} onClick={() => setDailyPage(1)}>First</Button>
+            <Button variant="outline" size="sm" disabled={dailyPageObj.current === 1} onClick={() => setDailyPage((p) => Math.max(1, p - 1))}>Prev</Button>
+            {Array.from({ length: dailyPageObj.pageCount }).slice(0, 7).map((_, i) => (
+              <Button key={i} variant={dailyPageObj.current === i + 1 ? 'primary' : 'outline'} size="sm" onClick={() => setDailyPage(i + 1)}>{i + 1}</Button>
+            ))}
+            <Button variant="outline" size="sm" disabled={dailyPageObj.current === dailyPageObj.pageCount} onClick={() => setDailyPage((p) => Math.min(dailyPageObj.pageCount, p + 1))}>Next</Button>
+            <Button variant="outline" size="sm" disabled={dailyPageObj.current === dailyPageObj.pageCount} onClick={() => setDailyPage(dailyPageObj.pageCount)}>Last</Button>
+          </div>
+        </div>
       </div>
 
       {/* Consumption Report */}
-      <div className="hmi-card">
+      <div id="cons-report" className="hmi-card">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold">CONSUMPTION REPORT</h2>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Download className="w-4 h-4" />
-            Download PDF
-          </Button>
-        </div>
-        
-        <div className="glass-panel p-4 mb-4 inline-block">
-          <label className="text-sm font-semibold text-muted-foreground mr-3">Time Period:</label>
-          <select className="bg-card border border-border rounded px-3 py-1 text-sm">
-            <option>Last 7 Days</option>
-            <option>Last 30 Days</option>
-            <option>This Month</option>
-            <option>Last Month</option>
-            <option>Custom Range</option>
-          </select>
+
+          <div className="flex items-center gap-2">
+            <div className="glass-panel p-2 rounded inline-flex items-center gap-2">
+              <label className="text-sm font-semibold text-muted-foreground">Time Period:</label>
+              <Select value={timePeriod} onValueChange={(v) => setTimePeriod(v)}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder={timePeriod} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Last 7 Days">Last 7 Days</SelectItem>
+                  <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
+                  <SelectItem value="This Month">This Month</SelectItem>
+                  <SelectItem value="Last Month">Last Month</SelectItem>
+                  <SelectItem value="Custom Range">Custom Range</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <Input placeholder="Search consumption..." value={consQuery} onChange={(e) => setConsQuery(e.target.value)} className="w-64" />
+
+            <Select value={String(consPageSize)} onValueChange={(v) => setConsPageSize(Number(v))}>
+              <SelectTrigger className="w-36">
+                <SelectValue placeholder={`Rows: ${consPageSize}`} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Button variant="outline" size="sm" onClick={exportCons} className="gap-2">
+              <Download className="w-4 h-4" /> Export CSV
+            </Button>
+            <Button variant="outline" size="sm" onClick={printCons} className="gap-2">
+              <Printer className="w-4 h-4" /> Print
+            </Button>
+          </div>
         </div>
 
         <div className="overflow-x-auto">
@@ -158,29 +479,30 @@ const HMI06Reports = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-border/30 hover:bg-muted/10">
-                <td className="py-3 px-4 font-mono">1</td>
-                <td className="py-3 px-4 font-medium">Fresh Acid (FA)</td>
-                <td className="py-3 px-4 font-mono">M³</td>
-                <td className="py-3 px-4 font-mono text-lg font-semibold text-primary">2.5</td>
-                <td className="py-3 px-4 font-mono text-lg font-semibold">45.8</td>
-              </tr>
-              <tr className="border-b border-border/30 hover:bg-muted/10">
-                <td className="py-3 px-4 font-mono">2</td>
-                <td className="py-3 px-4 font-medium">Regenerated Acid (RA)</td>
-                <td className="py-3 px-4 font-mono">M³</td>
-                <td className="py-3 px-4 font-mono text-lg font-semibold text-secondary">5.8</td>
-                <td className="py-3 px-4 font-mono text-lg font-semibold">128.4</td>
-              </tr>
-              <tr className="border-b border-border/30 hover:bg-muted/10">
-                <td className="py-3 px-4 font-mono">3</td>
-                <td className="py-3 px-4 font-medium">Demineralized Water</td>
-                <td className="py-3 px-4 font-mono">M³</td>
-                <td className="py-3 px-4 font-mono text-lg font-semibold text-info">12.3</td>
-                <td className="py-3 px-4 font-mono text-lg font-semibold">287.6</td>
-              </tr>
+              {consPageObj.rows.map((row: ConsumptionRow) => (
+                <tr key={row.sn} className="border-b border-border/30 hover:bg-muted/10">
+                  <td className="py-3 px-4 font-mono">{row.sn}</td>
+                  <td className="py-3 px-4 font-medium">{row.param}</td>
+                  <td className="py-3 px-4 font-mono">{row.uom}</td>
+                  <td className="py-3 px-4 font-mono text-lg font-semibold text-primary">{row.day}</td>
+                  <td className="py-3 px-4 font-mono text-lg font-semibold">{row.cumulative}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
+        </div>
+
+        <div className="flex items-center justify-between mt-4">
+          <div className="text-sm text-muted-foreground">Showing {consPageObj.start + 1}-{consPageObj.end} of {filteredCons.length} rows</div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" disabled={consPageObj.current === 1} onClick={() => setConsPage(1)}>First</Button>
+            <Button variant="outline" size="sm" disabled={consPageObj.current === 1} onClick={() => setConsPage((p) => Math.max(1, p - 1))}>Prev</Button>
+            {Array.from({ length: consPageObj.pageCount }).slice(0, 7).map((_, i) => (
+              <Button key={i} variant={consPageObj.current === i + 1 ? 'primary' : 'outline'} size="sm" onClick={() => setConsPage(i + 1)}>{i + 1}</Button>
+            ))}
+            <Button variant="outline" size="sm" disabled={consPageObj.current === consPageObj.pageCount} onClick={() => setConsPage((p) => Math.min(consPageObj.pageCount, p + 1))}>Next</Button>
+            <Button variant="outline" size="sm" disabled={consPageObj.current === consPageObj.pageCount} onClick={() => setConsPage(consPageObj.pageCount)}>Last</Button>
+          </div>
         </div>
       </div>
     </div>
