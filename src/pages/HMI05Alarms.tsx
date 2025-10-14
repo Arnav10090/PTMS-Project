@@ -496,9 +496,9 @@ const HMI05Alarms = () => {
 
       {/* Popup for new alarms - centered modal with blurred backdrop */}
       {popupActiveAlarms.length > 0 && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center">
+        <div className="fixed inset-0 z-60 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="new-alarms-title">
           {/* backdrop */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" aria-hidden />
 
           <div className="relative w-11/12 max-w-2xl z-70">
             <div className="bg-card border border-border shadow-xl rounded-lg overflow-hidden">
@@ -506,7 +506,7 @@ const HMI05Alarms = () => {
                 <div className="flex items-center gap-3">
                   <Bell className="w-6 h-6 text-destructive" />
                   <div>
-                    <div className="text-lg font-semibold">New Alarms</div>
+                    <div id="new-alarms-title" className="text-lg font-semibold">New Alarms</div>
                     <div className="text-xs text-muted-foreground">These will remain until acknowledged</div>
                   </div>
                 </div>
@@ -514,32 +514,36 @@ const HMI05Alarms = () => {
               </div>
 
               <div className="max-h-80 overflow-auto">
-                {popupActiveAlarms.map((a) => (
-                  <div key={a.id} className="px-6 py-4 hover:bg-muted/10 flex items-start gap-4 border-b border-border">
-                    <div className={`mt-1 ${severityConfig[a.severity].color}`}>●</div>
-                    <div className="flex-1">
-                      <div className="text-sm font-medium">{a.equipment} — {a.type}</div>
-                      <div className="text-xs text-muted-foreground">{a.description}</div>
-                      <div className="text-xs text-muted-foreground mt-1">{a.timestamp} • {a.value}</div>
+                {popupActiveAlarms.map((a) => {
+                  const sev = severityConfig[a.severity];
+                  const SeverityIcon = sev.icon;
+                  return (
+                    <div key={a.id} className="px-6 py-4 hover:bg-muted/10 flex items-start gap-4 border-b border-border">
+                      <div className="flex-shrink-0">
+                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg ${sev.bg} ${sev.border} border`}>
+                          <SeverityIcon className={`w-4 h-4 ${sev.color}`} />
+                          <span className={`text-xs font-semibold uppercase ${sev.color}`}>{a.severity}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">{a.equipment} — {a.type}</div>
+                        <div className="text-xs text-muted-foreground">{a.description}</div>
+                        <div className="text-xs text-muted-foreground mt-1">{a.timestamp} • {a.value}</div>
+                      </div>
+
+                      <div className="ml-2 flex-shrink-0">
+                        <Button size="sm" variant="outline" onClick={() => acknowledge(a.id)}>
+                          Acknowledge
+                        </Button>
+                      </div>
                     </div>
-                    <div className="ml-2 flex-shrink-0">
-                      <Button size="sm" variant="outline" onClick={() => acknowledge(a.id)}>
-                        Acknowledge
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
-              <div className="px-6 py-4 border-t border-border flex items-center justify-between gap-2">
-                <div className="text-xs text-muted-foreground">Acknowledge alarms to dismiss this dialog</div>
+              <div className="px-6 py-4 border-t border-border flex items-center justify-end gap-2">
                 <div className="flex items-center gap-2">
-                  <Button size="sm" variant="ghost" onClick={() => {
-                    // Prevent closing if there are active alarms
-                    if (popupActiveAlarms.length === 0) setPopupAlarmIds([]);
-                  }}>
-                    Close
-                  </Button>
                   <Button size="sm" variant="primary" onClick={() => {
                     // acknowledge all visible popup alarms
                     popupActiveAlarms.forEach((a) => acknowledge(a.id));
