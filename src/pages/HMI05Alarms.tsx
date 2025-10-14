@@ -165,6 +165,14 @@ const HMI05Alarms = () => {
     toast(a.description, { description: `${a.equipment} • ${a.type} • ${a.value} (threshold ${a.threshold})` });
   };
 
+  const closeAlarm = (id: number) => {
+    // Permanently remove alarm from data and any lists
+    setData((prev) => prev.filter((a) => a.id !== id));
+    setPopupAlarmIds((prev) => prev.filter((x) => x !== id));
+    setFooterIds((prev) => prev.filter((x) => x !== id));
+    toast.success('Alarm closed');
+  };
+
   const renderPageButtons = () => {
     const items: number[] = [];
     if (pageCount <= 7) {
@@ -386,12 +394,9 @@ const HMI05Alarms = () => {
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex gap-2">
-                        {alarm.status === 'active' && (
-                          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={() => acknowledge(alarm.id)}>
-                            <CheckCircle className="w-3 h-3 mr-1" />
-                            Acknowledge
-                          </Button>
-                        )}
+                        <Button size="sm" variant="outline" className="h-8 text-xs" onClick={() => closeAlarm(alarm.id)}>
+                          Close
+                        </Button>
                         <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={() => info(alarm)}>
                           <Info className="w-4 h-4" />
                         </Button>
@@ -496,6 +501,11 @@ const HMI05Alarms = () => {
                     <div className="text-sm font-medium">{a.equipment} — {a.type}</div>
                     <div className="text-xs text-muted-foreground">{a.description}</div>
                     <div className="text-xs text-muted-foreground mt-1">{a.timestamp} • {a.value}</div>
+                  </div>
+                  <div className="ml-2">
+                    <Button size="sm" variant="outline" onClick={() => acknowledge(a.id)}>
+                      Acknowledge
+                    </Button>
                   </div>
                 </div>
               ))}
