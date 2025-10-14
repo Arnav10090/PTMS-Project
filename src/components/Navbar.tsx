@@ -8,7 +8,7 @@ interface NavbarProps {
 export const Navbar = ({ isCollapsed }: NavbarProps) => {
   return (
     <header
-      className={`fixed top-0 right-0 ${isCollapsed ? 'left-20' : 'left-64'} h-16 glass-panel border-b border-border/50 flex items-center justify-between px-6 z-40`}
+      className={`fixed top-0 right-0 ${isCollapsed ? 'left-20' : 'left-64'} h-16 glass-panel border-b border-border/50 flex items-center justify-between px-6 z-40 transition-all duration-300`}
     >
       <div className="flex items-center gap-3">
         <Activity className="w-6 h-6 text-primary" />
