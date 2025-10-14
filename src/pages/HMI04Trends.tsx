@@ -34,8 +34,17 @@ const legendItems = [
   { label: '#3 Tank', color: 'hsl(var(--success))', dashed: true }
 ];
 
+const parameterGroupLabels: Record<keyof typeof parameters, string> = {
+  picklingTank: 'Pickling Tank',
+  rinseTank: 'Rinse Tank',
+  hotRinseTank: 'Hot Rinse Tank',
+  rinseWaterStorage: 'Rinse Water Storage',
+  hotAirDrier: 'Hot Air Drier',
+  storageTank: 'Storage Tank'
+};
+
 const HMI04Trends = () => {
-  const [selectedParam, setSelectedParam] = useState<{ group: string; label: string }>({
+  const [selectedParam, setSelectedParam] = useState<{ group: keyof typeof parameters; label: string }>({
     group: 'picklingTank',
     label: parameters.picklingTank[0],
   });
@@ -236,7 +245,7 @@ const HMI04Trends = () => {
                   domain={["auto", "auto"]}
                 >
                   <Label
-                    value={selectedParam.label}
+                    value={`${parameterGroupLabels[selectedParam.group]} - ${selectedParam.label}`}
                     angle={-90}
                     position="left"
                     offset={0}
