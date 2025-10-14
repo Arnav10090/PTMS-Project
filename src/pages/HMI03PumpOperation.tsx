@@ -37,7 +37,7 @@ const HMI03PumpOperation = () => {
         <Power className="w-8 h-8 text-primary" />
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            HMI-03 Pump Operation
+            Pump Operation
           </h1>
           <p className="text-sm text-muted-foreground">Pump Mode and Operation Control</p>
         </div>
