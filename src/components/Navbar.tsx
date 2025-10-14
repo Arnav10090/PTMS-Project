@@ -1,9 +1,15 @@
 import { Activity } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 
-export const Navbar = () => {
+interface NavbarProps {
+  isCollapsed: boolean;
+}
+
+export const Navbar = ({ isCollapsed }: NavbarProps) => {
   return (
-    <header className="fixed top-0 right-0 left-20 h-16 glass-panel border-b border-border/50 flex items-center justify-between px-6 z-40">
+    <header
+      className={`fixed top-0 right-0 ${isCollapsed ? 'left-20' : 'left-64'} h-16 glass-panel border-b border-border/50 flex items-center justify-between px-6 z-40`}
+    >
       <div className="flex items-center gap-3">
         <Activity className="w-6 h-6 text-primary" />
         <div>
@@ -19,14 +25,14 @@ export const Navbar = () => {
         </div>
 
         <div className="text-sm font-mono text-muted-foreground">
-          {new Date().toLocaleString('en-US', { 
+          {new Date().toLocaleString('en-US', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit',
-            hour12: false
+            hour12: false,
           })}
         </div>
 

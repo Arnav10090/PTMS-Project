@@ -34,7 +34,7 @@ const App = () => {
                 onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
               <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
-                <Navbar />
+                <Navbar isCollapsed={sidebarCollapsed} />
                 <main className="pt-16">
                   <Routes>
                     <Route path="/" element={<HMI01Overview />} />
