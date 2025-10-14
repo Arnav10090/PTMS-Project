@@ -1,5 +1,6 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { Bell, Search, Download, CheckCircle, AlertTriangle, AlertCircle, Info, ChevronsDown, ChevronsUp } from 'lucide-react';
+import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
