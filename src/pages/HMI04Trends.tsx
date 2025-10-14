@@ -41,7 +41,7 @@ const HMI04Trends = () => {
   });
   const [timeframe, setTimeframe] = useState<'hour' | 'day' | 'month'>('hour');
 
-  const { chartData, xLabel } = useMemo(() => {
+  const { chartData, xLabel, xDomain, xTicks } = useMemo(() => {
     let count = 25; // 0..24
     let start = 0;
     let label = 'Time (Hour)';
@@ -60,14 +60,16 @@ const HMI04Trends = () => {
       const t = start + i;
       return {
         time: t,
-        timeLabel: String(t),
         tank1: genSeriesValue(i, count, 100, 12, 0),
         tank2: genSeriesValue(i, count, 120, 10, 4),
         tank3: genSeriesValue(i, count, 140, 14, 8),
       };
     });
 
-    return { chartData: data, xLabel: label };
+    const ticks = data.map((d) => d.time);
+    const domain: [number, number] = [start, start + count - 1];
+
+    return { chartData: data, xLabel: label, xDomain: domain, xTicks: ticks };
   }, [timeframe]);
 
   return (
@@ -212,10 +214,14 @@ const HMI04Trends = () => {
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
                 <XAxis
-                  dataKey="timeLabel"
+                  dataKey="time"
+                  type="number"
+                  domain={xDomain}
+                  ticks={xTicks}
+                  interval={0}
+                  allowDecimals={false}
                   stroke="hsl(var(--muted-foreground))"
                   tickMargin={8}
-                  padding={{ left: 12, right: 12 }}
                 >
                   <Label
                     value={xLabel}
