@@ -26,7 +26,10 @@ const parameters = {
 };
 
 const HMI04Trends = () => {
-  const [selectedParam, setSelectedParam] = useState<string>(parameters.picklingTank[0]);
+  const [selectedParam, setSelectedParam] = useState<{ group: string; label: string }>({
+    group: 'picklingTank',
+    label: parameters.picklingTank[0],
+  });
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
@@ -54,8 +57,8 @@ const HMI04Trends = () => {
                 {parameters.picklingTank.map((param) => (
                   <Toggle
                     key={param}
-                    pressed={selectedParam === param}
-                    onPressedChange={() => setSelectedParam(param)}
+                    pressed={selectedParam.group === 'picklingTank' && selectedParam.label === param}
+                    onPressedChange={() => setSelectedParam({ group: 'picklingTank', label: param })}
                     variant="outline"
                     className="w-full justify-start text-sm"
                   >
@@ -72,8 +75,8 @@ const HMI04Trends = () => {
                 {parameters.rinseTank.map((param) => (
                   <Toggle
                     key={param}
-                    pressed={selectedParam === param}
-                    onPressedChange={() => setSelectedParam(param)}
+                    pressed={selectedParam.group === 'rinseTank' && selectedParam.label === param}
+                    onPressedChange={() => setSelectedParam({ group: 'rinseTank', label: param })}
                     variant="outline"
                     className="w-full justify-start text-sm"
                   >
@@ -90,8 +93,8 @@ const HMI04Trends = () => {
                 {parameters.hotRinseTank.map((param) => (
                   <Toggle
                     key={param}
-                    pressed={selectedParam === param}
-                    onPressedChange={() => setSelectedParam(param)}
+                    pressed={selectedParam.group === 'hotRinseTank' && selectedParam.label === param}
+                    onPressedChange={() => setSelectedParam({ group: 'hotRinseTank', label: param })}
                     variant="outline"
                     className="w-full justify-start text-sm"
                   >
@@ -108,8 +111,8 @@ const HMI04Trends = () => {
                 {parameters.rinseWaterStorage.map((param) => (
                   <Toggle
                     key={param}
-                    pressed={selectedParam === param}
-                    onPressedChange={() => setSelectedParam(param)}
+                    pressed={selectedParam.group === 'rinseWaterStorage' && selectedParam.label === param}
+                    onPressedChange={() => setSelectedParam({ group: 'rinseWaterStorage', label: param })}
                     variant="outline"
                     className="w-full justify-start text-sm"
                   >
@@ -126,8 +129,8 @@ const HMI04Trends = () => {
                 {parameters.hotAirDrier.map((param) => (
                   <Toggle
                     key={param}
-                    pressed={selectedParam === param}
-                    onPressedChange={() => setSelectedParam(param)}
+                    pressed={selectedParam.group === 'hotAirDrier' && selectedParam.label === param}
+                    onPressedChange={() => setSelectedParam({ group: 'hotAirDrier', label: param })}
                     variant="outline"
                     className="w-full justify-start text-sm"
                   >
@@ -144,8 +147,8 @@ const HMI04Trends = () => {
                 {parameters.storageTank.map((param) => (
                   <Toggle
                     key={param}
-                    pressed={selectedParam === param}
-                    onPressedChange={() => setSelectedParam(param)}
+                    pressed={selectedParam.group === 'storageTank' && selectedParam.label === param}
+                    onPressedChange={() => setSelectedParam({ group: 'storageTank', label: param })}
                     variant="outline"
                     className="w-full justify-start text-sm"
                   >
@@ -172,7 +175,7 @@ const HMI04Trends = () => {
                 />
                 <YAxis
                   stroke="hsl(var(--muted-foreground))"
-                  label={{ value: selectedParam, angle: -90, position: 'insideLeft' }}
+                  label={{ value: selectedParam.label, angle: -90, position: 'insideLeft' }}
                   domain={["auto", "auto"]}
                 />
                 <Tooltip 
