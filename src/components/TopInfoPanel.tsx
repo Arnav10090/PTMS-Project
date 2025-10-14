@@ -1,5 +1,7 @@
 import { Activity, TrendingUp, Zap } from 'lucide-react';
 
+import { Activity, TrendingUp, Zap } from 'lucide-react';
+
 export const TopInfoPanel = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
