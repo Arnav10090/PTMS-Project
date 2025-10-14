@@ -33,6 +33,38 @@ const HMI04Trends = () => {
     group: 'picklingTank',
     label: parameters.picklingTank[0],
   });
+  const [timeframe, setTimeframe] = useState<'hour' | 'day' | 'month'>('hour');
+
+  const { chartData, xLabel, xDomain, xTicks } = useMemo(() => {
+    let count = 25; // 0..24
+    let start = 0;
+    let label = 'Time (Hour)';
+    if (timeframe === 'day') {
+      count = daysInCurrentMonth();
+      start = 1;
+      label = 'Time (Day)';
+    }
+    if (timeframe === 'month') {
+      count = 12;
+      start = 1;
+      label = 'Time (Month)';
+    }
+
+    const data = Array.from({ length: count }, (_, i) => {
+      const t = start + i;
+      return {
+        time: t,
+        tank1: genSeriesValue(i, count, 100, 12, 0),
+        tank2: genSeriesValue(i, count, 120, 10, 4),
+        tank3: genSeriesValue(i, count, 140, 14, 8),
+      };
+    });
+
+    const ticks = Array.from({ length: count }, (_, i) => start + i);
+    const domain: [number, number] = [start, start + count - 1];
+    return { chartData: data, xLabel: label, xDomain: domain, xTicks: ticks };
+  }, [timeframe]);
+
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
