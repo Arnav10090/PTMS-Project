@@ -164,12 +164,12 @@ const HMI07Historical = () => {
   };
 
   const resetFilters = () => {
-    setStartDate('2025-10-01');
-    setEndDate('2025-10-31');
-    setEquipment('all-equipment');
-    setParameter('all-params');
-    setShift('all-shifts');
-    setDataQuality('all-quality');
+    setStartDate(DEFAULT_FILTERS.startDate);
+    setEndDate(DEFAULT_FILTERS.endDate);
+    setEquipment(DEFAULT_FILTERS.equipment);
+    setParameter(DEFAULT_FILTERS.parameter);
+    setShift(DEFAULT_FILTERS.shift);
+    setDataQuality(DEFAULT_FILTERS.dataQuality);
     setSearchQuery('');
     setPage(1);
     toast.info('Filters reset');
