@@ -108,12 +108,12 @@ const printSection = (html: string) => {
 };
 
 const HMI07Historical = () => {
-  const [startDate, setStartDate] = useState<string>('2025-10-01');
-  const [endDate, setEndDate] = useState<string>('2025-10-31');
-  const [equipment, setEquipment] = useState<string>('all-equipment');
-  const [parameter, setParameter] = useState<string>('all-params');
-  const [shift, setShift] = useState<string>('all-shifts');
-  const [dataQuality, setDataQuality] = useState<string>('all-quality');
+  const [startDate, setStartDate] = useState<string>(DEFAULT_FILTERS.startDate);
+  const [endDate, setEndDate] = useState<string>(DEFAULT_FILTERS.endDate);
+  const [equipment, setEquipment] = useState<string>(DEFAULT_FILTERS.equipment);
+  const [parameter, setParameter] = useState<string>(DEFAULT_FILTERS.parameter);
+  const [shift, setShift] = useState<string>(DEFAULT_FILTERS.shift);
+  const [dataQuality, setDataQuality] = useState<string>(DEFAULT_FILTERS.dataQuality);
   const [rowsPerPage, setRowsPerPage] = useState<number>(50);
   const [page, setPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
