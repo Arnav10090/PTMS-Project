@@ -1,5 +1,5 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
-import { Database, Download, Filter, Calendar } from 'lucide-react';
+import { Database, Download, Filter, Calendar, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
