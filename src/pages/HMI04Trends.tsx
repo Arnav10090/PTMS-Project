@@ -208,7 +208,7 @@ const HMI04Trends = () => {
             <ResponsiveContainer width="100%" height={400}>
               <LineChart
                 data={chartData}
-                margin={{ top: 20, right: 20, left: 55, bottom: 40 }}
+                margin={{ top: 20, right: 20, left: 35, bottom: 40 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
                 <XAxis
