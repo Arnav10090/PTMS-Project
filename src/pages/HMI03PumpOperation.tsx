@@ -195,7 +195,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual2Run('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'RUN' ? 'bg-success hover:bg-success' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
@@ -203,7 +203,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual2Run('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
