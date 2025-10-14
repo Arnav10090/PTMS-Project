@@ -1,6 +1,6 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { TrendingUp } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import { Toggle } from '@/components/ui/toggle';
 import { useMemo, useState } from 'react';
 
@@ -16,7 +16,7 @@ const genSeriesValue = (t: number, count: number, base: number, amp: number, pha
 
 const parameters = {
   picklingTank: [
-    'Tank Level', 'Tank Temperature', 'Density', 'Cond.', 'FeCl2', 
+    'Tank Level', 'Tank Temperature', 'Density', 'Cond.', 'FeCl2',
     'Total HCL', 'HCL - PV', 'HCL - SV', 'Flow (HCL/DM)'
   ],
   rinseTank: [
@@ -28,8 +28,23 @@ const parameters = {
   storageTank: ['Level', 'Density']
 };
 
+const legendItems = [
+  { label: '#1 Tank', color: 'hsl(var(--primary))', dashed: false },
+  { label: '#2 Tank', color: 'hsl(var(--destructive))', dashed: false },
+  { label: '#3 Tank', color: 'hsl(var(--success))', dashed: true }
+];
+
+const parameterGroupLabels: Record<keyof typeof parameters, string> = {
+  picklingTank: 'Pickling Tank',
+  rinseTank: 'Rinse Tank',
+  hotRinseTank: 'Hot Rinse Tank',
+  rinseWaterStorage: 'Rinse Water Storage',
+  hotAirDrier: 'Hot Air Drier',
+  storageTank: 'Storage Tank'
+};
+
 const HMI04Trends = () => {
-  const [selectedParam, setSelectedParam] = useState<{ group: string; label: string }>({
+  const [selectedParam, setSelectedParam] = useState<{ group: keyof typeof parameters; label: string }>({
     group: 'picklingTank',
     label: parameters.picklingTank[0],
   });
@@ -60,8 +75,9 @@ const HMI04Trends = () => {
       };
     });
 
-    const ticks = Array.from({ length: count }, (_, i) => start + i);
+    const ticks = data.map((d) => d.time);
     const domain: [number, number] = [start, start + count - 1];
+
     return { chartData: data, xLabel: label, xDomain: domain, xTicks: ticks };
   }, [timeframe]);
 
@@ -201,30 +217,49 @@ const HMI04Trends = () => {
           
           <div className="glass-panel p-6">
             <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={chartData}>
+              <LineChart
+                data={chartData}
+                margin={{ top: 20, right: 20, left: 25, bottom: 40 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
                 <XAxis
                   dataKey="time"
                   type="number"
-                  allowDecimals={false}
                   domain={xDomain}
                   ticks={xTicks}
+                  interval={0}
+                  allowDecimals={false}
                   stroke="hsl(var(--muted-foreground))"
-                  label={{ value: xLabel, position: 'insideBottom', offset: -5 }}
-                />
+                  tickMargin={8}
+                >
+                  <Label
+                    value={xLabel}
+                    position="bottom"
+                    offset={20}
+                    style={{ fill: 'hsl(var(--muted-foreground))' }}
+                  />
+                </XAxis>
                 <YAxis
                   stroke="hsl(var(--muted-foreground))"
-                  label={{ value: selectedParam.label, angle: -90, position: 'insideLeft' }}
+                  tickMargin={4}
                   domain={["auto", "auto"]}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--popover))', 
+                >
+                  <Label
+                    value={`${parameterGroupLabels[selectedParam.group]} - ${selectedParam.label}`}
+                    angle={-90}
+                    position="left"
+                    offset={0}
+                    style={{ fill: 'hsl(var(--muted-foreground))', textAnchor: 'middle' }}
+                  />
+                </YAxis>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--popover))',
                     border: '1px solid hsl(var(--border))',
                     borderRadius: '8px'
                   }}
+                  labelFormatter={(value) => `Time: ${value}`}
                 />
-                <Legend />
                 <Line 
                   type="monotone" 
                   dataKey="tank1" 
@@ -252,6 +287,20 @@ const HMI04Trends = () => {
                 />
               </LineChart>
             </ResponsiveContainer>
+
+            <div className="flex justify-center mt-6">
+              <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+                {legendItems.map((item) => (
+                  <div key={item.label} className="flex items-center gap-2">
+                    <span
+                      className="block h-0 w-8"
+                      style={{ borderBottom: `2px ${item.dashed ? 'dashed' : 'solid'} ${item.color}` }}
+                    />
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <div className="flex justify-center gap-4 mt-6">
               <button
