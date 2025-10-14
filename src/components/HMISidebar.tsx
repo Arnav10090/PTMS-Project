@@ -50,10 +50,7 @@ export const HMISidebar = ({ isCollapsed, onToggle }: HMISidebarProps) => {
           {isCollapsed ? (
             <ChevronRight className="w-4 h-4" />
           ) : (
-            <>
-              <ChevronLeft className="w-4 h-4" />
-              <span className="ml-2 text-xs">Collapse</span>
-            </>
+            <ChevronLeft className="w-4 h-4" />
           )}
         </Button>
       </div>
