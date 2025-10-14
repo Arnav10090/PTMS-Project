@@ -3,7 +3,7 @@ import { Bell, Search, Download, CheckCircle, AlertTriangle, AlertCircle, Info }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from '@/components/ui/sonner';
 
 type Severity = 'critical' | 'high' | 'medium' | 'low';
@@ -11,7 +11,7 @@ type Status = 'active' | 'acknowledged' | 'cleared';
 
 type Alarm = {
   id: number;
-  timestamp: string; // ISO-like string
+  timestamp: string; // human friendly
   severity: Severity;
   equipment: string;
   type: string;
@@ -62,6 +62,8 @@ const statusConfig = {
   cleared: { color: 'text-success', bg: 'bg-success/20', label: 'Cleared', pulse: false },
 } as const;
 
+const FOOTER_LIMIT = 10;
+
 const HMI05Alarms = () => {
   const [data, setData] = useState<Alarm[]>(initialAlarms);
   const [severity, setSeverity] = useState<'all-severity' | Severity>('all-severity');
@@ -69,10 +71,19 @@ const HMI05Alarms = () => {
   const [timeRange, setTimeRange] = useState<'1h' | '24h' | '7d' | 'custom'>('24h');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [footerIds, setFooterIds] = useState<number[]>(() =>
+    // initialize footer with most recent acknowledged alarms (by id desc)
+    initialAlarms.filter((a) => a.status === 'acknowledged').slice(-FOOTER_LIMIT).map((a) => a.id).reverse(),
+  );
+
+  // popup tracks ids of generated alarms that should appear in the popup and remain until acknowledged
+  const [popupAlarmIds, setPopupAlarmIds] = useState<number[]>([]);
+
   const pageSize = 10;
 
   const activeCount = useMemo(() => data.filter((a) => a.status === 'active').length, [data]);
 
+  // filtered includes all alarms but we will exclude footer IDs from the table view
   const filtered = useMemo(() => {
     const now = new Date();
     const cutoff = ((): Date | null => {
@@ -85,6 +96,7 @@ const HMI05Alarms = () => {
     const q = query.trim().toLowerCase();
 
     return data.filter((a) => {
+      if (footerIds.includes(a.id)) return false; // footer items not shown in the table
       if (severity !== 'all-severity' && a.severity !== severity) return false;
       if (status !== 'all-status' && a.status !== status) return false;
       if (cutoff) {
@@ -98,7 +110,7 @@ const HMI05Alarms = () => {
       }
       return true;
     });
-  }, [data, severity, status, timeRange, query]);
+  }, [data, severity, status, timeRange, query, footerIds]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, pageCount);
@@ -134,8 +146,17 @@ const HMI05Alarms = () => {
     toast.success('CSV exported');
   };
 
+  // acknowledge: update alarm status, add to footer (most recent at front), and remove from popup list
   const acknowledge = (id: number) => {
     setData((prev) => prev.map((a) => (a.id === id && a.status === 'active' ? { ...a, status: 'acknowledged' } : a)));
+
+    setFooterIds((prev) => {
+      const next = [id, ...prev.filter((x) => x !== id)];
+      // if more than FOOTER_LIMIT, drop the last entries (those go back into the table)
+      return next.slice(0, FOOTER_LIMIT);
+    });
+
+    setPopupAlarmIds((prev) => prev.filter((x) => x !== id));
     toast.info('Alarm acknowledged');
   };
 
@@ -186,6 +207,61 @@ const HMI05Alarms = () => {
           ),
     );
   };
+
+  // generate a synthetic alarm
+  const generateAlarm = (override?: Partial<Alarm>) => {
+    setData((prev) => {
+      const maxId = prev.reduce((m, a) => Math.max(m, a.id), 0);
+      const id = maxId + 1;
+      const now = new Date();
+      const pad = (n: number) => String(n).padStart(2, '0');
+      const ts = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+      const severities: Severity[] = ['critical', 'high', 'medium', 'low'];
+      const severity = (override?.severity || severities[Math.floor(Math.random() * severities.length)]) as Severity;
+      const equipment = override?.equipment || `Sensor #${Math.ceil(Math.random() * 20)}`;
+      const type = override?.type || (severity === 'critical' ? 'Equipment Failure' : 'Alert');
+      const description = override?.description || `${type} detected on ${equipment}`;
+      const value = override?.value || (severity === 'low' ? 'N/A' : `${Math.ceil(Math.random() * 100)} units`);
+      const threshold = override?.threshold || '—';
+
+      const alarm: Alarm = {
+        id,
+        timestamp: ts,
+        severity,
+        equipment,
+        type,
+        description,
+        value,
+        threshold,
+        status: 'active',
+        ...override,
+      };
+
+      // add to popup list so the popup appears until acknowledged
+      setPopupAlarmIds((p) => [...p, id]);
+
+      return [alarm, ...prev];
+    });
+  };
+
+  // every 1 minute generate a new alarm
+  useEffect(() => {
+    const id = setInterval(() => {
+      generateAlarm();
+    }, 60 * 1000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // popup is visible if any popupAlarmIds still refer to active alarms
+  const popupActiveAlarms = useMemo(() => {
+    return popupAlarmIds
+      .map((id) => data.find((a) => a.id === id))
+      .filter((a): a is Alarm => !!a && a.status === 'active');
+  }, [popupAlarmIds, data]);
+
+  // footer alarms details
+  const footerAlarms = footerIds.map((id) => data.find((a) => a.id === id)).filter((a): a is Alarm => !!a);
 
   return (
     <div className="p-6 space-y-6 animate-fade-in">
@@ -349,6 +425,78 @@ const HMI05Alarms = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer: recent acknowledged alarms */}
+      <div className="fixed left-0 right-0 bottom-0 z-40 pointer-events-none">
+        <div className="max-w-full mx-auto px-6 py-3 bg-card/90 border-t border-border backdrop-blur-sm shadow-lg pointer-events-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Bell className="w-5 h-5 text-muted-foreground" />
+              <div>
+                <div className="text-sm font-semibold">Recent Acknowledged Alarms</div>
+                <div className="text-xs text-muted-foreground">Most recent {FOOTER_LIMIT} acknowledged</div>
+              </div>
+            </div>
+            <div className="text-xs text-muted-foreground">Footer shows latest acknowledged alarms</div>
+          </div>
+
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2">
+            {footerAlarms.length === 0 && (
+              <div className="text-sm text-muted-foreground">No acknowledged alarms yet</div>
+            )}
+            {footerAlarms.map((a) => (
+              <div key={a.id} className="flex items-center gap-3 bg-muted/5 p-2 rounded-md border border-border">
+                <div className={`w-2.5 h-2.5 rounded-full ${severityConfig[a.severity].color}`} />
+                <div className="text-xs">
+                  <div className="font-medium">{a.equipment} • {a.type}</div>
+                  <div className="text-muted-foreground">{a.timestamp}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Popup for new alarms - remains until those alarms are acknowledged via table */}
+      {popupActiveAlarms.length > 0 && (
+        <div className="fixed right-6 bottom-28 z-50 w-96">
+          <div className="bg-card border border-border shadow-lg rounded-lg overflow-hidden">
+            <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Bell className="w-5 h-5 text-destructive" />
+                <div>
+                  <div className="text-sm font-semibold">New Alarms</div>
+                  <div className="text-xs text-muted-foreground">These will remain until acknowledged</div>
+                </div>
+              </div>
+              <div className="text-xs text-muted-foreground">{popupActiveAlarms.length} unacknowledged</div>
+            </div>
+
+            <div className="max-h-64 overflow-auto">
+              {popupActiveAlarms.map((a) => (
+                <div key={a.id} className="px-4 py-3 hover:bg-muted/10 flex items-start gap-3">
+                  <div className={`mt-1 ${severityConfig[a.severity].color}`}>●</div>
+                  <div className="flex-1">
+                    <div className="text-sm font-medium">{a.equipment} — {a.type}</div>
+                    <div className="text-xs text-muted-foreground">{a.description}</div>
+                    <div className="text-xs text-muted-foreground mt-1">{a.timestamp} • {a.value}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="px-4 py-3 border-t border-border flex items-center justify-end gap-2">
+              <div className="text-xs text-muted-foreground mr-auto">Acknowledge alarms from the table to dismiss</div>
+              <Button size="sm" variant="ghost" onClick={() => {
+                // user can dismiss popup only if there are no active popup alarms (protective measure)
+                if (popupActiveAlarms.length === 0) setPopupAlarmIds([]);
+              }}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
