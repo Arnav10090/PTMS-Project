@@ -44,7 +44,7 @@ const App = () => {
                     <Route path="/hmi-01/*" element={<HMI01Tabs />}>
                       <Route index element={<div />} />
                       <Route path="tank" element={<HMI01TankSection />} />
-                      <Route path="pickling" element={<div />} />
+                      <Route path="pickling" element={<HMI02PicklingSection />} />
                     </Route>
                     <Route path="/pump-operation" element={<HMI03PumpOperation />} />
                     <Route path="/trends" element={<HMI04Trends />} />
