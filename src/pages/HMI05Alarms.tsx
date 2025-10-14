@@ -149,6 +149,8 @@ const HMI05Alarms = () => {
 
   // acknowledge: update alarm status, add to footer (most recent at front), and remove from popup list
   const acknowledge = (id: number) => {
+    const ackAlarm = data.find((a) => a.id === id);
+
     setData((prev) => prev.map((a) => (a.id === id && a.status === 'active' ? { ...a, status: 'acknowledged' } : a)));
 
     setFooterIds((prev) => {
@@ -158,6 +160,15 @@ const HMI05Alarms = () => {
     });
 
     setPopupAlarmIds((prev) => prev.filter((x) => x !== id));
+
+    // notify global footer in same window
+    try {
+      if (ackAlarm) {
+        const detail = { ...ackAlarm, status: 'acknowledged' };
+        window.dispatchEvent(new CustomEvent('alarms-footer:add', { detail }));
+      }
+    } catch (e) {}
+
     toast.info('Alarm acknowledged');
   };
 
