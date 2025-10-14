@@ -67,7 +67,7 @@ const HMI03PumpOperation = () => {
               {/* Right Column - Acid Pump Operation */}
               <div>
                 <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
-
+                
                 <div className="space-y-4">
                   {/* Operation Place */}
                   <div>
@@ -173,7 +173,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual1Run('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'RUN' ? 'bg-success hover:bg-success' : ''}`}
                       >
                         RUN
                       </Button>
@@ -181,7 +181,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual1Run('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : ''}`}
                       >
                         STOP
                       </Button>
@@ -274,7 +274,7 @@ const HMI03PumpOperation = () => {
               {/* Right Column - Acid Pump Operation */}
               <div>
                 <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
-
+                
                 <div className="space-y-4">
                   {/* Operation Place */}
                   <div>
