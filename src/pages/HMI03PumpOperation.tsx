@@ -22,6 +22,15 @@ const HMI03PumpOperation = () => {
   const [INmanual1Run, setINManual1Run] = useState<'RUN' | 'STOP'>('STOP');
   const [INmanual2Run, setINManual2Run] = useState<'RUN' | 'STOP'>('STOP');
 
+  const [MCtankMode, setMCTankMode] = useState<'FULL' | 'MID_CIRC' | 'STOP'>('FULL');
+  const [MCoperationPlace, setMCOperationPlace] = useState<'LOCAL' | 'REMOTE'>('REMOTE');
+  const [MCpumpMode, setMCPumpMode] = useState<'AUTO' | 'MAN'>('AUTO');
+  const [MCpump1Status, setMCPump1Status] = useState<'RUN' | 'STOP'>('STOP');
+  const [MCpump2Status, setMCPump2Status] = useState<'RUN' | 'STOP'>('STOP');
+  const [MCleadPump, setMCLeadPump] = useState<'No.1' | 'No.2'>('No.1');
+  const [MCmanual1Run, setMCManual1Run] = useState<'RUN' | 'STOP'>('STOP');
+  const [MCmanual2Run, setMCManual2Run] = useState<'RUN' | 'STOP'>('STOP');
+
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
@@ -471,22 +480,22 @@ const HMI03PumpOperation = () => {
               <div className="space-y-3">
                 <Button
                   variant="outline"
-                  onClick={() => setTankMode('FULL')}
-                  className={`w-full h-16 border-2 border-foreground ${tankMode === 'FULL' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                  onClick={() => setMCTankMode('FULL')}
+                  className={`w-full h-16 border-2 border-foreground ${MCtankMode === 'FULL' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                 >
                   FULL
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => setTankMode('MID_CIRC')}
-                  className={`w-full h-16 border-2 border-foreground ${tankMode === 'MID_CIRC' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                  onClick={() => setMCTankMode('MID_CIRC')}
+                  className={`w-full h-16 border-2 border-foreground ${MCtankMode === 'MID_CIRC' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                 >
                   MID. CIRC.
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => setTankMode('STOP')}
-                  className={`w-full h-16 border-2 border-foreground ${tankMode === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                  onClick={() => setMCTankMode('STOP')}
+                  className={`w-full h-16 border-2 border-foreground ${MCtankMode === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                 >
                   STOP
                 </Button>
@@ -504,17 +513,17 @@ const HMI03PumpOperation = () => {
                   <div className="grid grid-cols-2 gap-2">
                     <Button
                       variant="outline"
-                      onClick={() => setOperationPlace('LOCAL')}
+                      onClick={() => setMCOperationPlace('LOCAL')}
                       size="sm"
-                      className={`h-8 border-2 border-foreground text-xs ${operationPlace === 'LOCAL' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      className={`h-8 border-2 border-foreground text-xs ${MCoperationPlace === 'LOCAL' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                     >
                       LOCAL
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => setOperationPlace('REMOTE')}
+                      onClick={() => setMCOperationPlace('REMOTE')}
                       size="sm"
-                      className={`h-8 border-2 border-foreground text-xs ${operationPlace === 'REMOTE' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      className={`h-8 border-2 border-foreground text-xs ${MCoperationPlace === 'REMOTE' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                     >
                       REMOTE
                     </Button>
@@ -527,17 +536,17 @@ const HMI03PumpOperation = () => {
                   <div className="grid grid-cols-2 gap-2">
                     <Button
                       variant="outline"
-                      onClick={() => setPumpMode('AUTO')}
+                      onClick={() => setMCPumpMode('AUTO')}
                       size="sm"
-                      className={`h-8 border-2 border-foreground text-xs ${pumpMode === 'AUTO' ? 'bg-amber-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      className={`h-8 border-2 border-foreground text-xs ${MCpumpMode === 'AUTO' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                     >
                       AUTO
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => setPumpMode('MAN')}
+                      onClick={() => setMCPumpMode('MAN')}
                       size="sm"
-                      className={`h-8 border-2 border-foreground text-xs ${pumpMode === 'MAN' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      className={`h-8 border-2 border-foreground text-xs ${MCpumpMode === 'MAN' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                     >
                       MAN
                     </Button>
@@ -553,17 +562,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
-                        onClick={() => setPump1Status('RUN')}
+                        onClick={() => setMCPump1Status('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'RUN' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => setPump1Status('STOP')}
+                        onClick={() => setMCPump1Status('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
@@ -572,17 +581,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
-                        onClick={() => setManual1Run('RUN')}
+                        onClick={() => setMCPump1Status('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'RUN' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => setManual1Run('STOP')}
+                        onClick={() => setMCPump1Status('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
@@ -596,17 +605,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
-                        onClick={() => setPump2Status('RUN')}
+                        onClick={() => setMCPump1Status('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'RUN' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => setPump2Status('STOP')}
+                        onClick={() => setMCPump1Status('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
@@ -615,17 +624,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
-                        onClick={() => setManual2Run('RUN')}
+                        onClick={() => setMCPump1Status('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'RUN' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => setManual2Run('STOP')}
+                        onClick={() => setMCPump1Status('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
@@ -639,17 +648,17 @@ const HMI03PumpOperation = () => {
                   <div className="grid grid-cols-2 gap-2">
                     <Button
                       variant="outline"
-                      onClick={() => setLeadPump('No.1')}
+                      onClick={() => setMCLeadPump('No.1')}
                       size="sm"
-                      className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-amber-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      className={`h-8 border-2 border-foreground text-xs ${MCleadPump === 'No.1' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                     >
                       No.1
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => setLeadPump('No.2')}
+                      onClick={() => setMCLeadPump('No.2')}
                       size="sm"
-                      className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      className={`h-8 border-2 border-foreground text-xs ${MCleadPump === 'No.2' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                     >
                       No.2
                     </Button>
