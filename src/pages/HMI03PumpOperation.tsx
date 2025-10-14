@@ -41,21 +41,21 @@ const HMI03PumpOperation = () => {
                   <Button
                     variant="outline"
                     onClick={() => setTankMode('FULL')}
-                    className={`w-full h-16 ${tankMode === 'FULL' ? 'bg-white text-black hover:bg-white/90 border-2 border-foreground' : 'border-2 border-foreground'}`}
+                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'FULL' ? 'bg-white text-black hover:bg-white hover:text-black' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     FULL
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => setTankMode('MID_CIRC')}
-                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'MID_CIRC' ? 'bg-destructive text-destructive-foreground' : ''}`}
+                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'MID_CIRC' ? 'bg-destructive text-destructive-foreground hover:bg-destructive hover:text-destructive-foreground' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     MID. CIRC.
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => setTankMode('STOP')}
-                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'STOP' ? 'bg-red-300 text-foreground' : ''}`}
+                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'STOP' ? 'bg-red-300 text-foreground hover:bg-red-300 hover:text-foreground' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     STOP
                   </Button>
@@ -75,7 +75,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setOperationPlace('LOCAL')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className="h-8 border-2 border-foreground text-xs hover:bg-background hover:text-foreground"
                       >
                         LOCAL
                       </Button>
@@ -83,7 +83,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setOperationPlace('REMOTE')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${operationPlace === 'REMOTE' ? 'bg-warning text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${operationPlace === 'REMOTE' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         REMOTE
                       </Button>
@@ -98,7 +98,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setPumpMode('AUTO')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${pumpMode === 'AUTO' ? 'bg-warning text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${pumpMode === 'AUTO' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         AUTO
                       </Button>
@@ -106,7 +106,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setPumpMode('MAN')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className="h-8 border-2 border-foreground text-xs hover:bg-background hover:text-foreground"
                       >
                         MAN
                       </Button>
@@ -124,7 +124,7 @@ const HMI03PumpOperation = () => {
                           variant="outline"
                           onClick={() => setPump1Status('RUN')}
                           size="sm"
-                          className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'RUN' ? 'bg-success' : ''}`}
+                          className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           RUN
                         </Button>
@@ -132,7 +132,7 @@ const HMI03PumpOperation = () => {
                           variant="outline"
                           onClick={() => setPump1Status('STOP')}
                           size="sm"
-                          className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'STOP' ? 'bg-success' : ''}`}
+                          className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'STOP' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           STOP
                         </Button>
@@ -148,7 +148,7 @@ const HMI03PumpOperation = () => {
                           variant="outline"
                           onClick={() => setPump2Status('RUN')}
                           size="sm"
-                          className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'RUN' ? 'bg-success' : ''}`}
+                          className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           RUN
                         </Button>
@@ -156,7 +156,7 @@ const HMI03PumpOperation = () => {
                           variant="outline"
                           onClick={() => setPump2Status('STOP')}
                           size="sm"
-                          className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'STOP' ? 'bg-success' : ''}`}
+                          className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'STOP' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           STOP
                         </Button>
