@@ -36,7 +36,7 @@ const App = () => {
                 isCollapsed={sidebarCollapsed}
                 onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
-              <div className={`flex-1 relative transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
+              <div className={`flex-1 relative transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`} style={{ ['--content-left']: sidebarCollapsed ? '5rem' : '16rem' as any }}>
                 <Navbar isCollapsed={sidebarCollapsed} />
                 <main className="pt-16">
                   <Routes>
