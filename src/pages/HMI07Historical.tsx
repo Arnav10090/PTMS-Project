@@ -158,11 +158,6 @@ const HMI07Historical = () => {
 
   useEffect(() => setPage(1), [startDate, endDate, equipment, parameter, shift, dataQuality, rowsPerPage, searchQuery]);
 
-  const applyFilters = () => {
-    toast.success('Filters applied');
-    setPage(1);
-  };
-
   const resetFilters = () => {
     setStartDate(DEFAULT_FILTERS.startDate);
     setEndDate(DEFAULT_FILTERS.endDate);
@@ -423,17 +418,23 @@ const HMI07Historical = () => {
               </Select>
             </div>
 
-            <div className="flex items-end gap-2">
-              <Button className="flex-1 bg-primary text-primary-foreground" onClick={applyFilters}>
-                Apply Filters
+            <div className="flex flex-wrap items-end gap-2 md:col-span-2 lg:col-span-4">
+              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Export Options:</span>
+              <Button variant="outline" size="sm" className="gap-2" onClick={exportVisible}>
+                <Download className="w-3 h-3" />
+                Visible Data (CSV)
               </Button>
-              <Button variant="outline" onClick={resetFilters}>Reset</Button>
-            </div>
-
-            <div className="flex items-end gap-2">
-              <Button variant="outline" className="flex-1 gap-2" onClick={exportFiltered}>
-                <Download className="w-4 h-4" />
-                Export Filtered
+              <Button variant="outline" size="sm" className="gap-2" onClick={exportFiltered}>
+                <Download className="w-3 h-3" />
+                All Filtered (CSV)
+              </Button>
+              <Button variant="outline" size="sm" className="gap-2" onClick={exportExcel}>
+                <Download className="w-3 h-3" />
+                Excel (XLSX)
+              </Button>
+              <Button variant="outline" size="sm" className="gap-2" onClick={exportPDF}>
+                <Download className="w-3 h-3" />
+                PDF Report
               </Button>
             </div>
           </div>
@@ -569,26 +570,6 @@ const HMI07Historical = () => {
           </div>
         </div>
 
-        {/* Export Options */}
-        <div className="flex items-center gap-2 mt-4 p-4 glass-panel">
-          <span className="text-sm font-semibold text-muted-foreground">Export Options:</span>
-          <Button variant="outline" size="sm" className="gap-2" onClick={exportVisible}>
-            <Download className="w-3 h-3" />
-            Visible Data (CSV)
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={exportFiltered}>
-            <Download className="w-3 h-3" />
-            All Filtered (CSV)
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={exportExcel}>
-            <Download className="w-3 h-3" />
-            Excel (XLSX)
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={exportPDF}>
-            <Download className="w-3 h-3" />
-            PDF Report
-          </Button>
-        </div>
       </div>
     </div>
   );
