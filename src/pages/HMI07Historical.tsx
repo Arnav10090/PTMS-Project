@@ -1,5 +1,5 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
-import { Database, Download, Filter, Calendar } from 'lucide-react';
+import { Database, Download, Filter, Calendar, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -27,6 +27,45 @@ const generateHistoricalData = () => {
 };
 
 const historicalData = generateHistoricalData();
+
+const DEFAULT_FILTERS = {
+  startDate: '2025-10-01',
+  endDate: '2025-10-31',
+  equipment: 'all-equipment',
+  parameter: 'all-params',
+  shift: 'all-shifts',
+  dataQuality: 'all-quality',
+} as const;
+
+const EQUIPMENT_LABELS: Record<string, string> = {
+  'all-equipment': 'All Equipment',
+  'tank-1': 'Tank #1',
+  'tank-2': 'Tank #2',
+  'tank-3': 'Tank #3',
+  pumps: 'Pumps',
+  sensors: 'Sensors',
+};
+
+const PARAMETER_LABELS: Record<string, string> = {
+  'all-params': 'All Parameters',
+  temp: 'Temperature',
+  density: 'Density',
+  hcl: 'HCl Level',
+  flow: 'Flow Rate',
+};
+
+const SHIFT_LABELS: Record<string, string> = {
+  'all-shifts': 'All Shifts',
+  'shift-a': 'Shift A',
+  'shift-b': 'Shift B',
+  'shift-c': 'Shift C',
+};
+
+const DATA_QUALITY_LABELS: Record<string, string> = {
+  'all-quality': 'All Data',
+  valid: 'Valid Only',
+  flagged: 'Flagged',
+};
 
 const parseDate = (s: string) => {
   const d = new Date(s.replace(' ', 'T'));
@@ -69,12 +108,12 @@ const printSection = (html: string) => {
 };
 
 const HMI07Historical = () => {
-  const [startDate, setStartDate] = useState<string>('2025-10-01');
-  const [endDate, setEndDate] = useState<string>('2025-10-31');
-  const [equipment, setEquipment] = useState<string>('all-equipment');
-  const [parameter, setParameter] = useState<string>('all-params');
-  const [shift, setShift] = useState<string>('all-shifts');
-  const [dataQuality, setDataQuality] = useState<string>('all-quality');
+  const [startDate, setStartDate] = useState<string>(DEFAULT_FILTERS.startDate);
+  const [endDate, setEndDate] = useState<string>(DEFAULT_FILTERS.endDate);
+  const [equipment, setEquipment] = useState<string>(DEFAULT_FILTERS.equipment);
+  const [parameter, setParameter] = useState<string>(DEFAULT_FILTERS.parameter);
+  const [shift, setShift] = useState<string>(DEFAULT_FILTERS.shift);
+  const [dataQuality, setDataQuality] = useState<string>(DEFAULT_FILTERS.dataQuality);
   const [rowsPerPage, setRowsPerPage] = useState<number>(50);
   const [page, setPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -93,8 +132,8 @@ const HMI07Historical = () => {
         if (!r.equipmentId.toLowerCase().includes(equipment.replace('tank-', 'tank #'))) return false;
       }
       if (parameter !== 'all-params' && parameter !== '') {
-        const map: Record<string, string> = { temp: 'Temperature', density: 'Density', hcl: 'HCl Level', flow: 'Flow Rate' };
-        if (map[parameter] && r.parameter !== map[parameter]) return false;
+        const target = PARAMETER_LABELS[parameter];
+        if (target && r.parameter !== target) return false;
       }
       if (shift !== 'all-shifts') {
         if (getShiftFromTimestamp(r.timestamp) !== shift) return false;
@@ -119,18 +158,13 @@ const HMI07Historical = () => {
 
   useEffect(() => setPage(1), [startDate, endDate, equipment, parameter, shift, dataQuality, rowsPerPage, searchQuery]);
 
-  const applyFilters = () => {
-    toast.success('Filters applied');
-    setPage(1);
-  };
-
   const resetFilters = () => {
-    setStartDate('2025-10-01');
-    setEndDate('2025-10-31');
-    setEquipment('all-equipment');
-    setParameter('all-params');
-    setShift('all-shifts');
-    setDataQuality('all-quality');
+    setStartDate(DEFAULT_FILTERS.startDate);
+    setEndDate(DEFAULT_FILTERS.endDate);
+    setEquipment(DEFAULT_FILTERS.equipment);
+    setParameter(DEFAULT_FILTERS.parameter);
+    setShift(DEFAULT_FILTERS.shift);
+    setDataQuality(DEFAULT_FILTERS.dataQuality);
     setSearchQuery('');
     setPage(1);
     toast.info('Filters reset');
@@ -162,6 +196,88 @@ const HMI07Historical = () => {
     printSection(el.innerHTML);
     toast.success('PDF report prepared');
   };
+
+  const appliedFilters = useMemo(() => {
+    const filters: { key: string; label: string; clear: () => void }[] = [];
+
+    if (startDate !== DEFAULT_FILTERS.startDate || endDate !== DEFAULT_FILTERS.endDate) {
+      let label = '';
+      if (startDate !== DEFAULT_FILTERS.startDate && endDate !== DEFAULT_FILTERS.endDate) {
+        label = `Date: ${startDate} – ${endDate}`;
+      } else if (startDate !== DEFAULT_FILTERS.startDate) {
+        label = `Start ≥ ${startDate}`;
+      } else if (endDate !== DEFAULT_FILTERS.endDate) {
+        label = `End ≤ ${endDate}`;
+      }
+      filters.push({
+        key: 'dateRange',
+        label,
+        clear: () => {
+          setStartDate(DEFAULT_FILTERS.startDate);
+          setEndDate(DEFAULT_FILTERS.endDate);
+          setPage(1);
+        },
+      });
+    }
+
+    if (equipment !== DEFAULT_FILTERS.equipment) {
+      filters.push({
+        key: 'equipment',
+        label: `Equipment: ${EQUIPMENT_LABELS[equipment] ?? equipment}`,
+        clear: () => {
+          setEquipment(DEFAULT_FILTERS.equipment);
+          setPage(1);
+        },
+      });
+    }
+
+    if (parameter !== DEFAULT_FILTERS.parameter) {
+      filters.push({
+        key: 'parameter',
+        label: `Parameter: ${PARAMETER_LABELS[parameter] ?? parameter}`,
+        clear: () => {
+          setParameter(DEFAULT_FILTERS.parameter);
+          setPage(1);
+        },
+      });
+    }
+
+    if (shift !== DEFAULT_FILTERS.shift) {
+      filters.push({
+        key: 'shift',
+        label: `Shift: ${SHIFT_LABELS[shift] ?? shift}`,
+        clear: () => {
+          setShift(DEFAULT_FILTERS.shift);
+          setPage(1);
+        },
+      });
+    }
+
+    if (dataQuality !== DEFAULT_FILTERS.dataQuality) {
+      filters.push({
+        key: 'dataQuality',
+        label: `Quality: ${DATA_QUALITY_LABELS[dataQuality] ?? dataQuality}`,
+        clear: () => {
+          setDataQuality(DEFAULT_FILTERS.dataQuality);
+          setPage(1);
+        },
+      });
+    }
+
+    if (searchQuery.trim()) {
+      const trimmed = searchQuery.trim();
+      filters.push({
+        key: 'search',
+        label: `Search: "${trimmed}"`,
+        clear: () => {
+          setSearchQuery('');
+          setPage(1);
+        },
+      });
+    }
+
+    return filters;
+  }, [startDate, endDate, equipment, parameter, shift, dataQuality, searchQuery]);
 
   const renderPageButtons = () => {
     const items: number[] = [];
@@ -302,17 +418,23 @@ const HMI07Historical = () => {
               </Select>
             </div>
 
-            <div className="flex items-end gap-2">
-              <Button className="flex-1 bg-primary text-primary-foreground" onClick={applyFilters}>
-                Apply Filters
+            <div className="flex flex-wrap items-center gap-2 md:col-span-2 lg:col-span-4">
+              <span className="inline-flex h-8 items-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">Export Options:</span>
+              <Button variant="outline" size="sm" className="gap-2" onClick={exportVisible}>
+                <Download className="w-3 h-3" />
+                Visible Data (CSV)
               </Button>
-              <Button variant="outline" onClick={resetFilters}>Reset</Button>
-            </div>
-
-            <div className="flex items-end gap-2">
-              <Button variant="outline" className="flex-1 gap-2" onClick={exportFiltered}>
-                <Download className="w-4 h-4" />
-                Export Filtered
+              <Button variant="outline" size="sm" className="gap-2" onClick={exportFiltered}>
+                <Download className="w-3 h-3" />
+                All Filtered (CSV)
+              </Button>
+              <Button variant="outline" size="sm" className="gap-2" onClick={exportExcel}>
+                <Download className="w-3 h-3" />
+                Excel (XLSX)
+              </Button>
+              <Button variant="outline" size="sm" className="gap-2" onClick={exportPDF}>
+                <Download className="w-3 h-3" />
+                PDF Report
               </Button>
             </div>
           </div>
@@ -325,6 +447,31 @@ const HMI07Historical = () => {
             <Button variant="ghost" size="sm">This Month</Button>
             <Button variant="ghost" size="sm">Last Month</Button>
           </div>
+
+          {appliedFilters.length > 0 && (
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+              <span className="font-semibold uppercase tracking-wide text-muted-foreground">Active Filters:</span>
+              {appliedFilters.map((filter) => (
+                <span
+                  key={filter.key}
+                  className="inline-flex items-center gap-2 rounded-full bg-muted/20 px-3 py-1 text-muted-foreground"
+                >
+                  <span className="text-xs font-medium text-foreground">{filter.label}</span>
+                  <button
+                    type="button"
+                    onClick={filter.clear}
+                    className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted/40 hover:text-foreground"
+                    aria-label={`Remove ${filter.label}`}
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+              <Button variant="ghost" size="sm" className="h-7 px-2" onClick={resetFilters}>
+                Clear all
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Data Table */}
@@ -401,6 +548,7 @@ const HMI07Historical = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-popover border-border z-50">
+                  <SelectItem value="25">25</SelectItem>
                   <SelectItem value="50">50</SelectItem>
                   <SelectItem value="100">100</SelectItem>
                   <SelectItem value="250">250</SelectItem>
@@ -422,26 +570,6 @@ const HMI07Historical = () => {
           </div>
         </div>
 
-        {/* Export Options */}
-        <div className="flex items-center gap-2 mt-4 p-4 glass-panel">
-          <span className="text-sm font-semibold text-muted-foreground">Export Options:</span>
-          <Button variant="outline" size="sm" className="gap-2" onClick={exportVisible}>
-            <Download className="w-3 h-3" />
-            Visible Data (CSV)
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={exportFiltered}>
-            <Download className="w-3 h-3" />
-            All Filtered (CSV)
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={exportExcel}>
-            <Download className="w-3 h-3" />
-            Excel (XLSX)
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={exportPDF}>
-            <Download className="w-3 h-3" />
-            PDF Report
-          </Button>
-        </div>
       </div>
     </div>
   );
