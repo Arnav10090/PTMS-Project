@@ -173,7 +173,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual1Run('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'RUN' ? 'bg-success hover:bg-success' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
