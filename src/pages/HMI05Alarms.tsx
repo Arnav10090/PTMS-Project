@@ -433,7 +433,7 @@ const HMI05Alarms = () => {
       </div>
 
       {/* Footer: recent acknowledged alarms (collapsible) */}
-      <div className="absolute left-0 right-0 bottom-0 z-40 pointer-events-none">
+      <div className="fixed bottom-0 z-40 pointer-events-none" style={{ left: 'var(--content-left)', right: 0 as any }}>
         <div className={`max-w-full mx-auto px-6 py-3 bg-card/90 border-t border-border backdrop-blur-sm shadow-lg pointer-events-auto transition-all duration-300 ${footerCollapsed ? 'h-12' : 'h-auto'}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
