@@ -3,63 +3,50 @@ import { Bell, Search, Download, CheckCircle, AlertTriangle, AlertCircle, Info }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useMemo, useState } from 'react';
+import { toast } from '@/components/ui/sonner';
 
-const alarms = [
-  {
-    id: 1,
-    timestamp: '2025-10-13 14:32:15',
-    severity: 'critical',
-    equipment: 'Tank #2',
-    type: 'HCl Concentration',
-    description: 'High HCl concentration detected',
-    value: '165 g/l',
-    threshold: '150 g/l',
-    status: 'active',
-  },
-  {
-    id: 2,
-    timestamp: '2025-10-13 14:15:42',
-    severity: 'high',
-    equipment: 'Storage Tank #1',
-    type: 'Level Warning',
-    description: 'Low level warning',
-    value: '15%',
-    threshold: '20%',
-    status: 'acknowledged',
-  },
-  {
-    id: 3,
-    timestamp: '2025-10-13 13:58:30',
-    severity: 'critical',
-    equipment: 'Pump #1',
-    type: 'Equipment Failure',
-    description: 'Pump failure detected - No flow',
-    value: '0 L/min',
-    threshold: '> 50 L/min',
-    status: 'active',
-  },
-  {
-    id: 4,
-    timestamp: '2025-10-13 13:45:18',
-    severity: 'medium',
-    equipment: 'Hot Rinse Tank',
-    type: 'Temperature',
-    description: 'Temperature threshold exceeded',
-    value: '72°C',
-    threshold: '70°C',
-    status: 'acknowledged',
-  },
-  {
-    id: 5,
-    timestamp: '2025-10-13 13:22:05',
-    severity: 'high',
-    equipment: 'Sensor #12',
-    type: 'Communication',
-    description: 'Communication loss with sensor',
-    value: 'No Signal',
-    threshold: 'Connected',
-    status: 'cleared',
-  },
+type Severity = 'critical' | 'high' | 'medium' | 'low';
+type Status = 'active' | 'acknowledged' | 'cleared';
+
+type Alarm = {
+  id: number;
+  timestamp: string; // ISO-like string
+  severity: Severity;
+  equipment: string;
+  type: string;
+  description: string;
+  value: string;
+  threshold: string;
+  status: Status;
+};
+
+const initialAlarms: Alarm[] = [
+  { id: 1, timestamp: '2025-10-13 14:32:15', severity: 'critical', equipment: 'Tank #2', type: 'HCl Concentration', description: 'High HCl concentration detected', value: '165 g/l', threshold: '150 g/l', status: 'active' },
+  { id: 2, timestamp: '2025-10-13 14:15:42', severity: 'high', equipment: 'Storage Tank #1', type: 'Level Warning', description: 'Low level warning', value: '15%', threshold: '20%', status: 'acknowledged' },
+  { id: 3, timestamp: '2025-10-13 13:58:30', severity: 'critical', equipment: 'Pump #1', type: 'Equipment Failure', description: 'Pump failure detected - No flow', value: '0 L/min', threshold: '> 50 L/min', status: 'active' },
+  { id: 4, timestamp: '2025-10-13 13:45:18', severity: 'medium', equipment: 'Hot Rinse Tank', type: 'Temperature', description: 'Temperature threshold exceeded', value: '72°C', threshold: '70°C', status: 'acknowledged' },
+  { id: 5, timestamp: '2025-10-13 13:22:05', severity: 'high', equipment: 'Sensor #12', type: 'Communication', description: 'Communication loss with sensor', value: 'No Signal', threshold: 'Connected', status: 'cleared' },
+  { id: 6, timestamp: '2025-10-13 12:55:11', severity: 'low', equipment: 'Pump #2', type: 'Vibration', description: 'Slight vibration increase', value: '1.2 g', threshold: '1.5 g', status: 'cleared' },
+  { id: 7, timestamp: '2025-10-13 12:40:02', severity: 'medium', equipment: 'Tank #1', type: 'pH', description: 'pH above nominal', value: '2.6', threshold: '2.2', status: 'acknowledged' },
+  { id: 8, timestamp: '2025-10-13 12:10:44', severity: 'high', equipment: 'Vent Scrubber', type: 'Pressure', description: 'High pressure detected', value: '1.9 bar', threshold: '1.5 bar', status: 'active' },
+  { id: 9, timestamp: '2025-10-13 11:55:27', severity: 'critical', equipment: 'Pump #3', type: 'Overcurrent', description: 'Motor overcurrent', value: '42 A', threshold: '35 A', status: 'active' },
+  { id: 10, timestamp: '2025-10-13 11:40:10', severity: 'low', equipment: 'Storage Tank #2', type: 'Level', description: 'Level trending low', value: '30%', threshold: '25%', status: 'cleared' },
+  { id: 11, timestamp: '2025-10-13 11:15:33', severity: 'medium', equipment: 'Heat Exchanger', type: 'Temperature', description: 'Outlet temp rise', value: '68°C', threshold: '65°C', status: 'acknowledged' },
+  { id: 12, timestamp: '2025-10-13 10:55:19', severity: 'high', equipment: 'Tank #3', type: 'HCl Concentration', description: 'Concentration near limit', value: '148 g/l', threshold: '150 g/l', status: 'acknowledged' },
+  { id: 13, timestamp: '2025-10-13 10:35:42', severity: 'low', equipment: 'Sensor #5', type: 'Calibration', description: 'Calibration due soon', value: 'N/A', threshold: 'Scheduled', status: 'cleared' },
+  { id: 14, timestamp: '2025-10-13 10:05:08', severity: 'medium', equipment: 'Pump #1', type: 'Vibration', description: 'Vibration trend rising', value: '1.4 g', threshold: '1.5 g', status: 'active' },
+  { id: 15, timestamp: '2025-10-13 09:45:59', severity: 'high', equipment: 'Hot Rinse Tank', type: 'Temperature', description: 'Temperature high warning', value: '71°C', threshold: '70°C', status: 'acknowledged' },
+  { id: 16, timestamp: '2025-10-13 09:20:21', severity: 'low', equipment: 'Storage Tank #1', type: 'Level', description: 'Level oscillations detected', value: '45%', threshold: '—', status: 'cleared' },
+  { id: 17, timestamp: '2025-10-13 08:58:15', severity: 'critical', equipment: 'Pump #2', type: 'Equipment Failure', description: 'Seal failure suspected', value: 'Leak rate high', threshold: 'No leaks', status: 'active' },
+  { id: 18, timestamp: '2025-10-13 08:30:05', severity: 'medium', equipment: 'Tank #2', type: 'pH', description: 'pH below nominal', value: '1.8', threshold: '2.0', status: 'acknowledged' },
+  { id: 19, timestamp: '2025-10-13 08:05:47', severity: 'high', equipment: 'Vent Scrubber', type: 'Pressure', description: 'Pressure spike recorded', value: '2.1 bar', threshold: '1.5 bar', status: 'cleared' },
+  { id: 20, timestamp: '2025-10-13 07:50:23', severity: 'low', equipment: 'Sensor #9', type: 'Battery', description: 'Battery low', value: '18%', threshold: '15%', status: 'active' },
+  { id: 21, timestamp: '2025-10-14 00:12:42', severity: 'medium', equipment: 'Tank #4', type: 'Level', description: 'Level high warning', value: '87%', threshold: '85%', status: 'acknowledged' },
+  { id: 22, timestamp: '2025-10-14 01:05:16', severity: 'high', equipment: 'Pump #4', type: 'Overcurrent', description: 'Current draw elevated', value: '38 A', threshold: '35 A', status: 'active' },
+  { id: 23, timestamp: '2025-10-14 02:22:09', severity: 'low', equipment: 'Sensor #3', type: 'Signal', description: 'Intermittent signal', value: 'Drops observed', threshold: 'Stable', status: 'cleared' },
+  { id: 24, timestamp: '2025-10-14 03:40:31', severity: 'medium', equipment: 'Heat Exchanger', type: 'Temperature', description: 'Inlet temp high', value: '75°C', threshold: '72°C', status: 'active' },
+  { id: 25, timestamp: '2025-10-14 04:10:55', severity: 'critical', equipment: 'Tank #5', type: 'HCl Concentration', description: 'Critical concentration', value: '170 g/l', threshold: '150 g/l', status: 'active' },
 ];
 
 const severityConfig = {
@@ -67,15 +54,139 @@ const severityConfig = {
   high: { color: 'text-warning', bg: 'bg-warning/20', border: 'border-warning/30', icon: AlertTriangle },
   medium: { color: 'text-accent', bg: 'bg-accent/20', border: 'border-accent/30', icon: AlertTriangle },
   low: { color: 'text-info', bg: 'bg-info/20', border: 'border-info/30', icon: Info },
-};
+} as const;
 
 const statusConfig = {
   active: { color: 'text-destructive', bg: 'bg-destructive/20', label: 'Active', pulse: true },
   acknowledged: { color: 'text-warning', bg: 'bg-warning/20', label: 'Acknowledged', pulse: false },
   cleared: { color: 'text-success', bg: 'bg-success/20', label: 'Cleared', pulse: false },
-};
+} as const;
 
 const HMI05Alarms = () => {
+  const [data, setData] = useState<Alarm[]>(initialAlarms);
+  const [severity, setSeverity] = useState<'all-severity' | Severity>('all-severity');
+  const [status, setStatus] = useState<'all-status' | Status>('all-status');
+  const [timeRange, setTimeRange] = useState<'1h' | '24h' | '7d' | 'custom'>('24h');
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+
+  const activeCount = useMemo(() => data.filter((a) => a.status === 'active').length, [data]);
+
+  const filtered = useMemo(() => {
+    const now = new Date();
+    const cutoff = ((): Date | null => {
+      if (timeRange === '1h') return new Date(now.getTime() - 1 * 60 * 60 * 1000);
+      if (timeRange === '24h') return new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      if (timeRange === '7d') return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      return null; // custom -> no time filter for now
+    })();
+
+    const q = query.trim().toLowerCase();
+
+    return data.filter((a) => {
+      if (severity !== 'all-severity' && a.severity !== severity) return false;
+      if (status !== 'all-status' && a.status !== status) return false;
+      if (cutoff) {
+        const ts = new Date(a.timestamp.replace(' ', 'T'));
+        if (!(ts instanceof Date) || isNaN(ts.getTime())) return false;
+        if (ts < cutoff) return false;
+      }
+      if (q) {
+        const hay = `${a.equipment} ${a.type} ${a.description}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [data, severity, status, timeRange, query]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const currentPage = Math.min(page, pageCount);
+  const start = (currentPage - 1) * pageSize;
+  const end = Math.min(start + pageSize, filtered.length);
+  const pageRows = filtered.slice(start, end);
+
+  const resetToFirstPage = () => setPage(1);
+
+  const handleExport = () => {
+    const rows = filtered;
+    const headers = ['timestamp', 'severity', 'equipment', 'type', 'description', 'value', 'threshold', 'status'] as const;
+    const escape = (v: string) => `"${v.replace(/"/g, '""')}"`;
+    const csv = [headers.join(',')]
+      .concat(
+        rows.map((r) =>
+          [r.timestamp, r.severity, r.equipment, r.type, r.description, r.value, r.threshold, r.status]
+            .map(escape)
+            .join(','),
+        ),
+      )
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'alarms.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success('CSV exported');
+  };
+
+  const acknowledge = (id: number) => {
+    setData((prev) => prev.map((a) => (a.id === id && a.status === 'active' ? { ...a, status: 'acknowledged' } : a)));
+    toast.info('Alarm acknowledged');
+  };
+
+  const info = (a: Alarm) => {
+    toast(a.description, { description: `${a.equipment} • ${a.type} • ${a.value} (threshold ${a.threshold})` });
+  };
+
+  const renderPageButtons = () => {
+    const items: number[] = [];
+    if (pageCount <= 7) {
+      for (let i = 1; i <= pageCount; i++) items.push(i);
+    } else {
+      items.push(1, 2, 3);
+      if (currentPage > 4 && currentPage < pageCount - 2) {
+        items.push(currentPage - 1, currentPage, currentPage + 1);
+      }
+      items.push(pageCount - 2, pageCount - 1, pageCount);
+    }
+    const unique = Array.from(new Set(items.filter((n) => n >= 1 && n <= pageCount))).sort((a, b) => a - b);
+
+    const withEllipsis: (number | '...')[] = [];
+    unique.forEach((n, i) => {
+      if (i === 0) withEllipsis.push(n);
+      else {
+        const prev = unique[i - 1];
+        if (n - prev > 1) withEllipsis.push('...');
+        withEllipsis.push(n);
+      }
+    });
+
+    return withEllipsis.map((n, idx) =>
+      n === '...'
+        ? (
+            <span key={`e-${idx}`} className="px-2 select-none">
+              ...
+            </span>
+          )
+        : (
+            <Button
+              key={n}
+              variant="outline"
+              size="sm"
+              className={currentPage === n ? 'bg-primary text-primary-foreground' : ''}
+              onClick={() => setPage(n)}
+            >
+              {n}
+            </Button>
+          ),
+    );
+  };
+
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
@@ -90,7 +201,7 @@ const HMI05Alarms = () => {
         </div>
         <div className="flex items-center gap-2">
           <div className="px-4 py-2 rounded-lg bg-destructive/20 border border-destructive/30">
-            <span className="text-sm font-semibold text-destructive">2 Active Alarms</span>
+            <span className="text-sm font-semibold text-destructive">{activeCount} Active Alarms</span>
           </div>
         </div>
       </div>
@@ -98,9 +209,8 @@ const HMI05Alarms = () => {
       <TopInfoPanel />
 
       <div className="hmi-card">
-        {/* Filter Bar */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-          <Select defaultValue="all-severity">
+          <Select value={severity} onValueChange={(v) => { setSeverity(v as any); resetToFirstPage(); }}>
             <SelectTrigger className="bg-card border-border">
               <SelectValue placeholder="Severity" />
             </SelectTrigger>
@@ -113,7 +223,7 @@ const HMI05Alarms = () => {
             </SelectContent>
           </Select>
 
-          <Select defaultValue="all-status">
+          <Select value={status} onValueChange={(v) => { setStatus(v as any); resetToFirstPage(); }}>
             <SelectTrigger className="bg-card border-border">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
@@ -125,7 +235,7 @@ const HMI05Alarms = () => {
             </SelectContent>
           </Select>
 
-          <Select defaultValue="24h">
+          <Select value={timeRange} onValueChange={(v) => { setTimeRange(v as any); resetToFirstPage(); }}>
             <SelectTrigger className="bg-card border-border">
               <SelectValue placeholder="Time Range" />
             </SelectTrigger>
@@ -133,25 +243,26 @@ const HMI05Alarms = () => {
               <SelectItem value="1h">Last Hour</SelectItem>
               <SelectItem value="24h">Last 24 Hours</SelectItem>
               <SelectItem value="7d">Last 7 Days</SelectItem>
-              <SelectItem value="custom">Custom Range</SelectItem>
+              <SelectItem value="custom">All Time</SelectItem>
             </SelectContent>
           </Select>
 
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input 
-              placeholder="Search alarms..." 
+            <Input
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); resetToFirstPage(); }}
+              placeholder="Search alarms..."
               className="pl-10 bg-card border-border"
             />
           </div>
 
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2" onClick={handleExport}>
             <Download className="w-4 h-4" />
             Export CSV
           </Button>
         </div>
 
-        {/* Alarms Table */}
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -168,25 +279,21 @@ const HMI05Alarms = () => {
               </tr>
             </thead>
             <tbody>
-              {alarms.map((alarm) => {
-                const severity = severityConfig[alarm.severity as keyof typeof severityConfig];
-                const status = statusConfig[alarm.status as keyof typeof statusConfig];
-                const SeverityIcon = severity.icon;
+              {pageRows.map((alarm) => {
+                const sev = severityConfig[alarm.severity];
+                const st = statusConfig[alarm.status];
+                const SeverityIcon = sev.icon;
 
                 return (
-                  <tr 
-                    key={alarm.id} 
-                    className={`border-b border-border/30 hover:bg-muted/20 transition-colors ${
-                      alarm.status === 'active' ? 'border-l-4 border-l-destructive' : ''
-                    }`}
+                  <tr
+                    key={alarm.id}
+                    className={`border-b border-border/30 hover:bg-muted/20 transition-colors ${alarm.status === 'active' ? 'border-l-4 border-l-destructive' : ''}`}
                   >
                     <td className="py-3 px-4 text-sm font-mono">{alarm.timestamp}</td>
                     <td className="py-3 px-4">
-                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg ${severity.bg} ${severity.border} border`}>
-                        <SeverityIcon className={`w-4 h-4 ${severity.color}`} />
-                        <span className={`text-xs font-semibold uppercase ${severity.color}`}>
-                          {alarm.severity}
-                        </span>
+                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg ${sev.bg} ${sev.border} border`}>
+                        <SeverityIcon className={`w-4 h-4 ${sev.color}`} />
+                        <span className={`text-xs font-semibold uppercase ${sev.color}`}>{alarm.severity}</span>
                       </div>
                     </td>
                     <td className="py-3 px-4 text-sm font-medium">{alarm.equipment}</td>
@@ -195,22 +302,20 @@ const HMI05Alarms = () => {
                     <td className="py-3 px-4 text-sm font-mono font-semibold">{alarm.value}</td>
                     <td className="py-3 px-4 text-sm font-mono text-muted-foreground">{alarm.threshold}</td>
                     <td className="py-3 px-4">
-                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg ${status.bg}`}>
-                        {status.pulse && <div className="w-2 h-2 rounded-full bg-current animate-pulse"></div>}
-                        <span className={`text-xs font-semibold ${status.color}`}>
-                          {status.label}
-                        </span>
+                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg ${st.bg}`}>
+                        {st.pulse && <div className="w-2 h-2 rounded-full bg-current animate-pulse"></div>}
+                        <span className={`text-xs font-semibold ${st.color}`}>{st.label}</span>
                       </div>
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex gap-2">
                         {alarm.status === 'active' && (
-                          <Button size="sm" variant="outline" className="h-8 text-xs">
+                          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={() => acknowledge(alarm.id)}>
                             <CheckCircle className="w-3 h-3 mr-1" />
                             Acknowledge
                           </Button>
                         )}
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={() => info(alarm)}>
                           <Info className="w-4 h-4" />
                         </Button>
                       </div>
@@ -218,23 +323,29 @@ const HMI05Alarms = () => {
                   </tr>
                 );
               })}
+              {pageRows.length === 0 && (
+                <tr>
+                  <td className="py-8 px-4 text-center text-sm text-muted-foreground" colSpan={9}>
+                    No alarms match the current filters.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
 
-        {/* Pagination */}
         <div className="flex items-center justify-between mt-6 pt-4 border-t border-border/30">
           <div className="text-sm text-muted-foreground">
-            Showing 1-5 of 248 alarms
+            {filtered.length === 0 ? 'Showing 0 of 0 alarms' : `Showing ${start + 1}-${end} of ${filtered.length} alarms`}
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" disabled>« Prev</Button>
-            <Button variant="outline" size="sm" className="bg-primary text-primary-foreground">1</Button>
-            <Button variant="outline" size="sm">2</Button>
-            <Button variant="outline" size="sm">3</Button>
-            <span className="px-2">...</span>
-            <Button variant="outline" size="sm">10</Button>
-            <Button variant="outline" size="sm">Next »</Button>
+            <Button variant="outline" size="sm" disabled={currentPage === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
+              « Prev
+            </Button>
+            {renderPageButtons()}
+            <Button variant="outline" size="sm" disabled={currentPage === pageCount} onClick={() => setPage((p) => Math.min(pageCount, p + 1))}>
+              Next »
+            </Button>
           </div>
         </div>
       </div>
