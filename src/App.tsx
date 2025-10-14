@@ -8,6 +8,7 @@ import { HMISidebar } from "@/components/HMISidebar";
 import { Navbar } from "@/components/Navbar";
 import { useState } from "react";
 import HMI01Overview from "./pages/HMI01Overview";
+import HMI01Tabs from "./pages/HMI01Tabs";
 import HMI02Pickling from "./pages/HMI02Pickling";
 import HMI03PumpOperation from "./pages/HMI03PumpOperation";
 import HMI04Trends from "./pages/HMI04Trends";
@@ -38,7 +39,11 @@ const App = () => {
                 <main className="pt-16">
                   <Routes>
                     <Route path="/" element={<HMI01Overview />} />
-                    <Route path="/pickling" element={<HMI02Pickling />} />
+                    <Route path="/hmi-01/*" element={<HMI01Tabs />}>
+                      <Route index element={<div />} />
+                      <Route path="tank" element={<div />} />
+                      <Route path="pickling" element={<div />} />
+                    </Route>
                     <Route path="/pump-operation" element={<HMI03PumpOperation />} />
                     <Route path="/trends" element={<HMI04Trends />} />
                     <Route path="/alarms" element={<HMI05Alarms />} />

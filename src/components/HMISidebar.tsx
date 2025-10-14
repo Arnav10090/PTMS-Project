@@ -4,8 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
 const navItems = [
-  { path: '/', icon: LayoutDashboard, label: 'Overview' },
-  { path: '/pickling', icon: Droplets, label: 'Pickling Section' },
+  { path: '/hmi-01', icon: LayoutDashboard, label: 'Overview' },
   { path: '/pump-operation', icon: Power, label: 'Pump Operation' },
   { path: '/trends', icon: TrendingUp, label: 'Trends/Graphs' },
   { path: '/alarms', icon: Bell, label: 'Alarms/Alerts' },
