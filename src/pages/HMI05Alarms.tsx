@@ -334,7 +334,7 @@ const HMI05Alarms = () => {
           <Bell className="w-8 h-8 text-destructive animate-pulse-glow" />
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-destructive to-warning bg-clip-text text-transparent">
-              HMI-05 Alarms & Alerts
+              Alarms & Alerts
             </h1>
             <p className="text-sm text-muted-foreground">Real-time System Monitoring</p>
           </div>
