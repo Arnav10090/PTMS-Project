@@ -39,7 +39,7 @@ const App = () => {
               />
               <div className={`flex-1 relative transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`} style={{ ['--content-left']: sidebarCollapsed ? '5rem' : '16rem' as any }}>
                 <Navbar isCollapsed={sidebarCollapsed} />
-                <main className="pt-16 pb-18">
+                <main className="pt-16 pb-20">
                   <Routes>
                     <Route path="/" element={<HMI01Overview />} />
                     <Route path="/hmi-01/*" element={<HMI01Tabs />}>
