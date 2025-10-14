@@ -1,4 +1,3 @@
-import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { TankVisual } from '@/components/TankVisual';
 import { ArrowRight, Droplet, LayoutDashboard } from 'lucide-react';
 import { StatusBadge } from '@/components/StatusBadge';
