@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/select';
 import { useEffect, useMemo, useState } from 'react';
 import { TopInfoPanel } from '@/components/TopInfoPanel';
-import { TopInfoPanel } from '@/components/TopInfoPanel';
 
 type CoilRow = {
   sn: number;
