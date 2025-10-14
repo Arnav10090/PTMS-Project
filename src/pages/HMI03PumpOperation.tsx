@@ -10,6 +10,8 @@ const HMI03PumpOperation = () => {
   const [pump1Status, setPump1Status] = useState<'RUN' | 'STOP'>('STOP');
   const [pump2Status, setPump2Status] = useState<'RUN' | 'STOP'>('STOP');
   const [leadPump, setLeadPump] = useState<'No.1' | 'No.2'>('No.1');
+  const [manual1Run, setManual1Run] = useState<'RUN' | 'STOP'>('STOP');
+  const [manual2Run, setManual2Run] = useState<'RUN' | 'STOP'>('STOP');
 
   return (
     <div className="p-6 space-y-6 animate-fade-in">
@@ -169,17 +171,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
+                        onClick={() => setManual1Run('RUN')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
-                        disabled
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'RUN' ? 'bg-success' : ''}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
+                        onClick={() => setManual1Run('STOP')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
-                        disabled
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'STOP' ? 'bg-red-500 text-white' : ''}`}
                       >
                         STOP
                       </Button>
@@ -191,17 +193,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
+                        onClick={() => setManual2Run('RUN')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
-                        disabled
+                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'RUN' ? 'bg-success' : ''}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
+                        onClick={() => setManual2Run('STOP')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
-                        disabled
+                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'STOP' ? 'bg-red-500 text-white' : ''}`}
                       >
                         STOP
                       </Button>
@@ -216,7 +218,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setLeadPump('No.1')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground' : ''}`}
                       >
                         No.1
                       </Button>
@@ -224,7 +226,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setLeadPump('No.2')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground' : ''}`}
                       >
                         No.2
                       </Button>
