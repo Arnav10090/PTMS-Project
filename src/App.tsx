@@ -10,6 +10,7 @@ import { useState } from "react";
 import HMI01Overview from "./pages/HMI01Overview";
 import HMI01Tabs from "./pages/HMI01Tabs";
 import HMI01TankSection from "./pages/HMI01TankSection";
+import HMI02PicklingSection from "./pages/HMI02PicklingSection";
 import HMI02Pickling from "./pages/HMI02Pickling";
 import HMI03PumpOperation from "./pages/HMI03PumpOperation";
 import HMI04Trends from "./pages/HMI04Trends";
