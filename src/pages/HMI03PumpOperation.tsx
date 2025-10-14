@@ -75,7 +75,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setOperationPlace('LOCAL')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs hover:bg-background hover:text-foreground"
+                        className={`h-8 border-2 border-foreground text-xs ${operationPlace === 'LOCAL' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         LOCAL
                       </Button>
@@ -106,7 +106,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setPumpMode('MAN')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs hover:bg-background hover:text-foreground"
+                        className={`h-8 border-2 border-foreground text-xs ${pumpMode === 'MAN' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         MAN
                       </Button>
@@ -132,7 +132,7 @@ const HMI03PumpOperation = () => {
                           variant="outline"
                           onClick={() => setPump1Status('STOP')}
                           size="sm"
-                          className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'STOP' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
+                          className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           STOP
                         </Button>
@@ -156,7 +156,7 @@ const HMI03PumpOperation = () => {
                           variant="outline"
                           onClick={() => setPump2Status('STOP')}
                           size="sm"
-                          className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'STOP' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
+                          className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           STOP
                         </Button>
