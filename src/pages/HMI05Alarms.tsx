@@ -131,7 +131,7 @@ const HMI05Alarms = () => {
 
     const q = query.trim().toLowerCase();
 
-    return data.filter((a) => {
+    const arr = data.filter((a) => {
       if (footerIds.includes(a.id)) return false; // footer items not shown in the table
       if (severity !== 'all-severity' && a.severity !== severity) return false;
       if (status !== 'all-status' && a.status !== status) return false;
@@ -146,6 +146,15 @@ const HMI05Alarms = () => {
       }
       return true;
     });
+
+    // sort newest first by timestamp
+    arr.sort((a, b) => {
+      const ta = new Date(a.timestamp.replace(' ', 'T')).getTime();
+      const tb = new Date(b.timestamp.replace(' ', 'T')).getTime();
+      return tb - ta;
+    });
+
+    return arr;
   }, [data, severity, status, timeRange, query, footerIds]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
