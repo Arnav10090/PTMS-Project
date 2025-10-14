@@ -2,6 +2,7 @@ import { TopInfoPanel as TopInfo } from '@/components/TopInfoPanel';
 import { TankVisual } from '@/components/TankVisual';
 import { ArrowRight, Droplet, LayoutDashboard } from 'lucide-react';
 import { StatusBadge } from '@/components/StatusBadge';
+import { TopInfoPanel as TopInfo } from '@/components/TopInfoPanel';
 
 const HMI01Overview = () => {
   return (
