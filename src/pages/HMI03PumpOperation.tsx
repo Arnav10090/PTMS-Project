@@ -59,28 +59,31 @@ const HMI03PumpOperation = () => {
                 <div className="space-y-3">
                   <button
                     onClick={() => setTankMode('FULL')}
-                    className={`w-full h-16 border-2 border-foreground rounded ${tankMode === 'FULL'
-                        ? 'bg-red-500 text-white'
+                    className={`w-full h-16 border-2 border-foreground rounded ${
+                      tankMode === 'FULL' 
+                        ? 'bg-red-500 text-white' 
                         : 'bg-background hover:bg-gray-100'
-                      }`}
+                    }`}
                   >
                     FULL
                   </button>
                   <button
                     onClick={() => setTankMode('MID_CIRC')}
-                    className={`w-full h-16 border-2 border-foreground rounded ${tankMode === 'MID_CIRC'
-                        ? 'bg-red-500 text-white'
+                    className={`w-full h-16 border-2 border-foreground rounded ${
+                      tankMode === 'MID_CIRC' 
+                        ? 'bg-red-500 text-white' 
                         : 'bg-background hover:bg-gray-100'
-                      }`}
+                    }`}
                   >
                     MID. CIRC.
                   </button>
                   <button
                     onClick={() => setTankMode('STOP')}
-                    className={`w-full h-16 border-2 border-foreground rounded ${tankMode === 'STOP'
-                        ? 'bg-red-500 text-white'
+                    className={`w-full h-16 border-2 border-foreground rounded ${
+                      tankMode === 'STOP' 
+                        ? 'bg-red-500 text-white' 
                         : 'bg-background hover:bg-gray-100'
-                      }`}
+                    }`}
                   >
                     STOP
                   </button>
@@ -90,7 +93,7 @@ const HMI03PumpOperation = () => {
               {/* Right Column - Acid Pump Operation */}
               <div>
                 <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
-
+                
                 <div className="space-y-4">
                   {/* Operation Place */}
                   <div>
@@ -98,19 +101,21 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => setOperationPlace('LOCAL')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${operationPlace === 'LOCAL'
-                            ? 'bg-yellow-500 text-black'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          operationPlace === 'LOCAL' 
+                            ? 'bg-yellow-500 text-black' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         LOCAL
                       </button>
                       <button
                         onClick={() => setOperationPlace('REMOTE')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${operationPlace === 'REMOTE'
-                            ? 'bg-yellow-500 text-black'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          operationPlace === 'REMOTE' 
+                            ? 'bg-yellow-500 text-black' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         REMOTE
                       </button>
@@ -123,19 +128,21 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => setPumpMode('AUTO')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${pumpMode === 'AUTO'
-                            ? 'bg-yellow-500 text-black'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          pumpMode === 'AUTO' 
+                            ? 'bg-yellow-500 text-black' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         AUTO
                       </button>
                       <button
                         onClick={() => setPumpMode('MAN')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${pumpMode === 'MAN'
-                            ? 'bg-yellow-500 text-black'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          pumpMode === 'MAN' 
+                            ? 'bg-yellow-500 text-black' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         MAN
                       </button>
@@ -151,19 +158,21 @@ const HMI03PumpOperation = () => {
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={() => setPump1Status('RUN')}
-                          className={`h-8 border-2 border-foreground text-xs rounded ${pump1Status === 'RUN'
-                              ? 'bg-green-500 text-white'
+                          className={`h-8 border-2 border-foreground text-xs rounded ${
+                            pump1Status === 'RUN' 
+                              ? 'bg-green-500 text-white' 
                               : 'bg-background hover:bg-gray-100'
-                            }`}
+                          }`}
                         >
                           RUN
                         </button>
                         <button
                           onClick={() => setPump1Status('STOP')}
-                          className={`h-8 border-2 border-foreground text-xs rounded ${pump1Status === 'STOP'
-                              ? 'bg-red-500 text-white'
+                          className={`h-8 border-2 border-foreground text-xs rounded ${
+                            pump1Status === 'STOP' 
+                              ? 'bg-red-500 text-white' 
                               : 'bg-background hover:bg-gray-100'
-                            }`}
+                          }`}
                         >
                           STOP
                         </button>
@@ -177,19 +186,21 @@ const HMI03PumpOperation = () => {
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={() => setPump2Status('RUN')}
-                          className={`h-8 border-2 border-foreground text-xs rounded ${pump2Status === 'RUN'
-                              ? 'bg-green-500 text-white'
+                          className={`h-8 border-2 border-foreground text-xs rounded ${
+                            pump2Status === 'RUN' 
+                              ? 'bg-green-500 text-white' 
                               : 'bg-background hover:bg-gray-100'
-                            }`}
+                          }`}
                         >
                           RUN
                         </button>
                         <button
                           onClick={() => setPump2Status('STOP')}
-                          className={`h-8 border-2 border-foreground text-xs rounded ${pump2Status === 'STOP'
-                              ? 'bg-red-500 text-white'
+                          className={`h-8 border-2 border-foreground text-xs rounded ${
+                            pump2Status === 'STOP' 
+                              ? 'bg-red-500 text-white' 
                               : 'bg-background hover:bg-gray-100'
-                            }`}
+                          }`}
                         >
                           STOP
                         </button>
@@ -202,19 +213,21 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => setManual1Run('RUN')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${manual1Run === 'RUN'
-                            ? 'bg-green-500 text-white'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          manual1Run === 'RUN' 
+                            ? 'bg-green-500 text-white' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         RUN
                       </button>
                       <button
                         onClick={() => setManual1Run('STOP')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${manual1Run === 'STOP'
-                            ? 'bg-red-500 text-white'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          manual1Run === 'STOP' 
+                            ? 'bg-red-500 text-white' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         STOP
                       </button>
@@ -226,19 +239,21 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => setManual2Run('RUN')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${manual2Run === 'RUN'
-                            ? 'bg-green-500 text-white'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          manual2Run === 'RUN' 
+                            ? 'bg-green-500 text-white' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         RUN
                       </button>
                       <button
                         onClick={() => setManual2Run('STOP')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${manual2Run === 'STOP'
-                            ? 'bg-red-500 text-white'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          manual2Run === 'STOP' 
+                            ? 'bg-red-500 text-white' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         STOP
                       </button>
@@ -251,19 +266,21 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => setLeadPump('No.1')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${leadPump === 'No.1'
-                            ? 'bg-yellow-500 text-black'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          leadPump === 'No.1' 
+                            ? 'bg-yellow-500 text-black' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         No.1
                       </button>
                       <button
                         onClick={() => setLeadPump('No.2')}
-                        className={`h-8 border-2 border-foreground text-xs rounded ${leadPump === 'No.2'
-                            ? 'bg-yellow-500 text-black'
+                        className={`h-8 border-2 border-foreground text-xs rounded ${
+                          leadPump === 'No.2' 
+                            ? 'bg-yellow-500 text-black' 
                             : 'bg-background hover:bg-gray-100'
-                          }`}
+                        }`}
                       >
                         No.2
                       </button>
@@ -302,7 +319,7 @@ const HMI03PumpOperation = () => {
               {/* Right Column - Acid Pump Operation */}
               <div>
                 <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
-
+                
                 <div className="space-y-4">
                   {/* Operation Place */}
                   <div>
