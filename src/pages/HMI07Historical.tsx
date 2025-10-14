@@ -446,6 +446,31 @@ const HMI07Historical = () => {
             <Button variant="ghost" size="sm">This Month</Button>
             <Button variant="ghost" size="sm">Last Month</Button>
           </div>
+
+          {appliedFilters.length > 0 && (
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+              <span className="font-semibold uppercase tracking-wide text-muted-foreground">Active Filters:</span>
+              {appliedFilters.map((filter) => (
+                <span
+                  key={filter.key}
+                  className="inline-flex items-center gap-2 rounded-full bg-muted/20 px-3 py-1 text-muted-foreground"
+                >
+                  <span className="text-xs font-medium text-foreground">{filter.label}</span>
+                  <button
+                    type="button"
+                    onClick={filter.clear}
+                    className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted/40 hover:text-foreground"
+                    aria-label={`Remove ${filter.label}`}
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+              <Button variant="ghost" size="sm" className="h-7 px-2" onClick={resetFilters}>
+                Clear all
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Data Table */}
