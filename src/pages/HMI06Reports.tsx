@@ -328,11 +328,13 @@ const HMI06Reports = () => {
         <div className="flex items-center justify-between mt-4">
           <div className="text-sm text-muted-foreground">Showing {coilsPage.start + 1}-{coilsPage.end} of {filteredCoils.length} rows</div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" disabled={coilsPage.current === 1} onClick={() => setCoilPage(1)}>First</Button>
             <Button variant="outline" size="sm" disabled={coilsPage.current === 1} onClick={() => setCoilPage((p) => Math.max(1, p - 1))}>Prev</Button>
             {Array.from({ length: coilsPage.pageCount }).slice(0, 7).map((_, i) => (
               <Button key={i} variant={coilsPage.current === i + 1 ? 'primary' : 'outline'} size="sm" onClick={() => setCoilPage(i + 1)}>{i + 1}</Button>
             ))}
             <Button variant="outline" size="sm" disabled={coilsPage.current === coilsPage.pageCount} onClick={() => setCoilPage((p) => Math.min(coilsPage.pageCount, p + 1))}>Next</Button>
+            <Button variant="outline" size="sm" disabled={coilsPage.current === coilsPage.pageCount} onClick={() => setCoilPage(coilsPage.pageCount)}>Last</Button>
           </div>
         </div>
       </div>
@@ -410,11 +412,13 @@ const HMI06Reports = () => {
         <div className="flex items-center justify-between mt-4">
           <div className="text-sm text-muted-foreground">Showing {dailyPageObj.start + 1}-{dailyPageObj.end} of {filteredDaily.length} rows</div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" disabled={dailyPageObj.current === 1} onClick={() => setDailyPage(1)}>First</Button>
             <Button variant="outline" size="sm" disabled={dailyPageObj.current === 1} onClick={() => setDailyPage((p) => Math.max(1, p - 1))}>Prev</Button>
             {Array.from({ length: dailyPageObj.pageCount }).slice(0, 7).map((_, i) => (
               <Button key={i} variant={dailyPageObj.current === i + 1 ? 'primary' : 'outline'} size="sm" onClick={() => setDailyPage(i + 1)}>{i + 1}</Button>
             ))}
             <Button variant="outline" size="sm" disabled={dailyPageObj.current === dailyPageObj.pageCount} onClick={() => setDailyPage((p) => Math.min(dailyPageObj.pageCount, p + 1))}>Next</Button>
+            <Button variant="outline" size="sm" disabled={dailyPageObj.current === dailyPageObj.pageCount} onClick={() => setDailyPage(dailyPageObj.pageCount)}>Last</Button>
           </div>
         </div>
       </div>
@@ -491,11 +495,13 @@ const HMI06Reports = () => {
         <div className="flex items-center justify-between mt-4">
           <div className="text-sm text-muted-foreground">Showing {consPageObj.start + 1}-{consPageObj.end} of {filteredCons.length} rows</div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" disabled={consPageObj.current === 1} onClick={() => setConsPage(1)}>First</Button>
             <Button variant="outline" size="sm" disabled={consPageObj.current === 1} onClick={() => setConsPage((p) => Math.max(1, p - 1))}>Prev</Button>
             {Array.from({ length: consPageObj.pageCount }).slice(0, 7).map((_, i) => (
               <Button key={i} variant={consPageObj.current === i + 1 ? 'primary' : 'outline'} size="sm" onClick={() => setConsPage(i + 1)}>{i + 1}</Button>
             ))}
             <Button variant="outline" size="sm" disabled={consPageObj.current === consPageObj.pageCount} onClick={() => setConsPage((p) => Math.min(consPageObj.pageCount, p + 1))}>Next</Button>
+            <Button variant="outline" size="sm" disabled={consPageObj.current === consPageObj.pageCount} onClick={() => setConsPage(consPageObj.pageCount)}>Last</Button>
           </div>
         </div>
       </div>
