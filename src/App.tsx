@@ -42,7 +42,7 @@ const App = () => {
                   <Routes>
                     <Route path="/" element={<HMI01Overview />} />
                     <Route path="/hmi-01/*" element={<HMI01Tabs />}>
-                      <Route index element={<div />} />
+                      <Route index element={<Navigate to="tank" replace />} />
                       <Route path="tank" element={<HMI01TankSection />} />
                       <Route path="pickling" element={<HMI02PicklingSection />} />
                     </Route>
