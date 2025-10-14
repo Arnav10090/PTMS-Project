@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { TopInfoPanel } from '@/components/TopInfoPanel';
+import { StatusBadge } from '@/components/StatusBadge';
 
 const linkBase = 'px-4 py-2 rounded-md text-sm font-medium transition-colors border';
 
