@@ -1,0 +1,35 @@
+import { NavLink, Outlet } from 'react-router-dom';
+
+const linkBase = 'px-4 py-2 rounded-md text-sm font-medium transition-colors border';
+
+const HMI01Tabs = () => {
+  return (
+    <div className="p-6 space-y-6 animate-fade-in">
+      <div className="flex items-center gap-2">
+        <NavLink
+          to="tank"
+          end
+          className={({ isActive }) =>
+            `${linkBase} ${isActive ? 'bg-primary text-primary-foreground border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted hover:text-foreground'}`
+          }
+        >
+          HMI-01: Tank Section
+        </NavLink>
+        <NavLink
+          to="pickling"
+          className={({ isActive }) =>
+            `${linkBase} ${isActive ? 'bg-primary text-primary-foreground border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted hover:text-foreground'}`
+          }
+        >
+          HMI-02: Pickling Section
+        </NavLink>
+      </div>
+
+      <div className="glass-panel p-6 min-h-[300px]">
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
+export default HMI01Tabs;

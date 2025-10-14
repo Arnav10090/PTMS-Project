@@ -2,12 +2,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { HMISidebar } from "@/components/HMISidebar";
 import { Navbar } from "@/components/Navbar";
 import { useState } from "react";
 import HMI01Overview from "./pages/HMI01Overview";
+import HMI01Tabs from "./pages/HMI01Tabs";
+import HMI01TankSection from "./pages/HMI01TankSection";
+import HMI02PicklingSection from "./pages/HMI02PicklingSection";
 import HMI02Pickling from "./pages/HMI02Pickling";
 import HMI03PumpOperation from "./pages/HMI03PumpOperation";
 import HMI04Trends from "./pages/HMI04Trends";
@@ -34,11 +37,15 @@ const App = () => {
                 onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
               <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
-                <Navbar />
+                <Navbar isCollapsed={sidebarCollapsed} />
                 <main className="pt-16">
                   <Routes>
                     <Route path="/" element={<HMI01Overview />} />
-                    <Route path="/pickling" element={<HMI02Pickling />} />
+                    <Route path="/hmi-01/*" element={<HMI01Tabs />}>
+                      <Route index element={<Navigate to="tank" replace />} />
+                      <Route path="tank" element={<HMI01TankSection />} />
+                      <Route path="pickling" element={<HMI02PicklingSection />} />
+                    </Route>
                     <Route path="/pump-operation" element={<HMI03PumpOperation />} />
                     <Route path="/trends" element={<HMI04Trends />} />
                     <Route path="/alarms" element={<HMI05Alarms />} />
