@@ -135,7 +135,7 @@ const printSection = (html: string) => {
 const HMI06Reports = () => {
   const [coilRows] = useState<CoilRow[] | any>(makeCoilRows(40));
   const [dailyRows] = useState<DailyRow[]>(makeDailyRows(40));
-  const [consumptionRows] = useState<ConsumptionRow[]>(makeConsumptionRows(6));
+  const [consumptionRows] = useState<ConsumptionRow[]>(makeConsumptionRows(30));
 
   // Controls per table
   const [coilQuery, setCoilQuery] = useState('');
