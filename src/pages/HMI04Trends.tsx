@@ -226,7 +226,7 @@ const HMI04Trends = () => {
                 </XAxis>
                 <YAxis
                   stroke="hsl(var(--muted-foreground))"
-                  tickMargin={8}
+                  tickMargin={4}
                   domain={["auto", "auto"]}
                 >
                   <Label
