@@ -202,6 +202,88 @@ const HMI07Historical = () => {
     toast.success('PDF report prepared');
   };
 
+  const appliedFilters = useMemo(() => {
+    const filters: { key: string; label: string; clear: () => void }[] = [];
+
+    if (startDate !== DEFAULT_FILTERS.startDate || endDate !== DEFAULT_FILTERS.endDate) {
+      let label = '';
+      if (startDate !== DEFAULT_FILTERS.startDate && endDate !== DEFAULT_FILTERS.endDate) {
+        label = `Date: ${startDate} – ${endDate}`;
+      } else if (startDate !== DEFAULT_FILTERS.startDate) {
+        label = `Start ≥ ${startDate}`;
+      } else if (endDate !== DEFAULT_FILTERS.endDate) {
+        label = `End ≤ ${endDate}`;
+      }
+      filters.push({
+        key: 'dateRange',
+        label,
+        clear: () => {
+          setStartDate(DEFAULT_FILTERS.startDate);
+          setEndDate(DEFAULT_FILTERS.endDate);
+          setPage(1);
+        },
+      });
+    }
+
+    if (equipment !== DEFAULT_FILTERS.equipment) {
+      filters.push({
+        key: 'equipment',
+        label: `Equipment: ${EQUIPMENT_LABELS[equipment] ?? equipment}`,
+        clear: () => {
+          setEquipment(DEFAULT_FILTERS.equipment);
+          setPage(1);
+        },
+      });
+    }
+
+    if (parameter !== DEFAULT_FILTERS.parameter) {
+      filters.push({
+        key: 'parameter',
+        label: `Parameter: ${PARAMETER_LABELS[parameter] ?? parameter}`,
+        clear: () => {
+          setParameter(DEFAULT_FILTERS.parameter);
+          setPage(1);
+        },
+      });
+    }
+
+    if (shift !== DEFAULT_FILTERS.shift) {
+      filters.push({
+        key: 'shift',
+        label: `Shift: ${SHIFT_LABELS[shift] ?? shift}`,
+        clear: () => {
+          setShift(DEFAULT_FILTERS.shift);
+          setPage(1);
+        },
+      });
+    }
+
+    if (dataQuality !== DEFAULT_FILTERS.dataQuality) {
+      filters.push({
+        key: 'dataQuality',
+        label: `Quality: ${DATA_QUALITY_LABELS[dataQuality] ?? dataQuality}`,
+        clear: () => {
+          setDataQuality(DEFAULT_FILTERS.dataQuality);
+          setPage(1);
+        },
+      });
+    }
+
+    if (searchQuery.trim()) {
+      const trimmed = searchQuery.trim();
+      filters.push({
+        key: 'search',
+        label: `Search: "${trimmed}"`,
+        clear: () => {
+          setSearchQuery('');
+          setPage(1);
+        },
+      });
+    }
+
+    return filters;
+  }, [startDate, endDate, equipment, parameter, shift, dataQuality, searchQuery]);
+
   const renderPageButtons = () => {
     const items: number[] = [];
     if (pageCount <= 7) {
