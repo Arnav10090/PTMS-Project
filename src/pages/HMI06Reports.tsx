@@ -133,7 +133,7 @@ const printSection = (html: string) => {
 };
 
 const HMI06Reports = () => {
-  const [coilRows] = useState<CoinRow[] | any>(makeCoilRows(40));
+  const [coilRows] = useState<CoilRow[] | any>(makeCoilRows(40));
   const [dailyRows] = useState<DailyRow[]>(makeDailyRows(40));
   const [consumptionRows] = useState<ConsumptionRow[]>(makeConsumptionRows(6));
 
