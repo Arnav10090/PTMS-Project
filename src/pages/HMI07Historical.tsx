@@ -3,14 +3,16 @@ import { Database, Download, Filter, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useEffect, useMemo, useState } from 'react';
+import { toast } from '@/components/ui/sonner';
 
 const generateHistoricalData = () => {
-  const data = [];
-  for (let i = 0; i < 50; i++) {
+  const data: any[] = [];
+  for (let i = 0; i < 500; i++) {
     data.push({
       id: i + 1,
-      timestamp: `2025-10-13 ${String(14 - Math.floor(i / 6)).padStart(2, '0')}:${String((i * 10) % 60).padStart(2, '0')}:${String((i * 15) % 60).padStart(2, '0')}`,
-      equipmentId: `Tank #${(i % 3) + 1}`,
+      timestamp: `2025-10-${String(1 + (i % 30)).padStart(2, '0')} ${String(i % 24).padStart(2, '0')}:${String((i * 7) % 60).padStart(2, '0')}:${String((i * 13) % 60).padStart(2, '0')}`,
+      equipmentId: `Tank #${(i % 6) + 1}`,
       parameter: ['Temperature', 'Density', 'HCl Level', 'Flow Rate'][i % 4],
       value: (Math.random() * 100 + 50).toFixed(2),
       unit: ['°C', 'g/cm³', 'g/l', 'L/min'][i % 4],
@@ -26,7 +28,179 @@ const generateHistoricalData = () => {
 
 const historicalData = generateHistoricalData();
 
+const parseDate = (s: string) => {
+  const d = new Date(s.replace(' ', 'T'));
+  return isNaN(d.getTime()) ? null : d;
+};
+
+const getShiftFromTimestamp = (ts: string) => {
+  const d = parseDate(ts);
+  if (!d) return 'shift-a';
+  const h = d.getHours();
+  if (h >= 6 && h < 14) return 'shift-a';
+  if (h >= 14 && h < 22) return 'shift-b';
+  return 'shift-c';
+};
+
+const exportCSV = (filename: string, headers: string[], rows: (string | number)[][]) => {
+  const escape = (v: any) => `"${String(v).replace(/"/g, '""')}"`;
+  const csv = [headers.join(',')].concat(rows.map((r) => r.map(escape).join(','))).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+const printSection = (html: string) => {
+  const w = window.open('', '_blank', 'noopener,noreferrer');
+  if (!w) return;
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Print</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;padding:20px;color:#0f1724;background:#fff}table{width:100%;border-collapse:collapse}th,td{padding:6px;border:1px solid #eee;font-size:12px}th{background:#f7f7f7;text-align:left}</style>
+  </head><body>${html}</body></html>`);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 300);
+};
+
 const HMI07Historical = () => {
+  const [startDate, setStartDate] = useState<string>('2025-10-01');
+  const [endDate, setEndDate] = useState<string>('2025-10-31');
+  const [equipment, setEquipment] = useState<string>('all-equipment');
+  const [parameter, setParameter] = useState<string>('all-params');
+  const [shift, setShift] = useState<string>('all-shifts');
+  const [dataQuality, setDataQuality] = useState<string>('all-quality');
+  const [rowsPerPage, setRowsPerPage] = useState<number>(50);
+  const [page, setPage] = useState<number>(1);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const filtered = useMemo(() => {
+    const s = startDate ? new Date(startDate) : null;
+    const e = endDate ? new Date(endDate + 'T23:59:59') : null;
+    const q = searchQuery.trim().toLowerCase();
+
+    return historicalData.filter((r) => {
+      const ts = parseDate(r.timestamp);
+      if (!ts) return false;
+      if (s && ts < s) return false;
+      if (e && ts > e) return false;
+      if (equipment !== 'all-equipment' && equipment !== '') {
+        if (!r.equipmentId.toLowerCase().includes(equipment.replace('tank-', 'tank #'))) return false;
+      }
+      if (parameter !== 'all-params' && parameter !== '') {
+        const map: Record<string, string> = { temp: 'Temperature', density: 'Density', hcl: 'HCl Level', flow: 'Flow Rate' };
+        if (map[parameter] && r.parameter !== map[parameter]) return false;
+      }
+      if (shift !== 'all-shifts') {
+        if (getShiftFromTimestamp(r.timestamp) !== shift) return false;
+      }
+      if (dataQuality !== 'all-quality') {
+        if (dataQuality === 'valid' && r.status !== 'valid') return false;
+        if (dataQuality === 'flagged' && r.status === 'valid') return false;
+      }
+      if (q) {
+        const hay = `${r.equipmentId} ${r.parameter} ${r.operator} ${r.value}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [startDate, endDate, equipment, parameter, shift, dataQuality, searchQuery]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / rowsPerPage));
+  const currentPage = Math.min(page, pageCount);
+  const start = (currentPage - 1) * rowsPerPage;
+  const end = Math.min(start + rowsPerPage, filtered.length);
+  const pageRows = filtered.slice(start, end);
+
+  useEffect(() => setPage(1), [startDate, endDate, equipment, parameter, shift, dataQuality, rowsPerPage, searchQuery]);
+
+  const applyFilters = () => {
+    toast.success('Filters applied');
+    setPage(1);
+  };
+
+  const resetFilters = () => {
+    setStartDate('2025-10-01');
+    setEndDate('2025-10-31');
+    setEquipment('all-equipment');
+    setParameter('all-params');
+    setShift('all-shifts');
+    setDataQuality('all-quality');
+    setSearchQuery('');
+    setPage(1);
+    toast.info('Filters reset');
+  };
+
+  const exportVisible = () => {
+    const headers = ['Timestamp','Equipment','Parameter','Value','Unit','Min','Max','Avg','Status','Operator'];
+    const rows = pageRows.map((r: any) => [r.timestamp,r.equipmentId,r.parameter,r.value,r.unit,r.min,r.max,r.avg,r.status,r.operator]);
+    exportCSV('historical_visible.csv', headers, rows);
+    toast.success('Visible data exported');
+  };
+
+  const exportFiltered = () => {
+    const headers = ['Timestamp','Equipment','Parameter','Value','Unit','Min','Max','Avg','Status','Operator'];
+    const rows = filtered.map((r: any) => [r.timestamp,r.equipmentId,r.parameter,r.value,r.unit,r.min,r.max,r.avg,r.status,r.operator]);
+    exportCSV('historical_filtered.csv', headers, rows);
+    toast.success('Filtered data exported');
+  };
+
+  const exportExcel = () => {
+    // simple CSV with .xlsx extension for demo
+    exportFiltered();
+    toast.success('Excel exported (CSV format)');
+  };
+
+  const exportPDF = () => {
+    const el = document.createElement('div');
+    el.innerHTML = `<h1>Historical Data</h1><table><thead><tr>${['Timestamp','Equipment','Parameter','Value','Unit','Min','Max','Avg','Status','Operator'].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${filtered.slice(0,1000).map((r:any)=>`<tr>${[r.timestamp,r.equipmentId,r.parameter,r.value,r.unit,r.min,r.max,r.avg,r.status,r.operator].map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+    printSection(el.innerHTML);
+    toast.success('PDF report prepared');
+  };
+
+  const renderPageButtons = () => {
+    const items: number[] = [];
+    if (pageCount <= 7) {
+      for (let i = 1; i <= pageCount; i++) items.push(i);
+    } else {
+      items.push(1, 2, 3);
+      if (currentPage > 4 && currentPage < pageCount - 2) {
+        items.push(currentPage - 1, currentPage, currentPage + 1);
+      }
+      items.push(pageCount - 2, pageCount - 1, pageCount);
+    }
+    const unique = Array.from(new Set(items.filter((n) => n >= 1 && n <= pageCount))).sort((a, b) => a - b);
+
+    const withEllipsis: (number | '...')[] = [];
+    unique.forEach((n, i) => {
+      if (i === 0) withEllipsis.push(n);
+      else {
+        const prev = unique[i - 1];
+        if (n - prev > 1) withEllipsis.push('...');
+        withEllipsis.push(n);
+      }
+    });
+
+    return withEllipsis.map((n, idx) =>
+      n === '...'
+        ? (
+            <span key={`e-${idx}`} className="px-2 select-none">
+              ...
+            </span>
+          )
+        : (
+            <Button key={n} variant="outline" size="sm" className={currentPage === n ? 'bg-primary text-primary-foreground' : ''} onClick={() => setPage(n)}>
+              {n}
+            </Button>
+          ),
+    );
+  };
+
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
@@ -54,7 +228,7 @@ const HMI07Historical = () => {
               <label className="text-xs text-muted-foreground mb-1 block">Start Date</label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input type="date" className="pl-10 bg-card border-border" defaultValue="2025-10-01" />
+                <Input type="date" className="pl-10 bg-card border-border" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
               </div>
             </div>
 
@@ -62,13 +236,13 @@ const HMI07Historical = () => {
               <label className="text-xs text-muted-foreground mb-1 block">End Date</label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input type="date" className="pl-10 bg-card border-border" defaultValue="2025-10-13" />
+                <Input type="date" className="pl-10 bg-card border-border" value={endDate} onChange={(e)=>setEndDate(e.target.value)} />
               </div>
             </div>
 
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">Equipment</label>
-              <Select defaultValue="all-equipment">
+              <Select value={equipment} onValueChange={(v)=>setEquipment(v)}>
                 <SelectTrigger className="bg-card border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -85,7 +259,7 @@ const HMI07Historical = () => {
 
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">Parameter</label>
-              <Select defaultValue="all-params">
+              <Select value={parameter} onValueChange={(v)=>setParameter(v)}>
                 <SelectTrigger className="bg-card border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -101,7 +275,7 @@ const HMI07Historical = () => {
 
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">Shift Filter</label>
-              <Select defaultValue="all-shifts">
+              <Select value={shift} onValueChange={(v)=>setShift(v)}>
                 <SelectTrigger className="bg-card border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -116,7 +290,7 @@ const HMI07Historical = () => {
 
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">Data Quality</label>
-              <Select defaultValue="all-quality">
+              <Select value={dataQuality} onValueChange={(v)=>setDataQuality(v)}>
                 <SelectTrigger className="bg-card border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -129,25 +303,25 @@ const HMI07Historical = () => {
             </div>
 
             <div className="flex items-end gap-2">
-              <Button className="flex-1 bg-primary text-primary-foreground">
+              <Button className="flex-1 bg-primary text-primary-foreground" onClick={applyFilters}>
                 Apply Filters
               </Button>
-              <Button variant="outline">Reset</Button>
+              <Button variant="outline" onClick={resetFilters}>Reset</Button>
             </div>
 
             <div className="flex items-end gap-2">
-              <Button variant="outline" className="flex-1 gap-2">
+              <Button variant="outline" className="flex-1 gap-2" onClick={exportFiltered}>
                 <Download className="w-4 h-4" />
-                Export
+                Export Filtered
               </Button>
             </div>
           </div>
 
           <div className="flex gap-2 mt-4">
-            <Button variant="ghost" size="sm">Today</Button>
-            <Button variant="ghost" size="sm">Yesterday</Button>
-            <Button variant="ghost" size="sm">Last 7 Days</Button>
-            <Button variant="ghost" size="sm">Last 30 Days</Button>
+            <Button variant="ghost" size="sm" onClick={()=>{setStartDate('2025-10-13');setEndDate('2025-10-13');}}>Today</Button>
+            <Button variant="ghost" size="sm" onClick={()=>{ /* implement as needed */ }}>Yesterday</Button>
+            <Button variant="ghost" size="sm" onClick={()=>{setStartDate('2025-10-07');setEndDate('2025-10-13');}}>Last 7 Days</Button>
+            <Button variant="ghost" size="sm" onClick={()=>{setStartDate('2025-09-14');setEndDate('2025-10-13');}}>Last 30 Days</Button>
             <Button variant="ghost" size="sm">This Month</Button>
             <Button variant="ghost" size="sm">Last Month</Button>
           </div>
@@ -155,6 +329,12 @@ const HMI07Historical = () => {
 
         {/* Data Table */}
         <div className="overflow-x-auto">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Input placeholder="Search historical..." value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)} className="w-64" />
+            </div>
+            <div className="text-sm text-muted-foreground">Showing {start + 1}-{end} of {filtered.length} records</div>
+          </div>
           <table className="w-full">
             <thead className="sticky top-0 bg-card/95 backdrop-blur-sm">
               <tr className="border-b border-border/50">
@@ -171,7 +351,7 @@ const HMI07Historical = () => {
               </tr>
             </thead>
             <tbody>
-              {historicalData.map((record) => (
+              {pageRows.map((record:any) => (
                 <tr 
                   key={record.id} 
                   className="border-b border-border/30 hover:bg-muted/10 transition-colors"
@@ -212,11 +392,11 @@ const HMI07Historical = () => {
         <div className="flex items-center justify-between mt-6 pt-4 border-t border-border/30">
           <div className="flex items-center gap-4">
             <div className="text-sm text-muted-foreground">
-              Showing 1-50 of 175,234 records
+              Showing {start + 1}-{end} of {filtered.length} records
             </div>
             <div className="flex items-center gap-2">
               <label className="text-sm text-muted-foreground">Rows per page:</label>
-              <Select defaultValue="50">
+              <Select value={String(rowsPerPage)} onValueChange={(v)=>setRowsPerPage(Number(v))}>
                 <SelectTrigger className="w-20 h-8 bg-card border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -232,37 +412,32 @@ const HMI07Historical = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">First</Button>
-            <Button variant="outline" size="sm" disabled>Previous</Button>
+            <Button variant="outline" size="sm" disabled={currentPage === 1} onClick={()=>setPage(1)}>First</Button>
+            <Button variant="outline" size="sm" disabled={currentPage === 1} onClick={()=>setPage((p)=>Math.max(1,p-1))}>Previous</Button>
             <div className="flex items-center gap-1">
-              <Button variant="outline" size="sm" className="bg-primary text-primary-foreground">1</Button>
-              <Button variant="outline" size="sm">2</Button>
-              <Button variant="outline" size="sm">3</Button>
-              <Button variant="outline" size="sm">4</Button>
-              <span className="px-2 text-sm">...</span>
-              <Button variant="outline" size="sm">3505</Button>
+              {renderPageButtons()}
             </div>
-            <Button variant="outline" size="sm">Next</Button>
-            <Button variant="outline" size="sm">Last</Button>
+            <Button variant="outline" size="sm" disabled={currentPage === pageCount} onClick={()=>setPage((p)=>Math.min(pageCount,p+1))}>Next</Button>
+            <Button variant="outline" size="sm" disabled={currentPage === pageCount} onClick={()=>setPage(pageCount)}>Last</Button>
           </div>
         </div>
 
         {/* Export Options */}
         <div className="flex items-center gap-2 mt-4 p-4 glass-panel">
           <span className="text-sm font-semibold text-muted-foreground">Export Options:</span>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button variant="outline" size="sm" className="gap-2" onClick={exportVisible}>
             <Download className="w-3 h-3" />
             Visible Data (CSV)
           </Button>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button variant="outline" size="sm" className="gap-2" onClick={exportFiltered}>
             <Download className="w-3 h-3" />
             All Filtered (CSV)
           </Button>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button variant="outline" size="sm" className="gap-2" onClick={exportExcel}>
             <Download className="w-3 h-3" />
             Excel (XLSX)
           </Button>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button variant="outline" size="sm" className="gap-2" onClick={exportPDF}>
             <Download className="w-3 h-3" />
             PDF Report
           </Button>
