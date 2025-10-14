@@ -605,17 +605,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
-                        onClick={() => setMCPump1Status('RUN')}
+                        onClick={() => setMCManual1Run('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCmanual1Run === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => setMCPump1Status('STOP')}
+                        onClick={() => setMCManual1Run('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCmanual1Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
@@ -624,17 +624,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
-                        onClick={() => setMCPump2Status('RUN')}
+                        onClick={() => setMCManual2Run('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${MCpump2Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCmanual2Run === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => setMCPump2Status('STOP')}
+                        onClick={() => setMCManual2Run('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${MCpump2Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCmanual2Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
