@@ -17,6 +17,7 @@ import HMI04Trends from "./pages/HMI04Trends";
 import HMI05Alarms from "./pages/HMI05Alarms";
 import HMI06Reports from "./pages/HMI06Reports";
 import HMI07Historical from "./pages/HMI07Historical";
+import AlarmsFooter from '@/components/AlarmsFooter';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
