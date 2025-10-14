@@ -457,6 +457,209 @@ const HMI03PumpOperation = () => {
           </div>
         </div>
       </div>
+
+      <div className="hmi-card">
+        <div className="text-center mb-6">
+          <h2 className="text-lg font-bold">Mid Circulation Mode</h2>
+        </div>
+
+        <div className="border-2 border-foreground p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Left Column - No.n PL TANK */}
+            <div>
+              <h3 className="text-sm font-semibold text-center mb-4">No.n PL TANK (n:1,2,3)</h3>
+              <div className="space-y-3">
+                <Button
+                  variant="outline"
+                  onClick={() => setTankMode('FULL')}
+                  className={`w-full h-16 border-2 border-foreground ${tankMode === 'FULL' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                >
+                  FULL
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setTankMode('MID_CIRC')}
+                  className={`w-full h-16 border-2 border-foreground ${tankMode === 'MID_CIRC' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                >
+                  MID. CIRC.
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setTankMode('STOP')}
+                  className={`w-full h-16 border-2 border-foreground ${tankMode === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                >
+                  STOP
+                </Button>
+              </div>
+            </div>
+
+            {/* Right Column - ACID PUMP OPERATION */}
+            <div>
+              <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
+
+              <div className="space-y-4">
+                {/* Operation Place */}
+                <div>
+                  <label className="text-xs font-semibold block text-center mb-2">OPE. PLACE:</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setOperationPlace('LOCAL')}
+                      size="sm"
+                      className={`h-8 border-2 border-foreground text-xs ${operationPlace === 'LOCAL' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                    >
+                      LOCAL
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setOperationPlace('REMOTE')}
+                      size="sm"
+                      className={`h-8 border-2 border-foreground text-xs ${operationPlace === 'REMOTE' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                    >
+                      REMOTE
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Pump Mode */}
+                <div>
+                  <label className="text-xs font-semibold block text-center mb-2">PUMP MODE:</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setPumpMode('AUTO')}
+                      size="sm"
+                      className={`h-8 border-2 border-foreground text-xs ${pumpMode === 'AUTO' ? 'bg-amber-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                    >
+                      AUTO
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setPumpMode('MAN')}
+                      size="sm"
+                      className={`h-8 border-2 border-foreground text-xs ${pumpMode === 'MAN' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                    >
+                      MAN
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Pump Controls */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <div className="text-center mb-2">
+                      <span className="text-xs font-semibold">No.1 PUMP</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setPump1Status('RUN')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'RUN' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      >
+                        RUN
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setPump1Status('STOP')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      >
+                        STOP
+                      </Button>
+                    </div>
+                    <div className="text-xs text-center text-muted-foreground mt-3">MANNUAL OPERATION</div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setManual1Run('RUN')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'RUN' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      >
+                        RUN
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setManual1Run('STOP')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      >
+                        STOP
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-center mb-2">
+                      <span className="text-xs font-semibold">No.2 PUMP</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setPump2Status('RUN')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'RUN' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      >
+                        RUN
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setPump2Status('STOP')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      >
+                        STOP
+                      </Button>
+                    </div>
+                    <div className="text-xs text-center text-muted-foreground mt-3">MANNUAL OPERATION</div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setManual2Run('RUN')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'RUN' ? 'bg-red-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      >
+                        RUN
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setManual2Run('STOP')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'STOP' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                      >
+                        STOP
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Lead Pump Select */}
+                <div className="pt-2">
+                  <label className="text-xs font-semibold block text-center mb-2">LEAD PUMP SELECT:</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setLeadPump('No.1')}
+                      size="sm"
+                      className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-amber-300 text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                    >
+                      No.1
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setLeadPump('No.2')}
+                      size="sm"
+                      className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-white text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                    >
+                      No.2
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
