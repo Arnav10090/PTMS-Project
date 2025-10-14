@@ -2,7 +2,7 @@ import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { TrendingUp } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Toggle } from '@/components/ui/toggle';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 const chartData = Array.from({ length: 29 }, (_, i) => ({
   time: i,
