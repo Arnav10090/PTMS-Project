@@ -418,8 +418,8 @@ const HMI07Historical = () => {
               </Select>
             </div>
 
-            <div className="flex flex-wrap items-end gap-2 md:col-span-2 lg:col-span-4">
-              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Export Options:</span>
+            <div className="flex flex-wrap items-center gap-2 md:col-span-2 lg:col-span-4">
+              <span className="inline-flex h-8 items-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">Export Options:</span>
               <Button variant="outline" size="sm" className="gap-2" onClick={exportVisible}>
                 <Download className="w-3 h-3" />
                 Visible Data (CSV)
