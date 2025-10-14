@@ -231,7 +231,7 @@ const HMI04Trends = () => {
                 >
                   <Label
                     value={selectedParam.label}
-                    angle={-90}
+                    angle={-70}
                     position="left"
                     offset={0}
                     style={{ fill: 'hsl(var(--muted-foreground))', textAnchor: 'middle' }}
