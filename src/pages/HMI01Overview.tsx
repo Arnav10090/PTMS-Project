@@ -1,7 +1,7 @@
-import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { TankVisual } from '@/components/TankVisual';
 import { ArrowRight, Droplet, LayoutDashboard } from 'lucide-react';
 import { StatusBadge } from '@/components/StatusBadge';
+import { TopInfoPanel } from '@/components/TopInfoPanel';
 
 const HMI01Overview = () => {
   return (
@@ -11,7 +11,7 @@ const HMI01Overview = () => {
           <LayoutDashboard className="w-8 h-8 text-primary" />
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              HMI-01 Overview
+              Overview
             </h1>
             <p className="text-sm text-muted-foreground mt-1">Pickling Tank Concentration Monitoring System</p>
           </div>

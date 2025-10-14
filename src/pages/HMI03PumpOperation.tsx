@@ -37,7 +37,7 @@ const HMI03PumpOperation = () => {
         <Power className="w-8 h-8 text-primary" />
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            HMI-03 Pump Operation
+            Pump Operation
           </h1>
           <p className="text-sm text-muted-foreground">Pump Mode and Operation Control</p>
         </div>
@@ -52,7 +52,7 @@ const HMI03PumpOperation = () => {
             <h2 className="text-lg font-bold">Pump Mode and Operation Selection</h2>
           </div>
 
-          <div className="border-2 border-foreground p-6">
+          <div className="p-6">
             <div className="grid grid-cols-2 gap-6">
               {/* Left Column - Non PL TANK */}
               <div>
@@ -262,7 +262,7 @@ const HMI03PumpOperation = () => {
             <h2 className="text-lg font-bold">Initial Condition</h2>
           </div>
 
-          <div className="border-2 border-foreground p-6">
+          <div className="p-6">
             <div className="grid grid-cols-2 gap-6">
               {/* Left Column - Non PL TANK */}
               <div>
@@ -472,7 +472,7 @@ const HMI03PumpOperation = () => {
           <h2 className="text-lg font-bold">Mid Circulation Mode</h2>
         </div>
 
-        <div className="border-2 border-foreground p-6">
+        <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Left Column - No.n PL TANK */}
             <div>

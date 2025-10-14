@@ -13,7 +13,7 @@ const HMI01Tabs = () => {
             `${linkBase} ${isActive ? 'bg-primary text-primary-foreground border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted hover:text-foreground'}`
           }
         >
-          HMI-01: Tank Section
+          Tank Section
         </NavLink>
         <NavLink
           to="pickling"
@@ -21,7 +21,7 @@ const HMI01Tabs = () => {
             `${linkBase} ${isActive ? 'bg-primary text-primary-foreground border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted hover:text-foreground'}`
           }
         >
-          HMI-02: Pickling Section
+          Pickling Section
         </NavLink>
       </div>
 

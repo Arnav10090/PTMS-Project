@@ -87,13 +87,11 @@ const AlarmsFooter: React.FC = () => {
           <div className="flex items-center gap-3">
             <Bell className="w-5 h-5 text-muted-foreground" />
             <div>
-              <div className="text-sm font-semibold">Recent Acknowledged Alarms</div>
-              <div className="text-xs text-muted-foreground">Most recent {FOOTER_LIMIT} acknowledged</div>
+              <div className="text-sm font-semibold">Recent Alarms &amp; Alerts</div>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="text-xs text-muted-foreground mr-2">Footer shows latest acknowledged alarms</div>
             <Button size="sm" variant="ghost" onClick={() => setCollapsed((s) => !s)}>
               {collapsed ? <><ChevronsUp className="w-4 h-4" /> Expand</> : <><ChevronsDown className="w-4 h-4" /> Collapse</>}
             </Button>

@@ -245,7 +245,7 @@ const HMI06Reports = () => {
         <FileText className="w-8 h-8 text-primary" />
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            HMI-06 Reports
+            Reports
           </h1>
           <p className="text-sm text-muted-foreground">Production and Performance Reports</p>
         </div>

@@ -14,7 +14,6 @@ export const Navbar = ({ isCollapsed }: NavbarProps) => {
         <Activity className="w-6 h-6 text-primary" />
         <div>
           <h1 className="text-lg font-bold">Pickling Tank Monitoring System</h1>
-          <p className="text-xs text-muted-foreground">Industrial HMI Control Panel</p>
         </div>
       </div>
 

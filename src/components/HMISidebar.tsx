@@ -50,10 +50,7 @@ export const HMISidebar = ({ isCollapsed, onToggle }: HMISidebarProps) => {
           {isCollapsed ? (
             <ChevronRight className="w-4 h-4" />
           ) : (
-            <>
-              <ChevronLeft className="w-4 h-4" />
-              <span className="ml-2 text-xs">Collapse</span>
-            </>
+            <ChevronLeft className="w-4 h-4" />
           )}
         </Button>
       </div>
@@ -88,15 +85,7 @@ export const HMISidebar = ({ isCollapsed, onToggle }: HMISidebarProps) => {
       </nav>
 
       {/* Footer */}
-      <div className={`mt-auto px-4 ${isCollapsed ? 'flex justify-center' : ''}`}>
-        <div className={`rounded border border-border/50 bg-muted/20 flex items-center justify-center ${
-          isCollapsed ? 'w-10 h-10' : 'w-full h-10'
-        }`}>
-          <div className="text-xs font-bold text-primary">
-            {isCollapsed ? 'v1' : 'Version 1.0'}
-          </div>
-        </div>
-      </div>
+      <div className={`mt-auto px-4 ${isCollapsed ? 'flex justify-center' : ''}`} />
     </aside>
   );
 };
