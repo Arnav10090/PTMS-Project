@@ -4,12 +4,15 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { Toggle } from '@/components/ui/toggle';
 import { useMemo, useState } from 'react';
 
-const chartData = Array.from({ length: 29 }, (_, i) => ({
-  time: i,
-  tank1: 75 + Math.random() * 10,
-  tank2: 145 + Math.random() * 8,
-  tank3: 120 + Math.random() * 12,
-}));
+const daysInCurrentMonth = () => {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+};
+
+const genSeriesValue = (t: number, count: number, base: number, amp: number, phase: number) => {
+  const s = Math.sin(((t + phase) / count) * 2 * Math.PI);
+  return Number((base + amp * s).toFixed(2));
+};
 
 const parameters = {
   picklingTank: [
