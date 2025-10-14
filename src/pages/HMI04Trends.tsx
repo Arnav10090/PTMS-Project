@@ -1,7 +1,8 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { TrendingUp } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Toggle } from '@/components/ui/toggle';
+import { useState } from 'react';
 
 const chartData = Array.from({ length: 29 }, (_, i) => ({
   time: i,
@@ -25,6 +26,7 @@ const parameters = {
 };
 
 const HMI04Trends = () => {
+  const [selectedParam, setSelectedParam] = useState<string>(parameters.picklingTank[0]);
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
@@ -49,11 +51,16 @@ const HMI04Trends = () => {
             <div>
               <h3 className="text-sm font-semibold text-primary mb-3">Pickling Tank (n=1,2,3)</h3>
               <div className="space-y-2">
-                {parameters.picklingTank.map((param, idx) => (
-                  <label key={idx} className="flex items-center gap-2 cursor-pointer hover:bg-muted/30 p-2 rounded transition-colors">
-                    <Checkbox defaultChecked={idx < 2} />
-                    <span className="text-sm">{param}</span>
-                  </label>
+                {parameters.picklingTank.map((param) => (
+                  <Toggle
+                    key={param}
+                    pressed={selectedParam === param}
+                    onPressedChange={() => setSelectedParam(param)}
+                    variant="outline"
+                    className="w-full justify-start text-sm"
+                  >
+                    {param}
+                  </Toggle>
                 ))}
               </div>
             </div>
@@ -62,11 +69,16 @@ const HMI04Trends = () => {
             <div>
               <h3 className="text-sm font-semibold text-primary mb-3">Rinse Tank (n=1,2,3,4)</h3>
               <div className="space-y-2">
-                {parameters.rinseTank.map((param, idx) => (
-                  <label key={idx} className="flex items-center gap-2 cursor-pointer hover:bg-muted/30 p-2 rounded transition-colors">
-                    <Checkbox />
-                    <span className="text-sm">{param}</span>
-                  </label>
+                {parameters.rinseTank.map((param) => (
+                  <Toggle
+                    key={param}
+                    pressed={selectedParam === param}
+                    onPressedChange={() => setSelectedParam(param)}
+                    variant="outline"
+                    className="w-full justify-start text-sm"
+                  >
+                    {param}
+                  </Toggle>
                 ))}
               </div>
             </div>
@@ -75,11 +87,16 @@ const HMI04Trends = () => {
             <div>
               <h3 className="text-sm font-semibold text-primary mb-3">Hot Rinse Tank</h3>
               <div className="space-y-2">
-                {parameters.hotRinseTank.map((param, idx) => (
-                  <label key={idx} className="flex items-center gap-2 cursor-pointer hover:bg-muted/30 p-2 rounded transition-colors">
-                    <Checkbox />
-                    <span className="text-sm">{param}</span>
-                  </label>
+                {parameters.hotRinseTank.map((param) => (
+                  <Toggle
+                    key={param}
+                    pressed={selectedParam === param}
+                    onPressedChange={() => setSelectedParam(param)}
+                    variant="outline"
+                    className="w-full justify-start text-sm"
+                  >
+                    {param}
+                  </Toggle>
                 ))}
               </div>
             </div>
@@ -88,11 +105,16 @@ const HMI04Trends = () => {
             <div>
               <h3 className="text-sm font-semibold text-primary mb-3">Rinse Water Storage</h3>
               <div className="space-y-2">
-                {parameters.rinseWaterStorage.map((param, idx) => (
-                  <label key={idx} className="flex items-center gap-2 cursor-pointer hover:bg-muted/30 p-2 rounded transition-colors">
-                    <Checkbox />
-                    <span className="text-sm">{param}</span>
-                  </label>
+                {parameters.rinseWaterStorage.map((param) => (
+                  <Toggle
+                    key={param}
+                    pressed={selectedParam === param}
+                    onPressedChange={() => setSelectedParam(param)}
+                    variant="outline"
+                    className="w-full justify-start text-sm"
+                  >
+                    {param}
+                  </Toggle>
                 ))}
               </div>
             </div>
@@ -101,11 +123,16 @@ const HMI04Trends = () => {
             <div>
               <h3 className="text-sm font-semibold text-primary mb-3">Hot Air Drier</h3>
               <div className="space-y-2">
-                {parameters.hotAirDrier.map((param, idx) => (
-                  <label key={idx} className="flex items-center gap-2 cursor-pointer hover:bg-muted/30 p-2 rounded transition-colors">
-                    <Checkbox />
-                    <span className="text-sm">{param}</span>
-                  </label>
+                {parameters.hotAirDrier.map((param) => (
+                  <Toggle
+                    key={param}
+                    pressed={selectedParam === param}
+                    onPressedChange={() => setSelectedParam(param)}
+                    variant="outline"
+                    className="w-full justify-start text-sm"
+                  >
+                    {param}
+                  </Toggle>
                 ))}
               </div>
             </div>
@@ -114,11 +141,16 @@ const HMI04Trends = () => {
             <div>
               <h3 className="text-sm font-semibold text-primary mb-3">Storage Tank (n=1,2,3)</h3>
               <div className="space-y-2">
-                {parameters.storageTank.map((param, idx) => (
-                  <label key={idx} className="flex items-center gap-2 cursor-pointer hover:bg-muted/30 p-2 rounded transition-colors">
-                    <Checkbox />
-                    <span className="text-sm">{param}</span>
-                  </label>
+                {parameters.storageTank.map((param) => (
+                  <Toggle
+                    key={param}
+                    pressed={selectedParam === param}
+                    onPressedChange={() => setSelectedParam(param)}
+                    variant="outline"
+                    className="w-full justify-start text-sm"
+                  >
+                    {param}
+                  </Toggle>
                 ))}
               </div>
             </div>
@@ -127,7 +159,7 @@ const HMI04Trends = () => {
 
         {/* Interactive Graph Panel */}
         <div className="lg:col-span-2 hmi-card">
-          <h2 className="panel-title">Multiple Parameter Selection Option</h2>
+          <h2 className="panel-title">Parameter Trend</h2>
           
           <div className="glass-panel p-6">
             <ResponsiveContainer width="100%" height={400}>
@@ -138,10 +170,10 @@ const HMI04Trends = () => {
                   stroke="hsl(var(--muted-foreground))"
                   label={{ value: 'Time (hours)', position: 'insideBottom', offset: -5 }}
                 />
-                <YAxis 
+                <YAxis
                   stroke="hsl(var(--muted-foreground))"
-                  label={{ value: 'HCl concentration (g/l)', angle: -90, position: 'insideLeft' }}
-                  domain={[60, 160]}
+                  label={{ value: selectedParam, angle: -90, position: 'insideLeft' }}
+                  domain={["auto", "auto"]}
                 />
                 <Tooltip 
                   contentStyle={{ 
