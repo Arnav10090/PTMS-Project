@@ -28,6 +28,45 @@ const generateHistoricalData = () => {
 
 const historicalData = generateHistoricalData();
 
+const DEFAULT_FILTERS = {
+  startDate: '2025-10-01',
+  endDate: '2025-10-31',
+  equipment: 'all-equipment',
+  parameter: 'all-params',
+  shift: 'all-shifts',
+  dataQuality: 'all-quality',
+} as const;
+
+const EQUIPMENT_LABELS: Record<string, string> = {
+  'all-equipment': 'All Equipment',
+  'tank-1': 'Tank #1',
+  'tank-2': 'Tank #2',
+  'tank-3': 'Tank #3',
+  pumps: 'Pumps',
+  sensors: 'Sensors',
+};
+
+const PARAMETER_LABELS: Record<string, string> = {
+  'all-params': 'All Parameters',
+  temp: 'Temperature',
+  density: 'Density',
+  hcl: 'HCl Level',
+  flow: 'Flow Rate',
+};
+
+const SHIFT_LABELS: Record<string, string> = {
+  'all-shifts': 'All Shifts',
+  'shift-a': 'Shift A',
+  'shift-b': 'Shift B',
+  'shift-c': 'Shift C',
+};
+
+const DATA_QUALITY_LABELS: Record<string, string> = {
+  'all-quality': 'All Data',
+  valid: 'Valid Only',
+  flagged: 'Flagged',
+};
+
 const parseDate = (s: string) => {
   const d = new Date(s.replace(' ', 'T'));
   return isNaN(d.getTime()) ? null : d;
