@@ -41,7 +41,8 @@ const App = () => {
                 <Navbar isCollapsed={sidebarCollapsed} />
                 <main className="pt-16 pb-20">
                   <Routes>
-                    <Route path="/" element={<HMI01Overview />} />
+                    <Route path="/" element={<Navigate to="/hmi-01" replace />} />
+                    <Route path="/hmi-01" element={<HMI01Overview />} />
                     <Route path="/hmi-01/*" element={<HMI01Tabs />}>
                       <Route index element={<Navigate to="tank" replace />} />
                       <Route path="tank" element={<HMI01TankSection />} />
