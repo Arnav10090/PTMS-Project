@@ -87,7 +87,7 @@ const HMI04Trends = () => {
         <TrendingUp className="w-8 h-8 text-primary" />
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            HMI-04 Trends / Graphs
+            Trends / Graphs
           </h1>
           <p className="text-sm text-muted-foreground">Real-time Parameter Monitoring and Analysis</p>
         </div>
