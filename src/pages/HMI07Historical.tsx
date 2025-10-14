@@ -323,7 +323,7 @@ const HMI07Historical = () => {
         <Database className="w-8 h-8 text-primary" />
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            HMI-07 Historical Data
+            Historical Data
           </h1>
           <p className="text-sm text-muted-foreground">Archive and Analysis (Last 6 Months)</p>
         </div>
