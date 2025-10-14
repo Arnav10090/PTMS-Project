@@ -1,6 +1,7 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { TankVisual } from '@/components/TankVisual';
 import { ArrowRight, ArrowLeft, Droplets } from 'lucide-react';
+import { TopInfoPanel } from '@/components/TopInfoPanel';
 
 const HMI02Pickling = () => {
   return (
