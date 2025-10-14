@@ -1,5 +1,6 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { TrendingUp } from 'lucide-react';
+import { TopInfoPanel } from '@/components/TopInfoPanel';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import { Toggle } from '@/components/ui/toggle';
 import { useMemo, useState } from 'react';
