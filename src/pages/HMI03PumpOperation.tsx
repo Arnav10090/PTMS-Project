@@ -244,15 +244,24 @@ const HMI03PumpOperation = () => {
               <div>
                 <h3 className="text-sm font-semibold text-center mb-4">Non PL TANK (n:1,2,3)</h3>
                 <div className="space-y-3">
-                  <div className="w-full h-16 border-2 border-foreground flex items-center justify-center bg-white text-black font-semibold">
+                  <Button
+                    variant="outline"
+                    className="w-full h-16 bg-white text-black hover:bg-white/90 border-2 border-foreground"
+                  >
                     FULL
-                  </div>
-                  <div className="w-full h-16 border-2 border-foreground flex items-center justify-center font-semibold">
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full h-16 border-2 border-foreground"
+                  >
                     MID. CIRC.
-                  </div>
-                  <div className="w-full h-16 border-2 border-foreground flex items-center justify-center bg-red-300 font-semibold">
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full h-16 border-2 border-foreground bg-red-300 text-foreground"
+                  >
                     STOP
-                  </div>
+                  </Button>
                 </div>
               </div>
 
@@ -265,12 +274,20 @@ const HMI03PumpOperation = () => {
                   <div>
                     <label className="text-xs font-semibold block text-center mb-2">OPE. PLACE:</label>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
                         LOCAL
-                      </div>
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-warning text-warning-foreground">
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs bg-warning text-warning-foreground"
+                      >
                         REMOTE
-                      </div>
+                      </Button>
                     </div>
                   </div>
 
@@ -278,12 +295,20 @@ const HMI03PumpOperation = () => {
                   <div>
                     <label className="text-xs font-semibold block text-center mb-2">PUMP MODE:</label>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-warning text-warning-foreground">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs bg-warning text-warning-foreground"
+                      >
                         AUTO
-                      </div>
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
                         MAN
-                      </div>
+                      </Button>
                     </div>
                   </div>
 
@@ -294,12 +319,20 @@ const HMI03PumpOperation = () => {
                         <span className="text-xs font-semibold">No.1 PUMP</span>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
-                        <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 border-2 border-foreground text-xs"
+                        >
                           RUN
-                        </div>
-                        <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-success">
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 border-2 border-foreground text-xs bg-success"
+                        >
                           STOP
-                        </div>
+                        </Button>
                       </div>
                     </div>
 
@@ -308,12 +341,20 @@ const HMI03PumpOperation = () => {
                         <span className="text-xs font-semibold">No.2 PUMP</span>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
-                        <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 border-2 border-foreground text-xs"
+                        >
                           RUN
-                        </div>
-                        <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-success">
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 border-2 border-foreground text-xs bg-success"
+                        >
                           STOP
-                        </div>
+                        </Button>
                       </div>
                     </div>
 
@@ -321,24 +362,40 @@ const HMI03PumpOperation = () => {
                       MANNUAL OPERATION
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
                         RUN
-                      </div>
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
                         STOP
-                      </div>
+                      </Button>
                     </div>
 
                     <div className="text-xs text-center text-muted-foreground">
                       MANNUAL OPERATION
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
                         RUN
-                      </div>
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
                         STOP
-                      </div>
+                      </Button>
                     </div>
                   </div>
 
@@ -346,12 +403,20 @@ const HMI03PumpOperation = () => {
                   <div className="pt-2">
                     <label className="text-xs font-semibold block text-center mb-2">LEAD PUMP SELECT:</label>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-warning text-warning-foreground">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs bg-warning text-warning-foreground"
+                      >
                         No.1
-                      </div>
-                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
                         No.2
-                      </div>
+                      </Button>
                     </div>
                   </div>
                 </div>
