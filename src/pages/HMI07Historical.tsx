@@ -132,8 +132,8 @@ const HMI07Historical = () => {
         if (!r.equipmentId.toLowerCase().includes(equipment.replace('tank-', 'tank #'))) return false;
       }
       if (parameter !== 'all-params' && parameter !== '') {
-        const map: Record<string, string> = { temp: 'Temperature', density: 'Density', hcl: 'HCl Level', flow: 'Flow Rate' };
-        if (map[parameter] && r.parameter !== map[parameter]) return false;
+        const target = PARAMETER_LABELS[parameter];
+        if (target && r.parameter !== target) return false;
       }
       if (shift !== 'all-shifts') {
         if (getShiftFromTimestamp(r.timestamp) !== shift) return false;
