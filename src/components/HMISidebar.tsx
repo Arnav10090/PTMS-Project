@@ -61,6 +61,7 @@ export const HMISidebar = ({ isCollapsed, onToggle }: HMISidebarProps) => {
           <NavLink
             key={item.path}
             to={item.path}
+            end={item.path === '/' || item.path === '/hmi-01'}
             className={({ isActive }) =>
               `group relative flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${
                 isActive

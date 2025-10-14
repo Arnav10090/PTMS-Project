@@ -79,6 +79,57 @@ const AlarmsFooter: React.FC = () => {
     return () => window.removeEventListener('alarms-footer:add', handler as EventListener);
   }, []);
 
+  // periodically generate a demo alarm and show popup every 1 minute
+  useEffect(() => {
+    let mounted = true;
+
+    const generateAlarm = (): Alarm => {
+      const now = new Date();
+      return {
+        id: Number(now.getTime()),
+        timestamp: now.toLocaleString(),
+        severity: Math.random() > 0.7 ? 'High' : 'Medium',
+        equipment: `Pump-${Math.ceil(Math.random() * 5)}`,
+        type: Math.random() > 0.5 ? 'OverTemp' : 'PressureDrop',
+        description: Math.random() > 0.5 ? 'Temperature exceeded threshold' : 'Pressure dropped below threshold',
+        value: (Math.random() * 100).toFixed(1),
+        threshold: `${(Math.random() * 50 + 50).toFixed(1)}`,
+        status: 'New',
+      };
+    };
+
+    // lazy import toast to avoid circular deps and only if environment supports it
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+      const { toast: showToast } = require('@/hooks/use-toast');
+
+      intervalId = setInterval(() => {
+        if (!mounted) return;
+        const alarm = generateAlarm();
+        // push to footer
+        window.dispatchEvent(new CustomEvent('alarms-footer:add', { detail: alarm }));
+        // show popup toast
+        try {
+          showToast({
+            title: `Alarm: ${alarm.equipment}`,
+            description: `${alarm.type} — ${alarm.description}`,
+            variant: 'destructive',
+          });
+        } catch (e) {
+          // ignore toast failures
+        }
+      }, 60_000);
+    } catch (e) {
+      // environment may not support dynamic require; skip periodic alarms
+    }
+
+    return () => {
+      mounted = false;
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, []);
+
   // left offset var used by App
   return (
     <div className="fixed bottom-0 z-40 pointer-events-none" style={{ left: 'var(--content-left)', right: 0 as any }}>
