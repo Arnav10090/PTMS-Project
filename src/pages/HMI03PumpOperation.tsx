@@ -13,6 +13,15 @@ const HMI03PumpOperation = () => {
   const [manual1Run, setManual1Run] = useState<'RUN' | 'STOP'>('STOP');
   const [manual2Run, setManual2Run] = useState<'RUN' | 'STOP'>('STOP');
 
+  const [INtankMode, setINTankMode] = useState<'FULL' | 'MID_CIRC' | 'STOP'>('FULL');
+  const [INoperationPlace, setINOperationPlace] = useState<'LOCAL' | 'REMOTE'>('REMOTE');
+  const [INpumpMode, setINPumpMode] = useState<'AUTO' | 'MAN'>('AUTO');
+  const [INpump1Status, setINPump1Status] = useState<'RUN' | 'STOP'>('STOP');
+  const [INpump2Status, setINPump2Status] = useState<'RUN' | 'STOP'>('STOP');
+  const [INleadPump, setINLeadPump] = useState<'No.1' | 'No.2'>('No.1');
+  const [INmanual1Run, setINManual1Run] = useState<'RUN' | 'STOP'>('STOP');
+  const [INmanual2Run, setINManual2Run] = useState<'RUN' | 'STOP'>('STOP');
+
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
@@ -67,7 +76,7 @@ const HMI03PumpOperation = () => {
               {/* Right Column - Acid Pump Operation */}
               <div>
                 <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
-                
+
                 <div className="space-y-4">
                   {/* Operation Place */}
                   <div>
@@ -252,19 +261,22 @@ const HMI03PumpOperation = () => {
                 <div className="space-y-3">
                   <Button
                     variant="outline"
-                    className="w-full h-16 bg-white text-black hover:bg-white/90 border-2 border-foreground"
+                    onClick={() => setINTankMode('FULL')}
+                    className={`w-full h-16 border-2 border-foreground ${INtankMode === 'FULL' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     FULL
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full h-16 border-2 border-foreground"
+                    onClick={() => setINTankMode('MID_CIRC')}
+                    className={`w-full h-16 border-2 border-foreground ${INtankMode === 'MID_CIRC' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     MID. CIRC.
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full h-16 border-2 border-foreground bg-red-300 text-foreground"
+                    onClick={() => setINTankMode('STOP')}
+                    className={`w-full h-16 border-2 border-foreground ${INtankMode === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     STOP
                   </Button>
@@ -274,7 +286,7 @@ const HMI03PumpOperation = () => {
               {/* Right Column - Acid Pump Operation */}
               <div>
                 <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
-                
+
                 <div className="space-y-4">
                   {/* Operation Place */}
                   <div>
@@ -282,15 +294,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
+                        onClick={() => setINOperationPlace('LOCAL')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className={`h-8 border-2 border-foreground text-xs ${INoperationPlace === 'LOCAL' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         LOCAL
                       </Button>
                       <Button
                         variant="outline"
+                        onClick={() => setINOperationPlace('REMOTE')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs bg-warning text-warning-foreground"
+                        className={`h-8 border-2 border-foreground text-xs ${INoperationPlace === 'REMOTE' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         REMOTE
                       </Button>
@@ -303,15 +317,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
+                        onClick={() => setINPumpMode('AUTO')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs bg-warning text-warning-foreground"
+                        className={`h-8 border-2 border-foreground text-xs ${INpumpMode === 'AUTO' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         AUTO
                       </Button>
                       <Button
                         variant="outline"
+                        onClick={() => setINPumpMode('MAN')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className={`h-8 border-2 border-foreground text-xs ${INpumpMode === 'MAN' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         MAN
                       </Button>
@@ -327,15 +343,17 @@ const HMI03PumpOperation = () => {
                       <div className="grid grid-cols-2 gap-2">
                         <Button
                           variant="outline"
+                          onClick={() => setINPump1Status('RUN')}
                           size="sm"
-                          className="h-8 border-2 border-foreground text-xs"
+                          className={`h-8 border-2 border-foreground text-xs ${INpump1Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           RUN
                         </Button>
                         <Button
                           variant="outline"
+                          onClick={() => setINPump1Status('STOP')}
                           size="sm"
-                          className="h-8 border-2 border-foreground text-xs bg-success"
+                          className={`h-8 border-2 border-foreground text-xs ${INpump1Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           STOP
                         </Button>
@@ -349,15 +367,17 @@ const HMI03PumpOperation = () => {
                       <div className="grid grid-cols-2 gap-2">
                         <Button
                           variant="outline"
+                          onClick={() => setINPump2Status('RUN')}
                           size="sm"
-                          className="h-8 border-2 border-foreground text-xs"
+                          className={`h-8 border-2 border-foreground text-xs ${INpump2Status === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           RUN
                         </Button>
                         <Button
                           variant="outline"
+                          onClick={() => setINPump2Status('STOP')}
                           size="sm"
-                          className="h-8 border-2 border-foreground text-xs bg-success"
+                          className={`h-8 border-2 border-foreground text-xs ${INpump2Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                         >
                           STOP
                         </Button>
@@ -370,15 +390,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
+                        onClick={() => setINManual1Run('RUN')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className={`h-8 border-2 border-foreground text-xs ${INmanual1Run === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
+                        onClick={() => setINManual1Run('STOP')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className={`h-8 border-2 border-foreground text-xs ${INmanual1Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
@@ -390,15 +412,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
+                        onClick={() => setINManual2Run('RUN')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className={`h-8 border-2 border-foreground text-xs ${INmanual2Run === 'RUN' ? 'bg-success hover:bg-success' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         RUN
                       </Button>
                       <Button
                         variant="outline"
+                        onClick={() => setINManual2Run('STOP')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className={`h-8 border-2 border-foreground text-xs ${INmanual2Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
@@ -411,15 +435,17 @@ const HMI03PumpOperation = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
+                        onClick={() => setINLeadPump('No.1')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs bg-warning text-warning-foreground"
+                        className={`h-8 border-2 border-foreground text-xs ${INleadPump === 'No.1' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         No.1
                       </Button>
                       <Button
                         variant="outline"
+                        onClick={() => setINLeadPump('No.2')}
                         size="sm"
-                        className="h-8 border-2 border-foreground text-xs"
+                        className={`h-8 border-2 border-foreground text-xs ${INleadPump === 'No.2' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         No.2
                       </Button>
