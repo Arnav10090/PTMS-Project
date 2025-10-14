@@ -272,6 +272,15 @@ const HMI05Alarms = () => {
   // footer alarms details
   const footerAlarms = footerIds.map((id) => data.find((a) => a.id === id)).filter((a): a is Alarm => !!a);
 
+  // persist footer alarms to localStorage so global footer can read them
+  useEffect(() => {
+    try {
+      localStorage.setItem('alarms_footer', JSON.stringify(footerAlarms.slice(0, FOOTER_LIMIT)));
+    } catch (e) {
+      // ignore
+    }
+  }, [footerAlarms]);
+
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
@@ -432,51 +441,6 @@ const HMI05Alarms = () => {
         </div>
       </div>
 
-      {/* Footer: recent acknowledged alarms (collapsible) */}
-      <div className="fixed bottom-0 z-40 pointer-events-none" style={{ left: 'var(--content-left)', right: 0 as any }}>
-        <div className={`max-w-full mx-auto px-6 py-3 bg-card/90 border-t border-border backdrop-blur-sm shadow-lg pointer-events-auto transition-all duration-300 ${footerCollapsed ? 'h-12' : 'h-auto'}`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Bell className="w-5 h-5 text-muted-foreground" />
-              <div>
-                <div className="text-sm font-semibold">Recent Acknowledged Alarms</div>
-                <div className="text-xs text-muted-foreground">Most recent {FOOTER_LIMIT} acknowledged</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <div className="text-xs text-muted-foreground mr-2">Footer shows latest acknowledged alarms</div>
-              <Button size="sm" variant="ghost" onClick={() => setFooterCollapsed((s) => !s)}>
-                {footerCollapsed ? <><ChevronsUp className="w-4 h-4" /> Expand</> : <><ChevronsDown className="w-4 h-4" /> Collapse</>}
-              </Button>
-            </div>
-          </div>
-
-          {/* collapsed -> hide list, show compact bar only */}
-          {!footerCollapsed && (
-            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2">
-              {footerAlarms.length === 0 && (
-                <div className="text-sm text-muted-foreground">No acknowledged alarms yet</div>
-              )}
-              {footerAlarms.map((a) => (
-                <div key={a.id} className="flex items-center gap-3 bg-muted/5 p-2 rounded-md border border-border">
-                  <div className={`w-2.5 h-2.5 rounded-full ${severityConfig[a.severity].color}`} />
-                  <div className="text-xs">
-                    <div className="font-medium">{a.equipment} • {a.type}</div>
-                    <div className="text-muted-foreground">{a.timestamp}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {footerCollapsed && (
-            <div className="mt-2 flex items-center justify-center">
-              <div className="text-sm text-muted-foreground">Footer collapsed — {footerAlarms.length} acknowledged</div>
-            </div>
-          )}
-        </div>
-      </div>
 
       {/* Popup for new alarms - remains until those alarms are acknowledged via table */}
       {popupActiveAlarms.length > 0 && (
