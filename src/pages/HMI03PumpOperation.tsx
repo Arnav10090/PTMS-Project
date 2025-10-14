@@ -28,207 +28,332 @@ const HMI03PumpOperation = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Pump Mode and Operation Selection */}
         <div className="hmi-card">
-          <div className="flex items-center gap-2 mb-6">
-            <Settings className="w-5 h-5 text-primary" />
+          <div className="text-center mb-6">
             <h2 className="text-lg font-bold">Pump Mode and Operation Selection</h2>
           </div>
 
-          {/* Non PL TANK Section */}
-          <div className="glass-panel p-4 mb-6">
-            <h3 className="text-sm font-semibold text-muted-foreground mb-4">NON PL TANK (n:1,2,3)</h3>
-            <div className="flex gap-3">
-              <Button
-                variant={tankMode === 'FULL' ? 'default' : 'outline'}
-                onClick={() => setTankMode('FULL')}
-                className={tankMode === 'FULL' ? 'bg-white text-black hover:bg-white/90' : ''}
-              >
-                FULL
-              </Button>
-              <Button
-                variant={tankMode === 'MID_CIRC' ? 'default' : 'outline'}
-                onClick={() => setTankMode('MID_CIRC')}
-                className={tankMode === 'MID_CIRC' ? 'bg-destructive text-destructive-foreground' : ''}
-              >
-                MID. CIRC.
-              </Button>
-              <Button
-                variant={tankMode === 'STOP' ? 'default' : 'outline'}
-                onClick={() => setTankMode('STOP')}
-                className={tankMode === 'STOP' ? 'bg-success' : ''}
-              >
-                STOP
-              </Button>
-            </div>
-          </div>
-
-          {/* Acid Pump Operation Section */}
-          <div className="glass-panel p-4">
-            <h3 className="text-sm font-semibold text-muted-foreground mb-4">ACID PUMP OPERATION</h3>
-            
-            <div className="space-y-4">
-              {/* Operation Place */}
+          <div className="border-2 border-foreground p-6">
+            <div className="grid grid-cols-2 gap-6">
+              {/* Left Column - Non PL TANK */}
               <div>
-                <label className="text-xs text-muted-foreground mb-2 block">OPE. PLACE:</label>
-                <div className="flex gap-3">
-                  <Button
-                    variant={operationPlace === 'LOCAL' ? 'default' : 'outline'}
-                    onClick={() => setOperationPlace('LOCAL')}
-                    size="sm"
-                  >
-                    LOCAL
-                  </Button>
-                  <Button
-                    variant={operationPlace === 'REMOTE' ? 'default' : 'outline'}
-                    onClick={() => setOperationPlace('REMOTE')}
-                    size="sm"
-                    className={operationPlace === 'REMOTE' ? 'bg-warning text-warning-foreground' : ''}
-                  >
-                    REMOTE
-                  </Button>
-                </div>
-              </div>
-
-              {/* Pump Mode */}
-              <div>
-                <label className="text-xs text-muted-foreground mb-2 block">PUMP MODE:</label>
-                <div className="flex gap-3">
-                  <Button
-                    variant={pumpMode === 'AUTO' ? 'default' : 'outline'}
-                    onClick={() => setPumpMode('AUTO')}
-                    size="sm"
-                    className={pumpMode === 'AUTO' ? 'bg-warning text-warning-foreground' : ''}
-                  >
-                    AUTO
-                  </Button>
-                  <Button
-                    variant={pumpMode === 'MAN' ? 'default' : 'outline'}
-                    onClick={() => setPumpMode('MAN')}
-                    size="sm"
-                  >
-                    MAN
-                  </Button>
-                </div>
-              </div>
-
-              {/* Pump Controls */}
-              <div className="border-t border-border/30 pt-4 mt-4">
+                <h3 className="text-sm font-semibold text-center mb-4">Non PL TANK (n:1,2,3)</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">No.1 PUMP:</span>
-                    <div className="flex gap-2">
-                      <Button
-                        variant={pump1Status === 'RUN' ? 'default' : 'outline'}
-                        onClick={() => setPump1Status('RUN')}
-                        size="sm"
-                        className={pump1Status === 'RUN' ? 'bg-success' : ''}
-                      >
-                        RUN
-                      </Button>
-                      <Button
-                        variant={pump1Status === 'STOP' ? 'default' : 'outline'}
-                        onClick={() => setPump1Status('STOP')}
-                        size="sm"
-                        className={pump1Status === 'STOP' ? 'bg-success' : ''}
-                      >
-                        STOP
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">No.2 PUMP:</span>
-                    <div className="flex gap-2">
-                      <Button
-                        variant={pump2Status === 'RUN' ? 'default' : 'outline'}
-                        onClick={() => setPump2Status('RUN')}
-                        size="sm"
-                        className={pump2Status === 'RUN' ? 'bg-success' : ''}
-                      >
-                        RUN
-                      </Button>
-                      <Button
-                        variant={pump2Status === 'STOP' ? 'default' : 'outline'}
-                        onClick={() => setPump2Status('STOP')}
-                        size="sm"
-                        className={pump2Status === 'STOP' ? 'bg-success' : ''}
-                      >
-                        STOP
-                      </Button>
-                    </div>
-                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => setTankMode('FULL')}
+                    className={`w-full h-16 ${tankMode === 'FULL' ? 'bg-white text-black hover:bg-white/90 border-2 border-foreground' : 'border-2 border-foreground'}`}
+                  >
+                    FULL
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setTankMode('MID_CIRC')}
+                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'MID_CIRC' ? 'bg-destructive text-destructive-foreground' : ''}`}
+                  >
+                    MID. CIRC.
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setTankMode('STOP')}
+                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'STOP' ? 'bg-red-300 text-foreground' : ''}`}
+                  >
+                    STOP
+                  </Button>
                 </div>
               </div>
 
-              {/* Lead Pump Select */}
-              <div className="border-t border-border/30 pt-4 mt-4">
-                <label className="text-xs text-muted-foreground mb-2 block">LEAD PUMP SELECT:</label>
-                <div className="flex gap-3">
-                  <Button
-                    variant={leadPump === 'No.1' ? 'default' : 'outline'}
-                    onClick={() => setLeadPump('No.1')}
-                    size="sm"
-                    className={leadPump === 'No.1' ? 'bg-warning text-warning-foreground' : ''}
-                  >
-                    No.1
-                  </Button>
-                  <Button
-                    variant={leadPump === 'No.2' ? 'default' : 'outline'}
-                    onClick={() => setLeadPump('No.2')}
-                    size="sm"
-                    className={leadPump === 'No.2' ? 'bg-warning text-warning-foreground' : ''}
-                  >
-                    No.2
-                  </Button>
+              {/* Right Column - Acid Pump Operation */}
+              <div>
+                <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
+
+                <div className="space-y-4">
+                  {/* Operation Place */}
+                  <div>
+                    <label className="text-xs font-semibold block text-center mb-2">OPE. PLACE:</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setOperationPlace('LOCAL')}
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
+                        LOCAL
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setOperationPlace('REMOTE')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${operationPlace === 'REMOTE' ? 'bg-warning text-warning-foreground' : ''}`}
+                      >
+                        REMOTE
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Pump Mode */}
+                  <div>
+                    <label className="text-xs font-semibold block text-center mb-2">PUMP MODE:</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setPumpMode('AUTO')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${pumpMode === 'AUTO' ? 'bg-warning text-warning-foreground' : ''}`}
+                      >
+                        AUTO
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setPumpMode('MAN')}
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
+                        MAN
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Pump Controls */}
+                  <div className="space-y-3 pt-2">
+                    <div>
+                      <div className="text-center mb-2">
+                        <span className="text-xs font-semibold">No.1 PUMP</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button
+                          variant="outline"
+                          onClick={() => setPump1Status('RUN')}
+                          size="sm"
+                          className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'RUN' ? 'bg-success' : ''}`}
+                        >
+                          RUN
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => setPump1Status('STOP')}
+                          size="sm"
+                          className={`h-8 border-2 border-foreground text-xs ${pump1Status === 'STOP' ? 'bg-success' : ''}`}
+                        >
+                          STOP
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-center mb-2">
+                        <span className="text-xs font-semibold">No.2 PUMP</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button
+                          variant="outline"
+                          onClick={() => setPump2Status('RUN')}
+                          size="sm"
+                          className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'RUN' ? 'bg-success' : ''}`}
+                        >
+                          RUN
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => setPump2Status('STOP')}
+                          size="sm"
+                          className={`h-8 border-2 border-foreground text-xs ${pump2Status === 'STOP' ? 'bg-success' : ''}`}
+                        >
+                          STOP
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="text-xs text-center text-muted-foreground">
+                      MANNUAL OPERATION
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
+                        RUN
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
+                        STOP
+                      </Button>
+                    </div>
+
+                    <div className="text-xs text-center text-muted-foreground">
+                      MANNUAL OPERATION
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
+                        RUN
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-2 border-foreground text-xs"
+                      >
+                        STOP
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Lead Pump Select */}
+                  <div className="pt-2">
+                    <label className="text-xs font-semibold block text-center mb-2">LEAD PUMP SELECT:</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setLeadPump('No.1')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground' : ''}`}
+                      >
+                        No.1
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setLeadPump('No.2')}
+                        size="sm"
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground' : ''}`}
+                      >
+                        No.2
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Initial Condition - Visual Representation */}
+        {/* Initial Condition */}
         <div className="hmi-card">
-          <h2 className="text-lg font-bold mb-6">Initial Condition</h2>
-          
-          <div className="glass-panel p-6">
-            <div className="space-y-6">
-              <div className="text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-warning/20 border border-warning/30">
-                  <div className="w-3 h-3 rounded-full bg-warning animate-pulse"></div>
-                  <span className="text-sm font-semibold text-warning">REMOTE MODE</span>
-                </div>
-              </div>
+          <div className="text-center mb-6">
+            <h2 className="text-lg font-bold">Initial Condition</h2>
+          </div>
 
-              <div className="text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-warning/20 border border-warning/30">
-                  <div className="w-3 h-3 rounded-full bg-warning animate-pulse"></div>
-                  <span className="text-sm font-semibold text-warning">AUTO MODE</span>
-                </div>
-              </div>
-
-              <div className="border-t border-border/30 pt-6">
-                <h3 className="text-sm font-semibold text-muted-foreground mb-4">Pump Status</h3>
+          <div className="border-2 border-foreground p-6">
+            <div className="grid grid-cols-2 gap-6">
+              {/* Left Column - Non PL TANK */}
+              <div>
+                <h3 className="text-sm font-semibold text-center mb-4">Non PL TANK (n:1,2,3)</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 glass-panel">
-                    <span className="font-medium">Pump No.1</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-success"></div>
-                      <span className="text-sm font-semibold text-success">STOPPED</span>
-                    </div>
+                  <div className="w-full h-16 border-2 border-foreground flex items-center justify-center bg-white text-black font-semibold">
+                    FULL
                   </div>
-                  <div className="flex items-center justify-between p-3 glass-panel">
-                    <span className="font-medium">Pump No.2</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-success"></div>
-                      <span className="text-sm font-semibold text-success">STOPPED</span>
-                    </div>
+                  <div className="w-full h-16 border-2 border-foreground flex items-center justify-center font-semibold">
+                    MID. CIRC.
+                  </div>
+                  <div className="w-full h-16 border-2 border-foreground flex items-center justify-center bg-red-300 font-semibold">
+                    STOP
                   </div>
                 </div>
               </div>
 
-              <div className="border-t border-border/30 pt-6">
-                <div className="flex items-center justify-between p-3 glass-panel bg-warning/10">
-                  <span className="font-medium">Lead Pump</span>
-                  <span className="text-lg font-bold text-warning">No.1</span>
+              {/* Right Column - Acid Pump Operation */}
+              <div>
+                <h3 className="text-sm font-semibold text-center mb-4">ACID PUMP OPERATION</h3>
+
+                <div className="space-y-4">
+                  {/* Operation Place */}
+                  <div>
+                    <label className="text-xs font-semibold block text-center mb-2">OPE. PLACE:</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        LOCAL
+                      </div>
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-warning text-warning-foreground">
+                        REMOTE
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Pump Mode */}
+                  <div>
+                    <label className="text-xs font-semibold block text-center mb-2">PUMP MODE:</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-warning text-warning-foreground">
+                        AUTO
+                      </div>
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        MAN
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Pump Controls */}
+                  <div className="space-y-3 pt-2">
+                    <div>
+                      <div className="text-center mb-2">
+                        <span className="text-xs font-semibold">No.1 PUMP</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                          RUN
+                        </div>
+                        <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-success">
+                          STOP
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-center mb-2">
+                        <span className="text-xs font-semibold">No.2 PUMP</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                          RUN
+                        </div>
+                        <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-success">
+                          STOP
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="text-xs text-center text-muted-foreground">
+                      MANNUAL OPERATION
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        RUN
+                      </div>
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        STOP
+                      </div>
+                    </div>
+
+                    <div className="text-xs text-center text-muted-foreground">
+                      MANNUAL OPERATION
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        RUN
+                      </div>
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        STOP
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Lead Pump Select */}
+                  <div className="pt-2">
+                    <label className="text-xs font-semibold block text-center mb-2">LEAD PUMP SELECT:</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold bg-warning text-warning-foreground">
+                        No.1
+                      </div>
+                      <div className="h-8 border-2 border-foreground flex items-center justify-center text-xs font-semibold">
+                        No.2
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
