@@ -208,7 +208,7 @@ const HMI04Trends = () => {
             <ResponsiveContainer width="100%" height={400}>
               <LineChart
                 data={chartData}
-                margin={{ top: 20, right: 20, left: 10, bottom: 40 }}
+                margin={{ top: 20, right: 20, left: 70, bottom: 40 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
                 <XAxis
@@ -232,8 +232,8 @@ const HMI04Trends = () => {
                   <Label
                     value={selectedParam.label}
                     angle={-90}
-                    position="insideLeft"
-                    offset={-35}
+                    position="left"
+                    offset={0}
                     style={{ fill: 'hsl(var(--muted-foreground))', textAnchor: 'middle' }}
                   />
                 </YAxis>
