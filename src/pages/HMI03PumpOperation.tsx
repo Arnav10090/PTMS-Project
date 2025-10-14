@@ -173,7 +173,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual1Run('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'RUN' ? 'bg-success' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'RUN' ? 'bg-success hover:bg-success' : ''}`}
                       >
                         RUN
                       </Button>
@@ -181,7 +181,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual1Run('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'STOP' ? 'bg-red-500 text-white' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual1Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : ''}`}
                       >
                         STOP
                       </Button>
@@ -195,7 +195,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual2Run('RUN')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'RUN' ? 'bg-success' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'RUN' ? 'bg-success hover:bg-success' : ''}`}
                       >
                         RUN
                       </Button>
@@ -203,7 +203,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setManual2Run('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'STOP' ? 'bg-red-500 text-white' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${manual2Run === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : ''}`}
                       >
                         STOP
                       </Button>
@@ -218,7 +218,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setLeadPump('No.1')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : ''}`}
                       >
                         No.1
                       </Button>
@@ -226,7 +226,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setLeadPump('No.2')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : ''}`}
                       >
                         No.2
                       </Button>
