@@ -41,21 +41,21 @@ const HMI03PumpOperation = () => {
                   <Button
                     variant="outline"
                     onClick={() => setTankMode('FULL')}
-                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'FULL' ? 'bg-white text-black hover:bg-white hover:text-black' : 'hover:bg-background hover:text-foreground'}`}
+                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'FULL' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     FULL
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => setTankMode('MID_CIRC')}
-                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'MID_CIRC' ? 'bg-destructive text-destructive-foreground hover:bg-destructive hover:text-destructive-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'MID_CIRC' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     MID. CIRC.
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => setTankMode('STOP')}
-                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'STOP' ? 'bg-red-300 text-foreground hover:bg-red-300 hover:text-foreground' : 'hover:bg-background hover:text-foreground'}`}
+                    className={`w-full h-16 border-2 border-foreground ${tankMode === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                   >
                     STOP
                   </Button>
@@ -171,6 +171,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         size="sm"
                         className="h-8 border-2 border-foreground text-xs"
+                        disabled
                       >
                         RUN
                       </Button>
@@ -178,6 +179,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         size="sm"
                         className="h-8 border-2 border-foreground text-xs"
+                        disabled
                       >
                         STOP
                       </Button>
@@ -191,6 +193,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         size="sm"
                         className="h-8 border-2 border-foreground text-xs"
+                        disabled
                       >
                         RUN
                       </Button>
@@ -198,6 +201,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         size="sm"
                         className="h-8 border-2 border-foreground text-xs"
+                        disabled
                       >
                         STOP
                       </Button>
@@ -212,7 +216,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setLeadPump('No.1')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : ''}`}
                       >
                         No.1
                       </Button>
@@ -220,7 +224,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setLeadPump('No.2')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : ''}`}
                       >
                         No.2
                       </Button>
