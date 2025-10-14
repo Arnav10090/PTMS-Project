@@ -572,7 +572,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setMCPump1Status('STOP')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${MCpump2Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
+                        className={`h-8 border-2 border-foreground text-xs ${MCpump1Status === 'STOP' ? 'bg-red-500 text-white hover:bg-red-500 hover:text-white' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         STOP
                       </Button>
