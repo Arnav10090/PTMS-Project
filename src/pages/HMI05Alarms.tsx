@@ -476,12 +476,18 @@ const HMI05Alarms = () => {
             {filtered.length === 0 ? 'Showing 0 of 0 alarms' : `Showing ${start + 1}-${end} of ${filtered.length} alarms`}
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" disabled={currentPage === 1} onClick={() => setPage(1)}>
+              First
+            </Button>
             <Button variant="outline" size="sm" disabled={currentPage === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
               « Prev
             </Button>
             {renderPageButtons()}
             <Button variant="outline" size="sm" disabled={currentPage === pageCount} onClick={() => setPage((p) => Math.min(pageCount, p + 1))}>
               Next »
+            </Button>
+            <Button variant="outline" size="sm" disabled={currentPage === pageCount} onClick={() => setPage(pageCount)}>
+              Last
             </Button>
           </div>
         </div>
