@@ -218,7 +218,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setLeadPump('No.1')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.1' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         No.1
                       </Button>
@@ -226,7 +226,7 @@ const HMI03PumpOperation = () => {
                         variant="outline"
                         onClick={() => setLeadPump('No.2')}
                         size="sm"
-                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : ''}`}
+                        className={`h-8 border-2 border-foreground text-xs ${leadPump === 'No.2' ? 'bg-warning text-warning-foreground hover:bg-warning hover:text-warning-foreground' : 'hover:bg-background hover:text-foreground'}`}
                       >
                         No.2
                       </Button>
