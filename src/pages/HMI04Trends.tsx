@@ -254,14 +254,29 @@ const HMI04Trends = () => {
             </ResponsiveContainer>
 
             <div className="flex justify-center gap-4 mt-6">
-              <button className="px-4 py-2 rounded-lg bg-primary/20 hover:bg-primary/30 text-primary font-semibold text-sm transition-colors">
+              <button
+                onClick={() => setTimeframe('hour')}
+                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${
+                  timeframe === 'hour' ? 'bg-primary/20 text-primary' : 'hover:bg-muted/30 text-muted-foreground'
+                }`}
+              >
                 Hour
               </button>
-              <button className="px-4 py-2 rounded-lg hover:bg-muted/30 text-muted-foreground font-semibold text-sm transition-colors">
+              <button
+                onClick={() => setTimeframe('day')}
+                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${
+                  timeframe === 'day' ? 'bg-primary/20 text-primary' : 'hover:bg-muted/30 text-muted-foreground'
+                }`}
+              >
                 Day
               </button>
-              <button className="px-4 py-2 rounded-lg hover:bg-muted/30 text-muted-foreground font-semibold text-sm transition-colors">
-                Period
+              <button
+                onClick={() => setTimeframe('month')}
+                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${
+                  timeframe === 'month' ? 'bg-primary/20 text-primary' : 'hover:bg-muted/30 text-muted-foreground'
+                }`}
+              >
+                Month
               </button>
             </div>
           </div>
