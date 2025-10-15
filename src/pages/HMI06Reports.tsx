@@ -216,8 +216,8 @@ const HMI06Reports = () => {
 
   // export handlers per table
   const exportCoils = () => {
-    const headers = ['SN','Coil ID','Grade','Width','Weight','Thick','Line Speed','Start Time','End Time','Total Time','Output (T)','Prod Rate (T/Hr)','Pickling Line','KWH/Ton','Coil Yield %','Quality','Tank1 Temp','Tank1 Cond','Tank1 Density','Tank1 Conc','Tank1 pH','Tank2 Temp','Tank2 Cond','Tank2 Density','Tank2 Conc','Tank2 pH','Tank3 Temp','Tank3 Cond','Tank3 Density','Tank3 Conc','Tank3 pH','Rinse Temp','Rinse Cond','Rinse pH'];
-    const rows = filteredCoils.map((r: CoilRow) => [r.sn,r.coilId,r.grade,r.width,r.weight,r.thick,r.lineSpeed,r.startTime,r.endTime,r.totalTime,r.output,r.prodRate,r.picklingLine,r.kwhTon,r.yieldPct,r.quality,r.t1Temp,r.t1Cond,r.t1Dens,r.t1Conc,r.t1pH,r.t2Temp,r.t2Cond,r.t2Dens,r.t2Conc,r.t2pH,r.t3Temp,r.t3Cond,r.t3Dens,r.t3Conc,r.t3pH,r.rinseTemp,r.rinseCond,r.rinsePH]);
+    const headers = ['SN','Coil ID','Grade','Width','Weight','Thick','Line Speed (mpm)','Start Time','End Time','Total Time','Output (Ton)','Prod Rate (Ton/Hr)','Pickling Line','KWH/Ton','Coil Yield %','Quality','Tank1 Temp','Tank1 Cond','Tank1 Density','Tank1 Conc','Tank1 pH','Tank2 Temp','Tank2 Cond','Tank2 Density','Tank2 Conc','Tank2 pH','Tank3 Temp','Tank3 Cond','Tank3 Density','Tank3 Conc','Tank3 pH','Rinse Temp','Rinse pH'];
+    const rows = filteredCoils.map((r: CoilRow) => [r.sn,r.coilId,r.grade,r.width,r.weight,r.thick,r.lineSpeed,r.startTime,r.endTime,r.totalTime,r.output,r.prodRate,r.picklingLine,r.kwhTon,r.yieldPct,r.quality,r.t1Temp,r.t1Cond,r.t1Dens,r.t1Conc,r.t1pH,r.t2Temp,r.t2Cond,r.t2Dens,r.t2Conc,r.t2pH,r.t3Temp,r.t3Cond,r.t3Dens,r.t3Conc,r.t3pH,r.rinseTemp,r.rinsePH]);
     exportCSV('coil_report.csv', headers, rows);
   };
 
@@ -313,17 +313,17 @@ const HMI06Reports = () => {
               <tr className="border-b border-border/50 bg-muted/20">
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">SN</th>
                 <th colSpan={5} className="py-2 px-3 text-center font-semibold">Coil Data</th>
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Line Speed</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Line Speed (mpm)</th>
                 <th colSpan={3} className="py-2 px-3 text-center font-semibold">Coil Time</th>
                 <th colSpan={2} className="py-2 px-3 text-center font-semibold">Output</th>
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Pickling Line</th>
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">KWH/Ton</th>
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Coil Yield %</th>
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Quality</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Tank-1 Details</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Tank-2 Details</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Tank-3 Details</th>
-                <th colSpan={3} className="py-2 px-3 text-center font-semibold">Rinse Tank</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Quality</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-1 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-2 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-3 Details</th>
+                <th colSpan={2} className="py-2 px-3 text-center font-semibold">Rinse Tank</th>
               </tr>
               <tr className="border-b border-border/50 bg-muted/20">
                 <th className="py-2 px-3 text-center font-semibold">Coil ID</th>
@@ -334,8 +334,8 @@ const HMI06Reports = () => {
                 <th className="py-2 px-3 text-center font-semibold">Start Time</th>
                 <th className="py-2 px-3 text-center font-semibold">End Time</th>
                 <th className="py-2 px-3 text-center font-semibold">Total</th>
-                <th className="py-2 px-3 text-center font-semibold">Output (T)</th>
-                <th className="py-2 px-3 text-center font-semibold">Prod Rate (T/Hr)</th>
+                <th className="py-2 px-3 text-center font-semibold">Output (Ton)</th>
+                <th className="py-2 px-3 text-center font-semibold">Prod Rate (Ton/Hr)</th>
                 <th className="py-2 px-3 text-center font-semibold">Temp</th>
                 <th className="py-2 px-3 text-center font-semibold">Cond</th>
                 <th className="py-2 px-3 text-center font-semibold">Density</th>
@@ -352,7 +352,6 @@ const HMI06Reports = () => {
                 <th className="py-2 px-3 text-center font-semibold">Conc.</th>
                 <th className="py-2 px-3 text-center font-semibold">pH</th>
                 <th className="py-2 px-3 text-center font-semibold">Temp</th>
-                <th className="py-2 px-3 text-center font-semibold">Cond</th>
                 <th className="py-2 px-3 text-center font-semibold">pH</th>
               </tr>
             </thead>
@@ -374,24 +373,23 @@ const HMI06Reports = () => {
                   <td className="py-2 px-3 font-mono">{row.picklingLine}</td>
                   <td className="py-2 px-3 font-mono">{row.kwhTon}</td>
                   <td className="py-2 px-3 font-mono text-success">{row.yieldPct}%</td>
-                  <td className="py-2 px-3">{row.quality}</td>
+                  <td className="py-2 px-3 border-r border-black dark:border-white">{row.quality}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Temp}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Cond}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Dens}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Conc}</td>
-                  <td className="py-2 px-3 font-mono">{row.t1pH}</td>
+                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t1pH}</td>
                   <td className="py-2 px-3 font-mono">{row.t2Temp}</td>
                   <td className="py-2 px-3 font-mono">{row.t2Cond}</td>
                   <td className="py-2 px-3 font-mono">{row.t2Dens}</td>
                   <td className="py-2 px-3 font-mono">{row.t2Conc}</td>
-                  <td className="py-2 px-3 font-mono">{row.t2pH}</td>
+                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t2pH}</td>
                   <td className="py-2 px-3 font-mono">{row.t3Temp}</td>
                   <td className="py-2 px-3 font-mono">{row.t3Cond}</td>
                   <td className="py-2 px-3 font-mono">{row.t3Dens}</td>
                   <td className="py-2 px-3 font-mono">{row.t3Conc}</td>
-                  <td className="py-2 px-3 font-mono">{row.t3pH}</td>
+                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t3pH}</td>
                   <td className="py-2 px-3 font-mono">{row.rinseTemp}</td>
-                  <td className="py-2 px-3 font-mono">{row.rinseCond}</td>
                   <td className="py-2 px-3 font-mono">{row.rinsePH}</td>
                 </tr>
               ))}
