@@ -607,7 +607,7 @@ const HMI06Reports = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full text-center">
             <thead>
               <tr className="border-b border-border/50 bg-muted/20">
                 <th className="py-3 px-4 text-center font-semibold">SN</th>
@@ -620,11 +620,11 @@ const HMI06Reports = () => {
             <tbody>
               {consPageObj.rows.map((row: ConsumptionRow) => (
                 <tr key={row.sn} className="border-b border-border/30 hover:bg-muted/10">
-                  <td className="py-3 px-4 font-mono">{row.sn}</td>
-                  <td className="py-3 px-4 font-medium">{row.param}</td>
-                  <td className="py-3 px-4 font-mono">{row.uom}</td>
-                  <td className="py-3 px-4 font-mono text-lg font-semibold text-primary">{row.day}</td>
-                  <td className="py-3 px-4 font-mono text-lg font-semibold">{row.cumulative}</td>
+                  <td className="py-3 px-4 font-mono text-center">{row.sn}</td>
+                  <td className="py-3 px-4 font-medium text-center">{row.param}</td>
+                  <td className="py-3 px-4 font-mono text-center">{row.uom}</td>
+                  <td className="py-3 px-4 font-mono text-lg font-semibold text-primary text-center">{row.day}</td>
+                  <td className="py-3 px-4 font-mono text-lg font-semibold text-center">{row.cumulative}</td>
                 </tr>
               ))}
             </tbody>
