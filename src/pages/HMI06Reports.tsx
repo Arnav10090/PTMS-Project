@@ -319,7 +319,7 @@ const HMI06Reports = () => {
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Pickling Line</th>
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">KWH/Ton</th>
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Coil Yield %</th>
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Quality</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Quality</th>
                 <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-1 Details</th>
                 <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-2 Details</th>
                 <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-3 Details</th>
@@ -373,7 +373,7 @@ const HMI06Reports = () => {
                   <td className="py-2 px-3 font-mono">{row.picklingLine}</td>
                   <td className="py-2 px-3 font-mono">{row.kwhTon}</td>
                   <td className="py-2 px-3 font-mono text-success">{row.yieldPct}%</td>
-                  <td className="py-2 px-3">{row.quality}</td>
+                  <td className="py-2 px-3 border-r border-black dark:border-white">{row.quality}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Temp}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Cond}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Dens}</td>
