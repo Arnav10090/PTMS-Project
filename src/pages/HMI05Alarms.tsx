@@ -325,6 +325,25 @@ const HMI05Alarms = () => {
       .filter((a): a is Alarm => !!a && a.status === 'active');
   }, [popupAlarmIds, data]);
 
+  // applied filters for UI chips
+  const appliedFilters = useMemo(() => {
+    const filters: { key: string; label: string; clear: () => void }[] = [];
+    if (severity !== 'all-severity') {
+      filters.push({ key: 'severity', label: `Severity: ${severity}`, clear: () => { setSeverity('all-severity'); resetToFirstPage(); } });
+    }
+    if (status !== 'all-status') {
+      filters.push({ key: 'status', label: `Status: ${status}`, clear: () => { setStatus('all-status'); resetToFirstPage(); } });
+    }
+    if (timeRange !== '24h') {
+      const labelMap: Record<string,string> = { '1h': 'Last Hour', '24h': 'Last 24 Hours', '7d': 'Last 7 Days', 'custom': 'All Time' };
+      filters.push({ key: 'timeRange', label: `Time: ${labelMap[timeRange] ?? timeRange}`, clear: () => { setTimeRange('24h'); resetToFirstPage(); } });
+    }
+    if (query.trim()) {
+      filters.push({ key: 'query', label: `Search: "${query.trim()}"`, clear: () => { setQuery(''); resetToFirstPage(); } });
+    }
+    return filters;
+  }, [severity, status, timeRange, query]);
+
   // footer alarms details
   const footerAlarms = footerIds.map((id) => data.find((a) => a.id === id)).filter((a): a is Alarm => !!a);
 
