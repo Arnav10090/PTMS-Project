@@ -18,7 +18,6 @@ const HMI01Tabs = () => {
             <p className="text-sm text-muted-foreground mt-1">Pickling Tank Concentration Monitoring System</p>
           </div>
         </div>
-        <StatusBadge status="running" label="System Running" pulse />
       </div>
 
       <TopInfoPanel />
