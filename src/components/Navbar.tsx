@@ -1,4 +1,5 @@
 import { Activity } from 'lucide-react';
+import { Tank as TankIcon } from '@/components/icons/Tank';
 import { ThemeToggle } from './ThemeToggle';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 import { useLastStatsUpdate } from '@/lib/lastUpdate';
@@ -52,7 +53,7 @@ export const Navbar = ({ isCollapsed }: NavbarProps) => {
       className={`fixed top-0 right-0 ${isCollapsed ? 'left-20' : 'left-64'} h-16 glass-panel border-b border-border/50 flex items-center justify-between px-6 z-40 transition-all duration-300`}
     >
       <div className="flex items-center gap-3">
-        <Activity className="w-6 h-6 text-primary" />
+        <TankIcon className="w-6 h-6 text-primary" />
         <div>
           <h1 className="text-lg font-bold">Pickling Tank Monitoring System</h1>
         </div>
