@@ -607,24 +607,24 @@ const HMI06Reports = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-center">
+          <table className="w-full text-center text-[11px] border border-border/40">
             <thead>
-              <tr className="border-b border-border/50 bg-muted/20">
-                <th className="py-3 px-4 text-center font-semibold">SN</th>
-                <th className="py-3 px-4 text-center font-semibold">Parameter Name</th>
-                <th className="py-3 px-4 text-center font-semibold">UOM</th>
-                <th className="py-3 px-4 text-center font-semibold">Day</th>
-                <th className="py-3 px-4 text-center font-semibold">Cumulative</th>
+              <tr className="bg-muted/20">
+                <th className="py-3 px-4 border border-border/40 text-center font-semibold">SN</th>
+                <th className="py-3 px-4 border border-border/40 text-center font-semibold">Parameter Name</th>
+                <th className="py-3 px-4 border border-border/40 text-center font-semibold">UOM</th>
+                <th className="py-3 px-4 border border-border/40 text-center font-semibold">Day</th>
+                <th className="py-3 px-4 border border-border/40 text-center font-semibold">Cumulative</th>
               </tr>
             </thead>
             <tbody>
               {consPageObj.rows.map((row: ConsumptionRow) => (
-                <tr key={row.sn} className="border-b border-border/30 hover:bg-muted/10">
-                  <td className="py-3 px-4 font-mono text-center">{row.sn}</td>
-                  <td className="py-3 px-4 font-medium text-center">{row.param}</td>
-                  <td className="py-3 px-4 font-mono text-center">{row.uom}</td>
-                  <td className="py-3 px-4 font-mono text-lg font-semibold text-primary text-center">{row.day}</td>
-                  <td className="py-3 px-4 font-mono text-lg font-semibold text-center">{row.cumulative}</td>
+                <tr key={row.sn} className="hover:bg-muted/10">
+                  <td className="py-3 px-4 border border-border/30 font-mono text-center">{row.sn}</td>
+                  <td className="py-3 px-4 border border-border/30 font-medium text-center">{row.param}</td>
+                  <td className="py-3 px-4 border border-border/30 font-mono text-center">{row.uom}</td>
+                  <td className="py-3 px-4 border border-border/30 font-mono text-lg font-semibold text-primary text-center">{row.day}</td>
+                  <td className="py-3 px-4 border border-border/30 font-mono text-lg font-semibold text-center">{row.cumulative}</td>
                 </tr>
               ))}
             </tbody>
