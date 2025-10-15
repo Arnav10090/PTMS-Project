@@ -41,13 +41,22 @@ type DailyRow = {
   inWt: number;
   outWt: number;
   yieldPct: number;
-  tankTemp: string;
-  tankConc: string;
-  faCons: string;
-  raCons: string;
+  tank1AvgTemp: string;
+  tank1AvgConc: string;
+  tank2AvgTemp: string;
+  tank2AvgConc: string;
+  tank3AvgTemp: string;
+  tank3AvgConc: string;
+  rinseTemp: string;
+  rinsePH: string;
+  faConsLtrs: number;
+  faCostInr: number;
+  raConsLtrs: number;
+  raCostInr: number;
   runHrs: number;
-  prodRate: string;
+  prodRate: number;
   utilPct: number;
+  avgLineSpeed: number;
 };
 
 type ConsumptionRow = {
@@ -103,13 +112,22 @@ const makeDailyRows = (count = 30): DailyRow[] =>
     inWt: Number((200 + (i % 20) * 2.5).toFixed(1)),
     outWt: Number((190 + (i % 20) * 2.4).toFixed(1)),
     yieldPct: Number((90 + (i % 10) * 0.7).toFixed(1)),
-    tankTemp: `${80 + (i % 5)}°C`,
-    tankConc: `${15 + (i % 10)}%`,
-    faCons: `${100 + (i % 20)} L`,
-    raCons: `${300 + (i % 30)} L`,
+    tank1AvgTemp: `${78 + (i % 4)}°C`,
+    tank1AvgConc: `${(14 + (i % 5) * 0.4).toFixed(1)}%`,
+    tank2AvgTemp: `${76 + (i % 4)}°C`,
+    tank2AvgConc: `${(13 + (i % 4) * 0.5).toFixed(1)}%`,
+    tank3AvgTemp: `${74 + (i % 4)}°C`,
+    tank3AvgConc: `${(12 + (i % 3) * 0.6).toFixed(1)}%`,
+    rinseTemp: `${32 + (i % 3)}°C`,
+    rinsePH: `${(6.5 + (i % 3) * 0.1).toFixed(1)}`,
+    faConsLtrs: Number((110 + (i % 12) * 3.2).toFixed(1)),
+    faCostInr: Number((4500 + (i % 12) * 120).toFixed(0)),
+    raConsLtrs: Number((280 + (i % 15) * 4.5).toFixed(1)),
+    raCostInr: Number((6700 + (i % 10) * 150).toFixed(0)),
     runHrs: Number((20 + (i % 5) * 0.5).toFixed(1)),
-    prodRate: `${10 + (i % 6)} T/Hr`,
+    prodRate: Number((10 + (i % 6) * 0.4).toFixed(1)),
     utilPct: Number((80 + (i % 15) * 1).toFixed(1)),
+    avgLineSpeed: Number((65 + (i % 8) * 1.3).toFixed(1)),
   }));
 
 const makeConsumptionRows = (count = 20): ConsumptionRow[] =>
@@ -228,8 +246,31 @@ const HMI06Reports = () => {
   };
 
   const exportDaily = () => {
-    const headers = ['SN','Date','No Coils','I/P Wt (T)','O/P Wt (T)','Yield %','Tank-1 Temp','Tank-1 Conc','FA Cons.','RA Cons.','Run Hrs','Prod Rate','Utilzn %'];
-    const rows = filteredDaily.map((r: DailyRow) => [r.sn,r.date,r.coils,r.inWt,r.outWt,r.yieldPct,r.tankTemp,r.tankConc,r.faCons,r.raCons,r.runHrs,r.prodRate,r.utilPct]);
+    const headers = ['SN','Date','No. of Coils','I/P Wt (Tons)','O/P Wt (Tons)','Yield %','Tank-1 Avg Temp (°C)','Tank-1 Avg Conc (%wt)','Tank-2 Avg Temp (°C)','Tank-2 Avg Conc (%wt)','Tank-3 Avg Temp (°C)','Tank-3 Avg Conc (%wt)','Rinse Temp (°C)','Rinse pH','FA Cons. (ltrs)','FA Cost (INR)','RA Cons. (ltrs)','RA Cost (INR)','Runn. Hours (Hrs)','Prod. rate (T/Hr)','Avg. Utilzn %','Avg. Line Speed (mpm)'];
+    const rows = filteredDaily.map((r: DailyRow) => [
+      r.sn,
+      r.date,
+      r.coils,
+      r.inWt,
+      r.outWt,
+      r.yieldPct,
+      r.tank1AvgTemp,
+      r.tank1AvgConc,
+      r.tank2AvgTemp,
+      r.tank2AvgConc,
+      r.tank3AvgTemp,
+      r.tank3AvgConc,
+      r.rinseTemp,
+      r.rinsePH,
+      r.faConsLtrs,
+      r.faCostInr,
+      r.raConsLtrs,
+      r.raCostInr,
+      r.runHrs,
+      r.prodRate,
+      r.utilPct,
+      r.avgLineSpeed,
+    ]);
     exportCSV('daily_report.csv', headers, rows);
   };
 
