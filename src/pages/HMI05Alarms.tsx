@@ -1,10 +1,11 @@
 import { TopInfoPanel } from '@/components/TopInfoPanel';
-import { Bell, Search, Download, CheckCircle, AlertTriangle, AlertCircle, Info, ChevronsDown, ChevronsUp } from 'lucide-react';
+import { Bell, Search, Download, CheckCircle, AlertTriangle, AlertCircle, Info, ChevronsDown, ChevronsUp, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from '@/components/ui/sonner';
+import { formatDateTimeDisplay } from '@/lib/datetime';
 
 type Severity = 'critical' | 'high' | 'medium' | 'low';
 type Status = 'active' | 'acknowledged' | 'cleared';
@@ -324,6 +325,25 @@ const HMI05Alarms = () => {
       .filter((a): a is Alarm => !!a && a.status === 'active');
   }, [popupAlarmIds, data]);
 
+  // applied filters for UI chips
+  const appliedFilters = useMemo(() => {
+    const filters: { key: string; label: string; clear: () => void }[] = [];
+    if (severity !== 'all-severity') {
+      filters.push({ key: 'severity', label: `Severity: ${severity}`, clear: () => { setSeverity('all-severity'); resetToFirstPage(); } });
+    }
+    if (status !== 'all-status') {
+      filters.push({ key: 'status', label: `Status: ${status}`, clear: () => { setStatus('all-status'); resetToFirstPage(); } });
+    }
+    if (timeRange !== '24h') {
+      const labelMap: Record<string,string> = { '1h': 'Last Hour', '24h': 'Last 24 Hours', '7d': 'Last 7 Days', 'custom': 'All Time' };
+      filters.push({ key: 'timeRange', label: `Time: ${labelMap[timeRange] ?? timeRange}`, clear: () => { setTimeRange('24h'); resetToFirstPage(); } });
+    }
+    if (query.trim()) {
+      filters.push({ key: 'query', label: `Search: "${query.trim()}"`, clear: () => { setQuery(''); resetToFirstPage(); } });
+    }
+    return filters;
+  }, [severity, status, timeRange, query]);
+
   // footer alarms details
   const footerAlarms = footerIds.map((id) => data.find((a) => a.id === id)).filter((a): a is Alarm => !!a);
 
@@ -412,6 +432,23 @@ const HMI05Alarms = () => {
           </Button>
         </div>
 
+        {appliedFilters.length > 0 && (
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+            <span className="font-semibold uppercase tracking-wide text-muted-foreground">Active Filters:</span>
+            {appliedFilters.map((f) => (
+              <span key={f.key} className="inline-flex items-center gap-2 rounded-full bg-muted/20 px-3 py-1 text-muted-foreground">
+                <span className="text-xs font-medium text-foreground">{f.label}</span>
+                <button type="button" onClick={f.clear} className="rounded-full p-1 hover:bg-muted/40">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            ))}
+            <Button variant="ghost" size="sm" className="h-7 px-2" onClick={() => { setSeverity('all-severity'); setStatus('all-status'); setTimeRange('24h'); setQuery(''); resetToFirstPage(); }}>
+              Clear all
+            </Button>
+          </div>
+        )}
+
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -438,7 +475,7 @@ const HMI05Alarms = () => {
                     key={alarm.id}
                     className={`border-b border-border/30 hover:bg-muted/20 transition-colors ${alarm.status === 'active' ? 'border-l-4 border-l-destructive' : ''}`}
                   >
-                    <td className="py-3 px-4 text-sm font-mono">{alarm.timestamp}</td>
+                    <td className="py-3 px-4 text-sm font-mono">{formatDateTimeDisplay(alarm.timestamp)}</td>
                     <td className="py-3 px-4">
                       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg ${sev.bg} ${sev.border} border`}>
                         <SeverityIcon className={`w-4 h-4 ${sev.color}`} />

@@ -3,6 +3,7 @@ import { Tank as TankIcon } from '@/components/icons/Tank';
 import { ThemeToggle } from './ThemeToggle';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 import { useLastStatsUpdate } from '@/lib/lastUpdate';
+import { formatDateTimeDisplay } from '@/lib/datetime';
 import { useEffect, useState } from 'react';
 
 interface NavbarProps {
@@ -31,19 +32,7 @@ export const Navbar = ({ isCollapsed }: NavbarProps) => {
 
     const ts = snapshot ?? now;
     // time with seconds for the tooltip but frozen after mount
-    const timeStr = ts.toLocaleTimeString('en-GB', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-    const dateStr = ts.toLocaleDateString('en-GB', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-
-    const nowStr = `${timeStr}, ${dateStr}`;
+    const nowStr = formatDateTimeDisplay(ts);
 
     return <div>Stats last updated at ({nowStr})</div>;
   };
@@ -75,17 +64,7 @@ export const Navbar = ({ isCollapsed }: NavbarProps) => {
           </Tooltip>
         </TooltipProvider>
 
-        <div className="text-sm font-mono text-muted-foreground">
-          {now.toLocaleString('en-GB', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false,
-          })}
-        </div>
+        <div className="text-sm font-mono text-muted-foreground">{formatDateTimeDisplay(now)}</div>
 
         <ThemeToggle />
       </div>
