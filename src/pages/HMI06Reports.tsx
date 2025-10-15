@@ -482,40 +482,66 @@ const HMI06Reports = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-xs">
+          <table className="w-full text-[11px] border border-border/40">
             <thead>
-              <tr className="border-b border-border/50 bg-muted/20">
-                <th className="py-2 px-3 text-center font-semibold">SN</th>
-                <th className="py-2 px-3 text-center font-semibold">Date</th>
-                <th className="py-2 px-3 text-center font-semibold">No. Coils</th>
-                <th className="py-2 px-3 text-center font-semibold">I/P Wt (T)</th>
-                <th className="py-2 px-3 text-center font-semibold">O/P Wt (T)</th>
-                <th className="py-2 px-3 text-center font-semibold">Yield %</th>
-                <th className="py-2 px-3 text-center font-semibold">Tank-1 Temp</th>
-                <th className="py-2 px-3 text-center font-semibold">Tank-1 Conc</th>
-                <th className="py-2 px-3 text-center font-semibold">FA Cons.</th>
-                <th className="py-2 px-3 text-center font-semibold">RA Cons.</th>
-                <th className="py-2 px-3 text-center font-semibold">Run Hrs</th>
-                <th className="py-2 px-3 text-center font-semibold">Prod Rate</th>
-                <th className="py-2 px-3 text-center font-semibold">Utilzn %</th>
+              <tr className="bg-muted/20">
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">SN</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Date</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">No. of Coils</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">I/P Wt (Tons)</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">O/P Wt (Tons)</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Yield %</th>
+                <th colSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Tank-1 data</th>
+                <th colSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Tank-2 data</th>
+                <th colSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Tank-3 data</th>
+                <th colSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Rinse Tank</th>
+                <th colSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">FA</th>
+                <th colSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">RA</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Runn. Hours (Hrs)</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Prod. rate (T/Hr)</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Avg. Utilzn %</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Avg. Line Speed (mpm)</th>
+              </tr>
+              <tr className="bg-muted/20">
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Avg Temp Deg C</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Avg Conc %wt</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Avg Temp Deg C</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Avg Conc %wt</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Avg Temp Deg C</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Avg Conc %wt</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Temp Deg C</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">pH</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Cons. ltrs</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Cost (INR)</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Cons. ltrs</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Cost (INR)</th>
               </tr>
             </thead>
             <tbody>
               {dailyPageObj.rows.map((row: DailyRow) => (
-                <tr key={row.sn} className="border-b border-border/30 hover:bg-muted/10">
-                  <td className="py-2 px-3 font-mono">{row.sn}</td>
-                  <td className="py-2 px-3 font-mono">{row.date}</td>
-                  <td className="py-2 px-3 font-mono text-center">{row.coils}</td>
-                  <td className="py-2 px-3 font-mono">{row.inWt}</td>
-                  <td className="py-2 px-3 font-mono">{row.outWt}</td>
-                  <td className="py-2 px-3 font-mono text-success">{row.yieldPct}%</td>
-                  <td className="py-2 px-3 font-mono">{row.tankTemp}</td>
-                  <td className="py-2 px-3 font-mono">{row.tankConc}</td>
-                  <td className="py-2 px-3 font-mono">{row.faCons}</td>
-                  <td className="py-2 px-3 font-mono">{row.raCons}</td>
-                  <td className="py-2 px-3 font-mono">{row.runHrs}</td>
-                  <td className="py-2 px-3 font-mono">{row.prodRate}</td>
-                  <td className="py-2 px-3 font-mono text-warning">{row.utilPct}%</td>
+                <tr key={row.sn} className="hover:bg-muted/10">
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.sn}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.date}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.coils}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.inWt.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.outWt.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-success">{row.yieldPct.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank1AvgTemp}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank1AvgConc}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank2AvgTemp}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank2AvgConc}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank3AvgTemp}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank3AvgConc}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.rinseTemp}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.rinsePH}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.faConsLtrs.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.faCostInr.toLocaleString('en-IN')}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.raConsLtrs.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.raCostInr.toLocaleString('en-IN')}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.runHrs.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.prodRate.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-warning">{row.utilPct.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.avgLineSpeed.toFixed(1)}</td>
                 </tr>
               ))}
             </tbody>
