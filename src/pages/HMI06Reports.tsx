@@ -349,89 +349,89 @@ const HMI06Reports = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-xs">
+          <table className="w-full text-[11px] border border-border/40">
             <thead>
-              <tr className="border-b border-border/50 bg-muted/20">
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">SN</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Coil Data</th>
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Line Speed (mpm)</th>
-                <th colSpan={3} className="py-2 px-3 text-center font-semibold">Coil Time</th>
-                <th colSpan={2} className="py-2 px-3 text-center font-semibold">Output</th>
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Pickling Line</th>
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">KWH/Ton</th>
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Coil Yield %</th>
-                <th rowSpan={2} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Quality</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-1 Details</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-2 Details</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-3 Details</th>
-                <th colSpan={2} className="py-2 px-3 text-center font-semibold">Rinse Tank</th>
+              <tr className="bg-muted/20">
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">SN</th>
+                <th colSpan={5} className="py-2 px-2 border border-border/40 text-center font-semibold">Coil Data</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Line Speed (mpm)</th>
+                <th colSpan={3} className="py-2 px-2 border border-border/40 text-center font-semibold">Coil Time</th>
+                <th colSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Output</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Pickling Line</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">KWH/Ton</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Coil Yield %</th>
+                <th rowSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Quality</th>
+                <th colSpan={5} className="py-2 px-2 border border-border/40 text-center font-semibold">Tank-1 data</th>
+                <th colSpan={5} className="py-2 px-2 border border-border/40 text-center font-semibold">Tank-2 data</th>
+                <th colSpan={5} className="py-2 px-2 border border-border/40 text-center font-semibold">Tank-3 data</th>
+                <th colSpan={2} className="py-2 px-2 border border-border/40 text-center font-semibold">Rinse Tank</th>
               </tr>
-              <tr className="border-b border-border/50 bg-muted/20">
-                <th className="py-2 px-3 text-center font-semibold">Coil ID</th>
-                <th className="py-2 px-3 text-center font-semibold">Grade</th>
-                <th className="py-2 px-3 text-center font-semibold">Width</th>
-                <th className="py-2 px-3 text-center font-semibold">Weight</th>
-                <th className="py-2 px-3 text-center font-semibold">Thick</th>
-                <th className="py-2 px-3 text-center font-semibold">Start Time</th>
-                <th className="py-2 px-3 text-center font-semibold">End Time</th>
-                <th className="py-2 px-3 text-center font-semibold">Total</th>
-                <th className="py-2 px-3 text-center font-semibold">Output (Ton)</th>
-                <th className="py-2 px-3 text-center font-semibold">Prod Rate (Ton/Hr)</th>
-                <th className="py-2 px-3 text-center font-semibold">Temp</th>
-                <th className="py-2 px-3 text-center font-semibold">Cond</th>
-                <th className="py-2 px-3 text-center font-semibold">Density</th>
-                <th className="py-2 px-3 text-center font-semibold">Conc.</th>
-                <th className="py-2 px-3 text-center font-semibold">pH</th>
-                <th className="py-2 px-3 text-center font-semibold">Temp</th>
-                <th className="py-2 px-3 text-center font-semibold">Cond</th>
-                <th className="py-2 px-3 text-center font-semibold">Density</th>
-                <th className="py-2 px-3 text-center font-semibold">Conc.</th>
-                <th className="py-2 px-3 text-center font-semibold">pH</th>
-                <th className="py-2 px-3 text-center font-semibold">Temp</th>
-                <th className="py-2 px-3 text-center font-semibold">Cond</th>
-                <th className="py-2 px-3 text-center font-semibold">Density</th>
-                <th className="py-2 px-3 text-center font-semibold">Conc.</th>
-                <th className="py-2 px-3 text-center font-semibold">pH</th>
-                <th className="py-2 px-3 text-center font-semibold">Temp</th>
-                <th className="py-2 px-3 text-center font-semibold">pH</th>
+              <tr className="bg-muted/20">
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Coil ID</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Grade</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Width</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Weight</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Thick</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Start Time</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">End Time</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Total</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Output (Ton)</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Prod Rate (Ton/Hr)</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Temp</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Cond</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Density</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Conc.</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">pH</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Temp</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Cond</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Density</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Conc.</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">pH</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Temp</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Cond</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Density</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Conc.</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">pH</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">Temp</th>
+                <th className="py-2 px-2 border border-border/40 text-center font-semibold">pH</th>
               </tr>
             </thead>
             <tbody>
               {coilsPage.rows.map((row: CoilRow) => (
-                <tr key={row.sn} className="border-b border-border/30 hover:bg-muted/10">
-                  <td className="py-2 px-3 font-mono">{row.sn}</td>
-                  <td className="py-2 px-3 font-mono">{row.coilId}</td>
-                  <td className="py-2 px-3">{row.grade}</td>
-                  <td className="py-2 px-3 font-mono">{row.width}</td>
-                  <td className="py-2 px-3 font-mono">{row.weight}</td>
-                  <td className="py-2 px-3 font-mono">{row.thick}</td>
-                  <td className="py-2 px-3 font-mono">{row.lineSpeed}</td>
-                  <td className="py-2 px-3 font-mono">{row.startTime}</td>
-                  <td className="py-2 px-3 font-mono">{row.endTime}</td>
-                  <td className="py-2 px-3 font-mono">{row.totalTime}</td>
-                  <td className="py-2 px-3 font-mono">{row.output}</td>
-                  <td className="py-2 px-3 font-mono">{row.prodRate}</td>
-                  <td className="py-2 px-3 font-mono">{row.picklingLine}</td>
-                  <td className="py-2 px-3 font-mono">{row.kwhTon}</td>
-                  <td className="py-2 px-3 font-mono text-success">{row.yieldPct}%</td>
-                  <td className="py-2 px-3 border-r border-black dark:border-white">{row.quality}</td>
-                  <td className="py-2 px-3 font-mono">{row.t1Temp}</td>
-                  <td className="py-2 px-3 font-mono">{row.t1Cond}</td>
-                  <td className="py-2 px-3 font-mono">{row.t1Dens}</td>
-                  <td className="py-2 px-3 font-mono">{row.t1Conc}</td>
-                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t1pH}</td>
-                  <td className="py-2 px-3 font-mono">{row.t2Temp}</td>
-                  <td className="py-2 px-3 font-mono">{row.t2Cond}</td>
-                  <td className="py-2 px-3 font-mono">{row.t2Dens}</td>
-                  <td className="py-2 px-3 font-mono">{row.t2Conc}</td>
-                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t2pH}</td>
-                  <td className="py-2 px-3 font-mono">{row.t3Temp}</td>
-                  <td className="py-2 px-3 font-mono">{row.t3Cond}</td>
-                  <td className="py-2 px-3 font-mono">{row.t3Dens}</td>
-                  <td className="py-2 px-3 font-mono">{row.t3Conc}</td>
-                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t3pH}</td>
-                  <td className="py-2 px-3 font-mono">{row.rinseTemp}</td>
-                  <td className="py-2 px-3 font-mono">{row.rinsePH}</td>
+                <tr key={row.sn} className="hover:bg-muted/10">
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.sn}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.coilId}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center">{row.grade}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.width}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.weight.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.thick.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.lineSpeed.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.startTime}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.endTime}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.totalTime}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.output.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.prodRate.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.picklingLine}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.kwhTon}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-success">{row.yieldPct.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.quality}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t1Temp}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t1Cond}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t1Dens}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t1Conc}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t1pH}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t2Temp}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t2Cond}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t2Dens}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t2Conc}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t2pH}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t3Temp}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t3Cond}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t3Dens}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t3Conc}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t3pH}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.rinseTemp}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.rinsePH}</td>
                 </tr>
               ))}
             </tbody>
