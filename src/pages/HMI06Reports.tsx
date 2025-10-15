@@ -413,7 +413,7 @@ const HMI06Reports = () => {
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.prodRate.toFixed(1)}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.picklingLine}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.kwhTon}</td>
-                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-success">{row.yieldPct.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-success">{`${row.yieldPct.toFixed(1)}%`}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.quality}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t1Temp}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.t1Cond}</td>
