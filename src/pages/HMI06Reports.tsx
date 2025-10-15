@@ -24,8 +24,14 @@ type CoilRow = {
   totalTime: string;
   output: number;
   prodRate: number;
+  picklingLine: string;
   kwhTon: number;
   yieldPct: number;
+  quality: string;
+  t1Temp: string; t1Cond: string; t1Dens: string; t1Conc: string; t1pH: string;
+  t2Temp: string; t2Cond: string; t2Dens: string; t2Conc: string; t2pH: string;
+  t3Temp: string; t3Cond: string; t3Dens: string; t3Conc: string; t3pH: string;
+  rinseTemp: string; rinseCond: string; rinsePH: string;
 };
 
 type DailyRow = {
@@ -53,22 +59,41 @@ type ConsumptionRow = {
 };
 
 const makeCoilRows = (count = 30): CoilRow[] =>
-  Array.from({ length: count }).map((_, i) => ({
-    sn: i + 1,
-    coilId: `C-${2540 + i}-A`,
-    grade: i % 3 === 0 ? 'SS-304' : 'SS-316',
-    width: 1250 + (i % 5) * 10,
-    weight: Number((10 + (i % 8) * 0.5).toFixed(1)),
-    thick: Number((2.0 + (i % 4) * 0.1).toFixed(1)),
-    lineSpeed: Number((40 + (i % 10) * 0.7).toFixed(1)),
-    startTime: '08:00',
-    endTime: '10:30',
-    totalTime: '2:30',
-    output: Number((10 + (i % 5) * 0.7).toFixed(1)),
-    prodRate: Number((12 + (i % 6) * 0.3).toFixed(1)),
-    kwhTon: Number((280 + (i % 10) * 1).toFixed(0)),
-    yieldPct: Number((95 + (i % 5) * 0.6).toFixed(1)),
-  }));
+  Array.from({ length: count }).map((_, i) => {
+    const t = (h: number, m: number) => `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    const startH = 8 + (i % 10);
+    const endH = startH + 2;
+    const line = i % 2 === 0 ? 'Line-1' : 'Line-2';
+    const qual = i % 7 === 0 ? 'Rework' : 'OK';
+    const tankTemp = (base: number) => `${base + (i % 5)}°C`;
+    const cond = (base: number) => `${(base + (i % 4) * 0.2).toFixed(1)} mS`;
+    const dens = (base: number) => `${(base + (i % 3) * 0.02).toFixed(2)} g/cc`;
+    const conc = (base: number) => `${(base + (i % 5)).toFixed(0)}%`;
+    const ph = (base: number) => `${(base + (i % 3) * 0.2).toFixed(1)}`;
+
+    return {
+      sn: i + 1,
+      coilId: `C-${2540 + i}-A`,
+      grade: i % 3 === 0 ? 'SS-304' : 'SS-316',
+      width: 1250 + (i % 5) * 10,
+      weight: Number((10 + (i % 8) * 0.5).toFixed(1)),
+      thick: Number((2.0 + (i % 4) * 0.1).toFixed(1)),
+      lineSpeed: Number((40 + (i % 10) * 0.7).toFixed(1)),
+      startTime: t(startH, 0),
+      endTime: t(endH, 30),
+      totalTime: `${endH - startH}:30`,
+      output: Number((10 + (i % 5) * 0.7).toFixed(1)),
+      prodRate: Number((12 + (i % 6) * 0.3).toFixed(1)),
+      picklingLine: line,
+      kwhTon: Number((280 + (i % 10) * 1).toFixed(0)),
+      yieldPct: Number((95 + (i % 5) * 0.6).toFixed(1)),
+      quality: qual,
+      t1Temp: tankTemp(75), t1Cond: cond(3), t1Dens: dens(1.12), t1Conc: conc(12), t1pH: ph(1.2),
+      t2Temp: tankTemp(70), t2Cond: cond(3.5), t2Dens: dens(1.15), t2Conc: conc(14), t2pH: ph(1.5),
+      t3Temp: tankTemp(65), t3Cond: cond(4), t3Dens: dens(1.18), t3Conc: conc(16), t3pH: ph(1.8),
+      rinseTemp: tankTemp(30), rinseCond: cond(0.5), rinsePH: ph(6.5),
+    };
+  });
 
 const makeDailyRows = (count = 30): DailyRow[] =>
   Array.from({ length: count }).map((_, i) => ({
@@ -191,8 +216,8 @@ const HMI06Reports = () => {
 
   // export handlers per table
   const exportCoils = () => {
-    const headers = ['SN','Coil ID','Grade','Width','Weight','Thick','Line Speed','Start','End','Total Time','Output','Prod Rate','KWH/Ton','Yield %'];
-    const rows = filteredCoils.map((r: CoilRow) => [r.sn,r.coilId,r.grade,r.width,r.weight,r.thick,r.lineSpeed,r.startTime,r.endTime,r.totalTime,r.output,r.prodRate,r.kwhTon, r.yieldPct]);
+    const headers = ['SN','Coil ID','Grade','Width','Weight','Thick','Line Speed','Start Time','End Time','Total Time','Output (T)','Prod Rate (T/Hr)','Pickling Line','KWH/Ton','Coil Yield %','Quality','Tank1 Temp','Tank1 Cond','Tank1 Density','Tank1 Conc','Tank1 pH','Tank2 Temp','Tank2 Cond','Tank2 Density','Tank2 Conc','Tank2 pH','Tank3 Temp','Tank3 Cond','Tank3 Density','Tank3 Conc','Tank3 pH','Rinse Temp','Rinse Cond','Rinse pH'];
+    const rows = filteredCoils.map((r: CoilRow) => [r.sn,r.coilId,r.grade,r.width,r.weight,r.thick,r.lineSpeed,r.startTime,r.endTime,r.totalTime,r.output,r.prodRate,r.picklingLine,r.kwhTon,r.yieldPct,r.quality,r.t1Temp,r.t1Cond,r.t1Dens,r.t1Conc,r.t1pH,r.t2Temp,r.t2Cond,r.t2Dens,r.t2Conc,r.t2pH,r.t3Temp,r.t3Cond,r.t3Dens,r.t3Conc,r.t3pH,r.rinseTemp,r.rinseCond,r.rinsePH]);
     exportCSV('coil_report.csv', headers, rows);
   };
 
@@ -286,20 +311,49 @@ const HMI06Reports = () => {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border/50 bg-muted/20">
-                <th className="py-2 px-3 text-left font-semibold">SN</th>
+                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">SN</th>
+                <th colSpan={5} className="py-2 px-3 text-left font-semibold">Coil Data</th>
+                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">Line Speed</th>
+                <th colSpan={3} className="py-2 px-3 text-left font-semibold">Coil Time</th>
+                <th colSpan={2} className="py-2 px-3 text-left font-semibold">Output</th>
+                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">Pickling Line</th>
+                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">KWH/Ton</th>
+                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">Coil Yield %</th>
+                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">Quality</th>
+                <th colSpan={5} className="py-2 px-3 text-left font-semibold">Tank-1 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-left font-semibold">Tank-2 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-left font-semibold">Tank-3 Details</th>
+                <th colSpan={3} className="py-2 px-3 text-left font-semibold">Rinse Tank</th>
+              </tr>
+              <tr className="border-b border-border/50 bg-muted/20">
                 <th className="py-2 px-3 text-left font-semibold">Coil ID</th>
                 <th className="py-2 px-3 text-left font-semibold">Grade</th>
                 <th className="py-2 px-3 text-left font-semibold">Width</th>
                 <th className="py-2 px-3 text-left font-semibold">Weight</th>
                 <th className="py-2 px-3 text-left font-semibold">Thick</th>
-                <th className="py-2 px-3 text-left font-semibold">Line Speed</th>
-                <th className="py-2 px-3 text-left font-semibold">Start</th>
-                <th className="py-2 px-3 text-left font-semibold">End</th>
+                <th className="py-2 px-3 text-left font-semibold">Start Time</th>
+                <th className="py-2 px-3 text-left font-semibold">End Time</th>
                 <th className="py-2 px-3 text-left font-semibold">Total</th>
-                <th className="py-2 px-3 text-left font-semibold">Output</th>
-                <th className="py-2 px-3 text-left font-semibold">Prodn Rate</th>
-                <th className="py-2 px-3 text-left font-semibold">KWH/Ton</th>
-                <th className="py-2 px-3 text-left font-semibold">Yield %</th>
+                <th className="py-2 px-3 text-left font-semibold">Output (T)</th>
+                <th className="py-2 px-3 text-left font-semibold">Prod Rate (T/Hr)</th>
+                <th className="py-2 px-3 text-left font-semibold">Temp</th>
+                <th className="py-2 px-3 text-left font-semibold">Cond</th>
+                <th className="py-2 px-3 text-left font-semibold">Density</th>
+                <th className="py-2 px-3 text-left font-semibold">Conc.</th>
+                <th className="py-2 px-3 text-left font-semibold">pH</th>
+                <th className="py-2 px-3 text-left font-semibold">Temp</th>
+                <th className="py-2 px-3 text-left font-semibold">Cond</th>
+                <th className="py-2 px-3 text-left font-semibold">Density</th>
+                <th className="py-2 px-3 text-left font-semibold">Conc.</th>
+                <th className="py-2 px-3 text-left font-semibold">pH</th>
+                <th className="py-2 px-3 text-left font-semibold">Temp</th>
+                <th className="py-2 px-3 text-left font-semibold">Cond</th>
+                <th className="py-2 px-3 text-left font-semibold">Density</th>
+                <th className="py-2 px-3 text-left font-semibold">Conc.</th>
+                <th className="py-2 px-3 text-left font-semibold">pH</th>
+                <th className="py-2 px-3 text-left font-semibold">Temp</th>
+                <th className="py-2 px-3 text-left font-semibold">Cond</th>
+                <th className="py-2 px-3 text-left font-semibold">pH</th>
               </tr>
             </thead>
             <tbody>
@@ -317,8 +371,28 @@ const HMI06Reports = () => {
                   <td className="py-2 px-3 font-mono">{row.totalTime}</td>
                   <td className="py-2 px-3 font-mono">{row.output}</td>
                   <td className="py-2 px-3 font-mono">{row.prodRate}</td>
+                  <td className="py-2 px-3 font-mono">{row.picklingLine}</td>
                   <td className="py-2 px-3 font-mono">{row.kwhTon}</td>
                   <td className="py-2 px-3 font-mono text-success">{row.yieldPct}%</td>
+                  <td className="py-2 px-3">{row.quality}</td>
+                  <td className="py-2 px-3 font-mono">{row.t1Temp}</td>
+                  <td className="py-2 px-3 font-mono">{row.t1Cond}</td>
+                  <td className="py-2 px-3 font-mono">{row.t1Dens}</td>
+                  <td className="py-2 px-3 font-mono">{row.t1Conc}</td>
+                  <td className="py-2 px-3 font-mono">{row.t1pH}</td>
+                  <td className="py-2 px-3 font-mono">{row.t2Temp}</td>
+                  <td className="py-2 px-3 font-mono">{row.t2Cond}</td>
+                  <td className="py-2 px-3 font-mono">{row.t2Dens}</td>
+                  <td className="py-2 px-3 font-mono">{row.t2Conc}</td>
+                  <td className="py-2 px-3 font-mono">{row.t2pH}</td>
+                  <td className="py-2 px-3 font-mono">{row.t3Temp}</td>
+                  <td className="py-2 px-3 font-mono">{row.t3Cond}</td>
+                  <td className="py-2 px-3 font-mono">{row.t3Dens}</td>
+                  <td className="py-2 px-3 font-mono">{row.t3Conc}</td>
+                  <td className="py-2 px-3 font-mono">{row.t3pH}</td>
+                  <td className="py-2 px-3 font-mono">{row.rinseTemp}</td>
+                  <td className="py-2 px-3 font-mono">{row.rinseCond}</td>
+                  <td className="py-2 px-3 font-mono">{row.rinsePH}</td>
                 </tr>
               ))}
             </tbody>
