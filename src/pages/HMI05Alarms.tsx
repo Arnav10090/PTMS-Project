@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from '@/components/ui/sonner';
+import { formatDateTimeDisplay } from '@/lib/datetime';
 
 type Severity = 'critical' | 'high' | 'medium' | 'low';
 type Status = 'active' | 'acknowledged' | 'cleared';
@@ -438,7 +439,7 @@ const HMI05Alarms = () => {
                     key={alarm.id}
                     className={`border-b border-border/30 hover:bg-muted/20 transition-colors ${alarm.status === 'active' ? 'border-l-4 border-l-destructive' : ''}`}
                   >
-                    <td className="py-3 px-4 text-sm font-mono">{alarm.timestamp}</td>
+                    <td className="py-3 px-4 text-sm font-mono">{formatDateTimeDisplay(alarm.timestamp)}</td>
                     <td className="py-3 px-4">
                       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg ${sev.bg} ${sev.border} border`}>
                         <SeverityIcon className={`w-4 h-4 ${sev.color}`} />

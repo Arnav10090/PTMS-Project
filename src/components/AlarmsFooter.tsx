@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Bell, ChevronsDown, ChevronsUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { formatDateTimeDisplay, toStorageTimestamp } from '@/lib/datetime';
 
 type Alarm = {
   id: number;
@@ -87,7 +88,7 @@ const AlarmsFooter: React.FC = () => {
       const now = new Date();
       return {
         id: Number(now.getTime()),
-        timestamp: now.toLocaleString(),
+        timestamp: toStorageTimestamp(now),
         severity: Math.random() > 0.7 ? 'High' : 'Medium',
         equipment: `Pump-${Math.ceil(Math.random() * 5)}`,
         type: Math.random() > 0.5 ? 'OverTemp' : 'PressureDrop',
@@ -159,7 +160,7 @@ const AlarmsFooter: React.FC = () => {
                 <div className={`w-2.5 h-2.5 rounded-full`} />
                 <div className="text-xs">
                   <div className="font-medium">{a.equipment} • {a.type}</div>
-                  <div className="text-muted-foreground">{a.timestamp}</div>
+                  <div className="text-muted-foreground">{formatDateTimeDisplay(a.timestamp)}</div>
                 </div>
               </div>
             ))}
