@@ -482,40 +482,40 @@ const HMI07Historical = () => {
             </div>
             <div className="text-sm text-muted-foreground">Showing {start + 1}-{end} of {filtered.length} records</div>
           </div>
-          <table className="w-full">
+          <table className="w-full border border-border/40">
             <thead className="sticky top-0 bg-card/95 backdrop-blur-sm">
-              <tr className="border-b border-border/50">
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Timestamp</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Equipment ID</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Parameter</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Value</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Unit</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Min</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Max</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Avg</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Status</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground">Operator</th>
+              <tr className="bg-card/95">
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Timestamp</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Equipment ID</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Parameter</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Value</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Unit</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Min</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Max</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Avg</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Status</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground border border-border/40">Operator</th>
               </tr>
             </thead>
             <tbody>
               {pageRows.map((record:any) => (
-                <tr 
-                  key={record.id} 
+                <tr
+                  key={record.id}
                   className="border-b border-border/30 hover:bg-muted/10 transition-colors"
                 >
-                  <td className="py-2 px-4 text-xs font-mono">{record.timestamp}</td>
-                  <td className="py-2 px-4 text-xs font-medium">{record.equipmentId}</td>
-                  <td className="py-2 px-4 text-xs">{record.parameter}</td>
-                  <td className={`py-2 px-4 text-xs font-mono font-semibold ${
+                  <td className="py-2 px-4 text-xs font-mono border border-border/30">{record.timestamp}</td>
+                  <td className="py-2 px-4 text-xs font-medium border border-border/30">{record.equipmentId}</td>
+                  <td className="py-2 px-4 text-xs border border-border/30">{record.parameter}</td>
+                  <td className={`py-2 px-4 text-xs font-mono font-semibold border border-border/30 ${
                     record.status === 'warning' ? 'text-warning' : 'text-success'
                   }`}>
                     {record.value}
                   </td>
-                  <td className="py-2 px-4 text-xs font-mono text-muted-foreground">{record.unit}</td>
-                  <td className="py-2 px-4 text-xs font-mono">{record.min}</td>
-                  <td className="py-2 px-4 text-xs font-mono">{record.max}</td>
-                  <td className="py-2 px-4 text-xs font-mono">{record.avg}</td>
-                  <td className="py-2 px-4">
+                  <td className="py-2 px-4 text-xs font-mono text-muted-foreground border border-border/30">{record.unit}</td>
+                  <td className="py-2 px-4 text-xs font-mono border border-border/30">{record.min}</td>
+                  <td className="py-2 px-4 text-xs font-mono border border-border/30">{record.max}</td>
+                  <td className="py-2 px-4 text-xs font-mono border border-border/30">{record.avg}</td>
+                  <td className="py-2 px-4 border border-border/30">
                     {record.status === 'valid' ? (
                       <span className="inline-flex items-center gap-1 text-xs text-success">
                         <span className="w-1.5 h-1.5 rounded-full bg-success"></span>
@@ -528,7 +528,7 @@ const HMI07Historical = () => {
                       </span>
                     )}
                   </td>
-                  <td className="py-2 px-4 text-xs">{record.operator}</td>
+                  <td className="py-2 px-4 text-xs border border-border/30">{record.operator}</td>
                 </tr>
               ))}
             </tbody>
