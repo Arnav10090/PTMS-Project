@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Droplets, Power, TrendingUp, Bell, FileText, Database, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Power, TrendingUp, Bell, FileText, Database, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Tank as TankIcon } from '@/components/icons/Tank';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
@@ -30,7 +31,7 @@ export const HMISidebar = ({ isCollapsed, onToggle }: HMISidebarProps) => {
           isCollapsed ? 'w-12 h-12' : 'w-full h-12'
         }`}>
           {isCollapsed ? (
-            <Droplets className="w-7 h-7 text-white" />
+            <TankIcon className="w-7 h-7 text-white" />
           ) : (
             <span className="text-white font-bold text-xs text-center w-full">PTMS : Pickling Tank Monitoring System</span>
           )}
