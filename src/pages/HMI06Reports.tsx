@@ -311,49 +311,49 @@ const HMI06Reports = () => {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border/50 bg-muted/20">
-                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">SN</th>
-                <th colSpan={5} className="py-2 px-3 text-left font-semibold">Coil Data</th>
-                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">Line Speed</th>
-                <th colSpan={3} className="py-2 px-3 text-left font-semibold">Coil Time</th>
-                <th colSpan={2} className="py-2 px-3 text-left font-semibold">Output</th>
-                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">Pickling Line</th>
-                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">KWH/Ton</th>
-                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">Coil Yield %</th>
-                <th rowSpan={2} className="py-2 px-3 text-left font-semibold">Quality</th>
-                <th colSpan={5} className="py-2 px-3 text-left font-semibold">Tank-1 Details</th>
-                <th colSpan={5} className="py-2 px-3 text-left font-semibold">Tank-2 Details</th>
-                <th colSpan={5} className="py-2 px-3 text-left font-semibold">Tank-3 Details</th>
-                <th colSpan={3} className="py-2 px-3 text-left font-semibold">Rinse Tank</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">SN</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Coil Data</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Line Speed</th>
+                <th colSpan={3} className="py-2 px-3 text-center font-semibold">Coil Time</th>
+                <th colSpan={2} className="py-2 px-3 text-center font-semibold">Output</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Pickling Line</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">KWH/Ton</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Coil Yield %</th>
+                <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Quality</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Tank-1 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Tank-2 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Tank-3 Details</th>
+                <th colSpan={3} className="py-2 px-3 text-center font-semibold">Rinse Tank</th>
               </tr>
               <tr className="border-b border-border/50 bg-muted/20">
-                <th className="py-2 px-3 text-left font-semibold">Coil ID</th>
-                <th className="py-2 px-3 text-left font-semibold">Grade</th>
-                <th className="py-2 px-3 text-left font-semibold">Width</th>
-                <th className="py-2 px-3 text-left font-semibold">Weight</th>
-                <th className="py-2 px-3 text-left font-semibold">Thick</th>
-                <th className="py-2 px-3 text-left font-semibold">Start Time</th>
-                <th className="py-2 px-3 text-left font-semibold">End Time</th>
-                <th className="py-2 px-3 text-left font-semibold">Total</th>
-                <th className="py-2 px-3 text-left font-semibold">Output (T)</th>
-                <th className="py-2 px-3 text-left font-semibold">Prod Rate (T/Hr)</th>
-                <th className="py-2 px-3 text-left font-semibold">Temp</th>
-                <th className="py-2 px-3 text-left font-semibold">Cond</th>
-                <th className="py-2 px-3 text-left font-semibold">Density</th>
-                <th className="py-2 px-3 text-left font-semibold">Conc.</th>
-                <th className="py-2 px-3 text-left font-semibold">pH</th>
-                <th className="py-2 px-3 text-left font-semibold">Temp</th>
-                <th className="py-2 px-3 text-left font-semibold">Cond</th>
-                <th className="py-2 px-3 text-left font-semibold">Density</th>
-                <th className="py-2 px-3 text-left font-semibold">Conc.</th>
-                <th className="py-2 px-3 text-left font-semibold">pH</th>
-                <th className="py-2 px-3 text-left font-semibold">Temp</th>
-                <th className="py-2 px-3 text-left font-semibold">Cond</th>
-                <th className="py-2 px-3 text-left font-semibold">Density</th>
-                <th className="py-2 px-3 text-left font-semibold">Conc.</th>
-                <th className="py-2 px-3 text-left font-semibold">pH</th>
-                <th className="py-2 px-3 text-left font-semibold">Temp</th>
-                <th className="py-2 px-3 text-left font-semibold">Cond</th>
-                <th className="py-2 px-3 text-left font-semibold">pH</th>
+                <th className="py-2 px-3 text-center font-semibold">Coil ID</th>
+                <th className="py-2 px-3 text-center font-semibold">Grade</th>
+                <th className="py-2 px-3 text-center font-semibold">Width</th>
+                <th className="py-2 px-3 text-center font-semibold">Weight</th>
+                <th className="py-2 px-3 text-center font-semibold">Thick</th>
+                <th className="py-2 px-3 text-center font-semibold">Start Time</th>
+                <th className="py-2 px-3 text-center font-semibold">End Time</th>
+                <th className="py-2 px-3 text-center font-semibold">Total</th>
+                <th className="py-2 px-3 text-center font-semibold">Output (T)</th>
+                <th className="py-2 px-3 text-center font-semibold">Prod Rate (T/Hr)</th>
+                <th className="py-2 px-3 text-center font-semibold">Temp</th>
+                <th className="py-2 px-3 text-center font-semibold">Cond</th>
+                <th className="py-2 px-3 text-center font-semibold">Density</th>
+                <th className="py-2 px-3 text-center font-semibold">Conc.</th>
+                <th className="py-2 px-3 text-center font-semibold">pH</th>
+                <th className="py-2 px-3 text-center font-semibold">Temp</th>
+                <th className="py-2 px-3 text-center font-semibold">Cond</th>
+                <th className="py-2 px-3 text-center font-semibold">Density</th>
+                <th className="py-2 px-3 text-center font-semibold">Conc.</th>
+                <th className="py-2 px-3 text-center font-semibold">pH</th>
+                <th className="py-2 px-3 text-center font-semibold">Temp</th>
+                <th className="py-2 px-3 text-center font-semibold">Cond</th>
+                <th className="py-2 px-3 text-center font-semibold">Density</th>
+                <th className="py-2 px-3 text-center font-semibold">Conc.</th>
+                <th className="py-2 px-3 text-center font-semibold">pH</th>
+                <th className="py-2 px-3 text-center font-semibold">Temp</th>
+                <th className="py-2 px-3 text-center font-semibold">Cond</th>
+                <th className="py-2 px-3 text-center font-semibold">pH</th>
               </tr>
             </thead>
             <tbody>
@@ -446,19 +446,19 @@ const HMI06Reports = () => {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border/50 bg-muted/20">
-                <th className="py-2 px-3 text-left font-semibold">SN</th>
-                <th className="py-2 px-3 text-left font-semibold">Date</th>
-                <th className="py-2 px-3 text-left font-semibold">No. Coils</th>
-                <th className="py-2 px-3 text-left font-semibold">I/P Wt (T)</th>
-                <th className="py-2 px-3 text-left font-semibold">O/P Wt (T)</th>
-                <th className="py-2 px-3 text-left font-semibold">Yield %</th>
-                <th className="py-2 px-3 text-left font-semibold">Tank-1 Temp</th>
-                <th className="py-2 px-3 text-left font-semibold">Tank-1 Conc</th>
-                <th className="py-2 px-3 text-left font-semibold">FA Cons.</th>
-                <th className="py-2 px-3 text-left font-semibold">RA Cons.</th>
-                <th className="py-2 px-3 text-left font-semibold">Run Hrs</th>
-                <th className="py-2 px-3 text-left font-semibold">Prod Rate</th>
-                <th className="py-2 px-3 text-left font-semibold">Utilzn %</th>
+                <th className="py-2 px-3 text-center font-semibold">SN</th>
+                <th className="py-2 px-3 text-center font-semibold">Date</th>
+                <th className="py-2 px-3 text-center font-semibold">No. Coils</th>
+                <th className="py-2 px-3 text-center font-semibold">I/P Wt (T)</th>
+                <th className="py-2 px-3 text-center font-semibold">O/P Wt (T)</th>
+                <th className="py-2 px-3 text-center font-semibold">Yield %</th>
+                <th className="py-2 px-3 text-center font-semibold">Tank-1 Temp</th>
+                <th className="py-2 px-3 text-center font-semibold">Tank-1 Conc</th>
+                <th className="py-2 px-3 text-center font-semibold">FA Cons.</th>
+                <th className="py-2 px-3 text-center font-semibold">RA Cons.</th>
+                <th className="py-2 px-3 text-center font-semibold">Run Hrs</th>
+                <th className="py-2 px-3 text-center font-semibold">Prod Rate</th>
+                <th className="py-2 px-3 text-center font-semibold">Utilzn %</th>
               </tr>
             </thead>
             <tbody>
@@ -545,11 +545,11 @@ const HMI06Reports = () => {
           <table className="w-full">
             <thead>
               <tr className="border-b border-border/50 bg-muted/20">
-                <th className="py-3 px-4 text-left font-semibold">SN</th>
-                <th className="py-3 px-4 text-left font-semibold">Parameter Name</th>
-                <th className="py-3 px-4 text-left font-semibold">UOM</th>
-                <th className="py-3 px-4 text-left font-semibold">Day</th>
-                <th className="py-3 px-4 text-left font-semibold">Cumulative</th>
+                <th className="py-3 px-4 text-center font-semibold">SN</th>
+                <th className="py-3 px-4 text-center font-semibold">Parameter Name</th>
+                <th className="py-3 px-4 text-center font-semibold">UOM</th>
+                <th className="py-3 px-4 text-center font-semibold">Day</th>
+                <th className="py-3 px-4 text-center font-semibold">Cumulative</th>
               </tr>
             </thead>
             <tbody>
