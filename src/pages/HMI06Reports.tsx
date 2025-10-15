@@ -525,7 +525,7 @@ const HMI06Reports = () => {
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.coils}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.inWt.toFixed(1)}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.outWt.toFixed(1)}</td>
-                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-success">{row.yieldPct.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-success">{`${row.yieldPct.toFixed(1)}%`}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank1AvgTemp}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank1AvgConc}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.tank2AvgTemp}</td>
@@ -540,7 +540,7 @@ const HMI06Reports = () => {
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.raCostInr.toLocaleString('en-IN')}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.runHrs.toFixed(1)}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.prodRate.toFixed(1)}</td>
-                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-warning">{row.utilPct.toFixed(1)}</td>
+                  <td className="py-2 px-2 border border-border/30 text-center font-mono text-warning">{`${row.utilPct.toFixed(1)}%`}</td>
                   <td className="py-2 px-2 border border-border/30 text-center font-mono">{row.avgLineSpeed.toFixed(1)}</td>
                 </tr>
               ))}
