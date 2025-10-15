@@ -320,9 +320,9 @@ const HMI06Reports = () => {
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">KWH/Ton</th>
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Coil Yield %</th>
                 <th rowSpan={2} className="py-2 px-3 text-center font-semibold">Quality</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-white">Tank-1 Details</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-white">Tank-2 Details</th>
-                <th colSpan={5} className="py-2 px-3 text-center font-semibold">Tank-3 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-1 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-2 Details</th>
+                <th colSpan={5} className="py-2 px-3 text-center font-semibold border-r border-black dark:border-white">Tank-3 Details</th>
                 <th colSpan={2} className="py-2 px-3 text-center font-semibold">Rinse Tank</th>
               </tr>
               <tr className="border-b border-border/50 bg-muted/20">
@@ -378,17 +378,17 @@ const HMI06Reports = () => {
                   <td className="py-2 px-3 font-mono">{row.t1Cond}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Dens}</td>
                   <td className="py-2 px-3 font-mono">{row.t1Conc}</td>
-                  <td className="py-2 px-3 font-mono border-r border-white">{row.t1pH}</td>
+                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t1pH}</td>
                   <td className="py-2 px-3 font-mono">{row.t2Temp}</td>
                   <td className="py-2 px-3 font-mono">{row.t2Cond}</td>
                   <td className="py-2 px-3 font-mono">{row.t2Dens}</td>
                   <td className="py-2 px-3 font-mono">{row.t2Conc}</td>
-                  <td className="py-2 px-3 font-mono border-r border-white">{row.t2pH}</td>
+                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t2pH}</td>
                   <td className="py-2 px-3 font-mono">{row.t3Temp}</td>
                   <td className="py-2 px-3 font-mono">{row.t3Cond}</td>
                   <td className="py-2 px-3 font-mono">{row.t3Dens}</td>
                   <td className="py-2 px-3 font-mono">{row.t3Conc}</td>
-                  <td className="py-2 px-3 font-mono">{row.t3pH}</td>
+                  <td className="py-2 px-3 font-mono border-r border-black dark:border-white">{row.t3pH}</td>
                   <td className="py-2 px-3 font-mono">{row.rinseTemp}</td>
                   <td className="py-2 px-3 font-mono">{row.rinsePH}</td>
                 </tr>
